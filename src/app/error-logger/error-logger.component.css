@@ -1,0 +1,3 @@
+.hover-chars:hover {
+    @apply bg-indigo-100
+}

@@ -1,0 +1,3 @@
+.active-tab {
+    @apply bg-white text-indigo-800
+}

@@ -1,0 +1,134 @@
+<div *ngIf="project$ | async as project" class="w-full grid grid-cols-2 gap-4">
+    <div class="w-full bg-white rounded-lg shadow-sm p-6">
+        <div class="uppercase text-indigo-800 font-semibold text-xs flex flex-row gap-x-2 items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" 
+                fill="none" 
+                viewBox="0 0 24 24" 
+                stroke-width="2" 
+                stroke="currentColor" 
+                class="w-4 h-4">
+                    <path stroke-linecap="round" 
+                        stroke-linejoin="round" 
+                        d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z" />
+            </svg>              
+            API Key
+        </div>
+        <div>
+            <div class="border px-4 py-2 mt-4 rounded-lg text-xs w-full flex flex-row justify-between items-center">
+                <div>{{(project.apiKey ?? "")}}</div>
+                <app-copy></app-copy>
+            </div>
+        </div>
+        <div class="w-full grid grid-cols-2 gap-x-2 text-xs mt-4 font-semibold">
+            <button *ngIf="project.apiKey" (click)="deleteAPIKey($event)" class="text-center py-2 rounded-lg uppercase hover:bg-orange-700 cursor-pointer transition-all
+             bg-orange-500 text-white flex flex-row items-center gap-x-2 justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" 
+                    fill="none"
+                    viewBox="0 0 24 24" 
+                    stroke-width="2" 
+                    stroke="currentColor" 
+                    class="w-4 h-4">
+                        <path stroke-linecap="round" 
+                            stroke-linejoin="round" 
+                            d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                </svg>
+                Revoke
+            </button>
+            <button (click)="createAPIKey($event)" class="text-center py-2 rounded-lg uppercase hover:bg-indigo-900 cursor-pointer transition-all
+            bg-indigo-700 text-white flex flex-row items-center gap-x-2 justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+                  </svg>
+                <span *ngIf="project.apiKey; else create">
+                    Replace
+                </span>
+                <ng-template #create>
+                    Create
+                </ng-template>
+                
+            </button>
+        </div>
+    </div>
+    <div class="w-full bg-white rounded-lg shadow-sm p-6">
+        <div class="uppercase text-indigo-800 font-semibold text-xs flex flex-row gap-x-2 items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418" />
+              </svg>
+                           
+            SDK Domain Whitelist
+        </div>
+       <div>
+            <div class="mt-2 text-xs leading-5 text-slate-500" *ngIf="project.whitelistedDomains.length ===0">
+                No domains whitelisted. Your API key will not work. Please add domains where you'll be using the Polyflow SDK.
+            </div>
+            <div [@slideInOut] *ngFor="let domain of project.whitelistedDomains" class="flex flex-row bg-slate-100 border text-slate-800
+             rounded-lg pr-2 py-1 justify-between items-center mt-2 gap-x-2">
+                <div class="py-2 px-4 text-xs rounded-lg w-full">{{domain}}</div>
+                <button (click)="removeWhitelistDomain(domain, $event)" class="flex flex-row items-center justify-center text-xs py-1 px-1 transition-all
+                 cursor-pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" 
+                    class="w-5 h-5 hover:scale-110 hover:text-red-500 transition-all">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                </button>
+            </div>
+
+            <button class="w-full flex flex-row items-center gap-x-2 mt-4">
+                <input [formControl]="newWhitelistForm" placeholder="E.g. polyflow.dev or app.polyflow.dev"
+                    class="w-3/4 border rounded-lg text-xs py-2 px-4" type="text" name="" id="">
+                <button (click)="addWhitelistDomain($event)" [disabled]="!newWhitelistForm.valid"
+                    class="w-1/4 border text-xs py-2 text-center rounded-lg cursor-pointer transition-all
+                        uppercase font-semibold hover:bg-indigo-800 hover:text-white flex flex-row items-center justify-center gap-x-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>              
+                   <span>Add</span>
+                </button>
+            </button>
+            
+       </div>
+        
+    </div>
+    <div class="w-full bg-white p-6 rounded-lg">
+        <div class="w-full flex flex-row gap-x-2 items-center font-semibold text-xs uppercase text-indigo-800">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23-.693L5 14.5m14.8.8l1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0112 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5" />
+              </svg>
+              Test SDK Integration
+        </div>
+        <div class="mt-2 text-xs leading-5 text-slate-500">
+            After you add the Polyflow SDK to your app, use this button to test out whether the integraton has been done properly.
+        </div>
+        <div class="mt-4 px-8 py-3 text-xs uppercase font-semibold hover:bg-indigo-800 hover:text-white cursor-pointer
+        transition-all hover:shadow-md flex flex-row items-center justify-center gap-x-2
+         text-indigo-800 bg-indigo-100 text-center rounded-lg">
+         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.91 11.672a.375.375 0 010 .656l-5.603 3.113a.375.375 0 01-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112z" />
+          </svg>
+          
+             Start test
+        </div>
+    </div>
+</div>
+<hr class="my-6 border-slate-200">
+<div class="bg-white p-6 shadow-sm rounded-lg text-sm w-1/2">
+    <div class="uppercase text-red-600 font-semibold flex text-xs flex-row items-center gap-x-2">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+          </svg>
+          
+        Delete project (danger zone)
+    </div>
+    <div class="text-slate-500 mt-2 text-xs leading-5">Deleting your project will turn off Polyflow on all instances where the API key of this project is used. This action is irreversible!</div>
+    <div class="w-full flex flex-row justify-end">
+        <button class="bg-red-600 py-2 text-xs uppercase px-8 hover:bg-red-800 transition-all hover:scale-105
+        text-white font-semibold mt-4 rounded-lg shadow-sm flex flex-row items-center justify-center gap-x-2">
+           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+               <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+           </svg>
+           Delete this project
+       </button>
+    </div>
+    
+</div>

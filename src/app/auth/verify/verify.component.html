@@ -1,0 +1,39 @@
+<div *ngIf="!success" class="w-screen h-screen flex flex-row justify-center bg-gradient-to-b from-indigo-50 to-white
+ items-center bg-slate-50 text-slate-700">
+    <div *ngIf="query" class="max-w-md w-full p-8 rounded-lg bg-white shadow-sm flex gap-y-4 flex-col items-center">
+        <img class="h-8" src="../../../assets/logo.png" alt="" srcset="">
+        <div class="uppercase text-sm  flex flex-row items-center gap-x-2">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.7" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
+              </svg>
+              
+            <div>
+            Please verify your email 
+            </div>
+        </div>
+        <input placeholder="Verification code" [value]="query" class="w-full text-xs font-medium uppercase py-3 px-4 border rounded-lg border-slate-100" type="text">
+        <button (click)="verifyEmail($event)" class="text-xs mt-4 transition-all uppercase font-semibold flex flex-row gap-x-2 justify-center items-center
+            py-3 text-center bg-indigo-700 hover:bg-indigo-900 w-full rounded-lg text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+              </svg>
+              
+            <div>Confirm</div>
+        </button>
+    </div>
+    <div *ngIf="email" class="bg-white max-w-md w-full p-8 rounded-lg flex flex-col gap-y-2 items-center">
+        <img class="h-8 mb-4" src="../../../assets/logo.png" alt="" srcset="">
+        <div class="font-semibold text-xs uppercase">You must verify your email</div>
+        <div class="text-sm mt-4 text-center">Check <span class="text-indigo-700">{{email}}</span> for a verification link or code.</div>
+        <button (click)="resendVerificationEmail($event)" class="text-sm underline mt-8 text-indigo-700">Resend verification email</button>
+    </div>
+</div>
+
+<div class="w-screen bg-gradient-to-b from-indigo-50 to-white
+ h-screen flex flex-row justify-center items-center" *ngIf="success">
+    <div class="p-8 bg-white rounded-lg text-center text-sm max-w-md w-full flex flex-col items-center">
+        <img class="h-8" src="../../../assets/logo.png" alt="" srcset="">
+        <div class="mb-4 mt-4 font-semibold uppercase text-slate-700">Succesfully verified email.</div>
+        <div><button class="text-indigo-700 hover:font-semibold underline" routerLink="/">Log in</button> to use Polyflow</div> 
+    </div>
+</div>
