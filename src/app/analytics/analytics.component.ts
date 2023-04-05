@@ -21,7 +21,10 @@ export class AnalyticsComponent implements AfterViewInit {
     this.analyticsService.getTotalConnectedWallets().pipe(
       genericSpinnerOnElement(document.getElementById("totalTransactions"))
     )
-  
+
+  allEvents$ = this.analyticsService.getAllEvents().pipe(
+    tap((result) => console.log(result))
+  )
 
   totalTransactions$ =
     this.analyticsService.getTotalTransactions()

@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { map, switchMap, tap, throwError } from "rxjs";
+import { map, switchMap } from "rxjs";
 import { ProjectService } from "../shared/project.service";
 import { GQLClient } from "../shared/graphql/graphql-client";
 
@@ -11,17 +11,23 @@ export class AnalyticsService {
     constructor(private projectSerivice: ProjectService,
         private gqlClient: GQLClient) { }
 
+    getAllEvents() {
+        return this.projectSerivice.currentProject$.pipe(
+            switchMap(project => this.gqlClient.findEvents(
+                {
+                    projectId: project!.id
+                }
+            ))
+        )
+    }
+
     getTotalConnectedWallets() {
         return this.projectSerivice.currentProject$.pipe(
-            switchMap(project => this.gqlClient.request(`
-                query {
-                    totalConnectedWallets(
-                    projectId: "${project?.id}"
-                    ) {  from, to, value }
+            switchMap(project => this.gqlClient.totalConnectedWallets(
+                {
+                    projectId: project!.id
                 }
-            `)),
-            map(result => result["totalConnectedWallets"]),
-            map(result => result as IntTimespanValues[])
+            ))
         )
     }
 

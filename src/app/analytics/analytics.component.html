@@ -22,6 +22,12 @@
                         {{totalTransactions.at(0)?.value}}
                     </div>
                 </div>
+
+                <!-- add this for testing purposes. will call allEvents() and log to console -->
+                <div *ngIf="allEvents$ | async as allEvents" class="text-2xl mt-2 font-bold text-slate-700" style="display: none"> 
+                    {{allEvents | json }}
+                </div>
+
                 <div 
                      class=" bg-slate-50 rounded-lg py-4 flex flex-col items-center justify-between"> 
                     <div class="uppercase text-indigo-600 text-xs font-medium flex flex-col gap-y-2 text-center items-center">

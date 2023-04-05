@@ -1,0 +1,178 @@
+export enum EventTracker {
+    WALLET_CONNECT = "WALLET_CONNECT",
+    USER_LANDED = "USER_LANDED",
+    TX_REQUEST = "TX_REQUEST",
+    GENERIC_ERROR = "GENERIC_ERROR"
+}
+
+export enum TypeName {
+    "WalletConnectedEvent",
+    "TxRequestEvent",
+    "ErrorEvent",
+    "UserLandedEvent"
+}
+
+export interface EventTrackerModelFilter {
+    eventTracker?: EventTracker,
+    userId?: string,
+    sessionId?: string,
+    utmSource?: string,
+    utmMedium?: string,
+    utmCampaign?: string,
+    utmContent?: string,
+    utmTerm?: string,
+    origin?: string,
+    path?: string
+}
+
+export interface WalletStateFilter {
+    walletAddress?: string
+    networkId?: string
+}
+
+export interface DeviceStateFilter {
+    os?: string,
+    browser?: string,
+    country?: string,
+    walletProvider?: string
+}
+
+export interface NetworkStateFilter {
+    chainId?: number,
+    blockHeight?: string
+}
+
+export interface EventFilter {
+    tracker?: EventTrackerModelFilter,
+    wallet?: WalletStateFilter,
+    device?: DeviceStateFilter,
+    network?: NetworkStateFilter
+}
+
+export interface EventTrackerModel {
+    eventTracker: EventTracker,
+    userId: string,
+    sessionId: string,
+    utmSource?: string,
+    utmMedium?: string,
+    utmCampaign?: string,
+    utmContent?: string,
+    utmTerm?: string,
+    origin?: string,
+    path?: string
+}
+
+export interface WalletState {
+    walletAddress: string,
+    gasBalance: string,
+    nonce: string,
+    networkId: number
+}
+
+export interface ScreenState {
+    w: number,
+    h: number
+}
+
+export interface DeviceState {
+    os?: string,
+    browser?: string,
+    country?: string,
+    screen?: ScreenState,
+    walletProvider: string,
+}
+
+export interface NetworkState {
+    chainId: number,
+    gasPrice: string,
+    blockHeight: string
+}
+
+export interface TxData {
+    from: string,
+    to?: string,
+    value?: string,
+    input?: string,
+    nonce: string,
+    gas: string,
+    gasPrice: string,
+    maxFeePerGas?: string,
+    maxPriorityFeePerGas?: string,
+    v?: string,
+    r?: string,
+    s?: string,
+    hash?: string,
+    status: TxStatus
+}
+
+export enum TxStatus {
+    SUCCESS = "SUCCESS",
+    PENDING = "PENDING",
+    FAILURE = "FAILURE"
+}
+
+export interface WalletConnectedEvent {
+    __typename: TypeName.WalletConnectedEvent,
+    id: string,
+    projectId: string,
+    createdAt: string,
+    tracker: EventTrackerModel,
+    walletConnectedWallet: WalletState,
+    device: DeviceState,
+    walletConnectedNetwork: NetworkState
+}
+export interface TxRequestEvent {
+    __typename: TypeName.TxRequestEvent,
+    id: string,
+    projectId: string,
+    createdAt: string,
+    tracker: EventTrackerModel,
+    txRequestWallet: WalletState,
+    device: DeviceState,
+    txRequestNetwork: NetworkState,
+    txData: TxData
+}
+export interface ErrorEvent {
+    __typename: TypeName.ErrorEvent,
+    projectId: string,
+    createdAt: string,
+    tracker: EventTrackerModel,
+    errorEventWallet?: WalletState,
+    device: DeviceState,
+    errorEventNetwork?: NetworkState,
+    errors: string[]
+}
+export interface UserLandedEvent {
+    __typename: TypeName.UserLandedEvent,
+    projectId: string,
+    createdAt: string,
+    tracker: EventTrackerModel,
+    userLandedWallet?: WalletState,
+    device: DeviceState,
+    userLandedNetwork?: NetworkState
+}
+
+export type Event = WalletConnectedEvent | TxRequestEvent | ErrorEvent | UserLandedEvent
+
+export interface IntTimespanValues {
+    from: string,
+    to: string,
+    value: number
+}
+
+/** QUERY VARS */
+
+export interface FindEventsQueryVars {
+    from?: string,
+    to?: string,
+    projectId: string,
+    filter?: EventFilter
+}
+
+export interface TotalConnectedWalletsQueryVars {
+    from?: string,
+    to?: string,
+    granularity?: string,
+    projectId: string,
+    filter?: EventFilter
+}
