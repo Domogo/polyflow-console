@@ -19,14 +19,71 @@
                     <div id="totalTransactions" 
                         *ngIf="totalTransactions$ | async as totalTransactions" 
                         class="text-2xl mt-2 font-bold text-slate-700">
-                        {{totalTransactions.at(0)?.value}}
+                        {{totalTransactions[0].value}}
                     </div>
                 </div>
 
+                <!-- ############################## TEST BLOCK START ################################### -->
                 <!-- add this for testing purposes. will call allEvents() and log to console -->
                 <div *ngIf="allEvents$ | async as allEvents" class="text-2xl mt-2 font-bold text-slate-700" style="display: none"> 
                     {{allEvents | json }}
                 </div>
+
+                <!-- add this for testing purposes. will call newWalletsConnected() and log to console -->
+                <div *ngIf="newWalletsConnected$ | async as newWalletsConnected" class="text-2xl mt-2 font-bold text-slate-700" style="display: none"> 
+                    {{newWalletsConnected | json }}
+                </div>
+
+                <!-- add this for testing purposes. will call periodActiveWallets() and log to console -->
+                <div *ngIf="periodActiveWallets$ | async as periodActiveWallets" class="text-2xl mt-2 font-bold text-slate-700" style="display: none"> 
+                    {{periodActiveWallets | json }}
+                </div>
+
+                <!-- add this for testing purposes. will call totalSuccessfulTransactions() and log to console -->
+                <div *ngIf="totalSuccessfulTransactions$ | async as totalSuccessfulTransactions" class="text-2xl mt-2 font-bold text-slate-700" style="display: none"> 
+                    {{totalSuccessfulTransactions | json }}
+                </div>
+
+                <!-- add this for testing purposes. will call totalCancelledTransactions() and log to console -->
+                <div *ngIf="totalCancelledTransactions$ | async as totalCancelledTransactions" class="text-2xl mt-2 font-bold text-slate-700" style="display: none"> 
+                    {{totalCancelledTransactions | json }}
+                </div>
+
+                <!-- add this for testing purposes. will call averageTransactionsPerUser() and log to console -->
+                <div *ngIf="averageTransactionsPerUser$ | async as averageTransactionsPerUser" class="text-2xl mt-2 font-bold text-slate-700" style="display: none"> 
+                    {{averageTransactionsPerUser | json }}
+                </div>
+
+                <!-- add this for testing purposes. will call averageTransactions() and log to console -->
+                <div *ngIf="averageTransactions$ | async as averageTransactions" class="text-2xl mt-2 font-bold text-slate-700" style="display: none"> 
+                    {{averageTransactions | json }}
+                </div>
+
+                <!-- add this for testing purposes. will call minTransactionsInPeriod() and log to console -->
+                <div *ngIf="minTransactionsInPeriod$ | async as minTransactionsInPeriod" class="text-2xl mt-2 font-bold text-slate-700" style="display: none"> 
+                    {{minTransactionsInPeriod | json }}
+                </div>
+
+                <!-- add this for testing purposes. will call maxTransactionsInPeriod() and log to console -->
+                <div *ngIf="maxTransactionsInPeriod$ | async as maxTransactionsInPeriod" class="text-2xl mt-2 font-bold text-slate-700" style="display: none"> 
+                    {{maxTransactionsInPeriod | json }}
+                </div>
+
+                <!-- add this for testing purposes. will call listWalletProviders() and log to console -->
+                <div *ngIf="listWalletProviders$ | async as listWalletProviders" class="text-2xl mt-2 font-bold text-slate-700" style="display: none"> 
+                    {{listWalletProviders | json }}
+                </div>
+
+                <!-- add this for testing purposes. will call listBrowsers() and log to console -->
+                <div *ngIf="listBrowsers$ | async as listBrowsers" class="text-2xl mt-2 font-bold text-slate-700" style="display: none"> 
+                    {{listBrowsers | json }}
+                </div>
+
+                <!-- add this for testing purposes. will call listCountries() and log to console -->
+                <div *ngIf="listCountries$ | async as listCountries" class="text-2xl mt-2 font-bold text-slate-700" style="display: none"> 
+                    {{listCountries | json }}
+                </div>
+                <!-- ############################## TEST BLOCK END ################################### -->
 
                 <div 
                      class=" bg-slate-50 rounded-lg py-4 flex flex-col items-center justify-between"> 

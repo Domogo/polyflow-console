@@ -1,6 +1,5 @@
-import { AfterViewChecked, AfterViewInit, Component, OnInit } from '@angular/core';
-import { Chart } from 'chart.js/auto';
-import { map, tap } from 'rxjs';
+import { AfterViewInit, Component } from '@angular/core';
+import { map } from 'rxjs';
 import { genericSpinnerOnElement } from '../shared/operators/button-loading-spinner.operator';
 import { AnalyticsService } from './analytics.service';
 
@@ -22,12 +21,19 @@ export class AnalyticsComponent implements AfterViewInit {
       genericSpinnerOnElement(document.getElementById("totalTransactions"))
     )
 
-  allEvents$ = this.analyticsService.getAllEvents().pipe(
-    tap((result) => console.log(result))
-  )
-
-  totalTransactions$ =
-    this.analyticsService.getTotalTransactions()
+  allEvents$ = this.analyticsService.getAllEvents()
+  newWalletsConnected$ = this.analyticsService.newWalletsConnected()
+  periodActiveWallets$ = this.analyticsService.periodActiveWallets()
+  totalTransactions$ = this.analyticsService.getTotalTransactions()
+  totalSuccessfulTransactions$ = this.analyticsService.totalSuccessfulTransactions()
+  totalCancelledTransactions$ = this.analyticsService.totalCancelledTransactions()
+  averageTransactionsPerUser$ = this.analyticsService.averageTransactionsPerUser()
+  averageTransactions$ = this.analyticsService.averageTransactions()
+  minTransactionsInPeriod$ = this.analyticsService.minTransactionsInPeriod()
+  maxTransactionsInPeriod$ = this.analyticsService.maxTransactionsInPeriod()
+  listWalletProviders$ = this.analyticsService.listWalletProviders()
+  listBrowsers$ = this.analyticsService.listBrowsers()
+  listCountries$ = this.analyticsService.listCountries()
 
   analyticsOverview$ = 
       this.analyticsService.analyticsOverview().pipe(

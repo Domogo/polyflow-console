@@ -160,7 +160,43 @@ export interface IntTimespanValues {
     value: number
 }
 
+export interface AverageTimespanValue {
+    from: string,
+    to: string,
+    averageValue: number
+}
+
+export interface AverageTimespanValues {
+    averageValue: number,
+    values: IntTimespanValues[]
+}
+
+export interface MovingAverageTimespanValues {
+    averageValue: number,
+    movingAverages: [AverageTimespanValue]
+}
+
+export interface WalletConnectionsAndTransactionsInfo {
+    name: string,
+    totalWalletConnections: number,
+    uniqueWalletConnections: number,
+    executedTransactions: number
+}
+
 /** QUERY VARS */
+
+export interface TimePeriodVars {
+    from?: string,
+    to?: string,
+    granularity?: string,
+    projectId: string,
+    filter?: EventFilter
+}
+
+export interface EventFilterVars {
+    projectId: string,
+    filter?: EventFilter
+}
 
 export interface FindEventsQueryVars {
     from?: string,
@@ -168,11 +204,58 @@ export interface FindEventsQueryVars {
     projectId: string,
     filter?: EventFilter
 }
+export interface FindEventsQueryResult {
+    findEvents: Event[]
+}
 
-export interface TotalConnectedWalletsQueryVars {
-    from?: string,
-    to?: string,
-    granularity?: string,
-    projectId: string,
-    filter?: EventFilter
+export interface TotalConnectedWalletsQueryResult {
+    totalConnectedWallets: IntTimespanValues[]
+}
+
+export interface TotalNewWalletsQueryResult {
+    totalNewWallets: IntTimespanValues[]
+}
+
+export interface PeriodActiveWalletsQueryResult {
+    periodActiveWallets: AverageTimespanValues
+}
+
+export interface TotalTransactionsQueryResult {
+    totalTransactions: IntTimespanValues[]
+}
+
+export interface TotalSuccessfulTransactionsQueryResult {
+    totalSuccessfulTransactions: IntTimespanValues[]
+}
+
+export interface TotalCancelledTransactionsQueryResult {
+    totalCancelledTransactions: IntTimespanValues[]
+}
+
+export interface AverageTransactionsPerUserQueryResult {
+    averageTransactionsPerUser: AverageTimespanValue[]
+}
+
+export interface AverageTransactionsQueryResult {
+    averageTransactions: MovingAverageTimespanValues
+}
+
+export interface MinTransactionsInPeriodQueryResult {
+    minTransactionsInPeriod: number
+}
+
+export interface MaxTransactionsInPeriodQueryResult {
+    maxTransactionsInPeriod: number
+}
+
+export interface ListWalletProvidersQueryResult {
+    listWalletProviders: WalletConnectionsAndTransactionsInfo[]
+}
+
+export interface ListBrowsersQueryResult {
+    listBrowsers: WalletConnectionsAndTransactionsInfo[]
+}
+
+export interface ListCountriesQueryResult {
+    listCountries: WalletConnectionsAndTransactionsInfo[]
 }
