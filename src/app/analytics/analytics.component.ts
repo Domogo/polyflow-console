@@ -1,5 +1,6 @@
 import { AfterViewInit, Component } from '@angular/core';
 import { map } from 'rxjs';
+import { countryIcons } from '../shared/graphics/icons';
 import { genericSpinnerOnElement } from '../shared/operators/button-loading-spinner.operator';
 import { AnalyticsService } from './analytics.service';
 
@@ -45,6 +46,8 @@ export class AnalyticsComponent implements AfterViewInit {
   ngOnInit(): void {
   
   }
+
+  
 
   ngAfterViewInit(): void {
 

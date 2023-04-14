@@ -28,6 +28,9 @@ import { GridJsAngularModule } from 'gridjs-angular';
 import { FiltersComponent } from './shared/components/filters/filters.component';
 import { CardHeaderComponent } from './shared/components/card-header/card-header.component';
 import { VerifyComponent } from './auth/verify/verify.component';
+import { ThankYouScreenComponent } from './thank-you-screen/thank-you-screen.component';
+import { TxDetailsComponent } from './analytics/txhistory/tx-details/tx-details.component';
+import { ErrorEventDetailsComponent } from './event-details/error-event-details/error-event-details.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +55,10 @@ import { VerifyComponent } from './auth/verify/verify.component';
     AcquisitionComponent,
     FiltersComponent,
     CardHeaderComponent,
-    VerifyComponent
+    VerifyComponent,
+    ThankYouScreenComponent,
+    TxDetailsComponent,
+    ErrorEventDetailsComponent
   ],
   imports: [
     BrowserModule,

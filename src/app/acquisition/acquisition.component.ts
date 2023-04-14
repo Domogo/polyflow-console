@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UserConfig } from 'gridjs';
+import { switchMap, tap } from 'rxjs';
+import { GQLClient } from '../shared/graphql/graphql-client';
+import { ProjectService } from '../shared/project.service';
 
 @Component({
   selector: 'app-acquisition',
@@ -64,7 +67,18 @@ export class AcquisitionComponent implements OnInit {
 
   }
 
-  constructor() { }
+  projectUserStats$ = this.projectService.currentProject$.pipe(
+    switchMap(project => this.gqlClient.getProjectUserStats({
+      projectId: project!.id
+    })),
+    tap(res => console.log(res))
+  )
+
+  getPercentageRatio(metric: number, total: number): string {
+    return (metric / total * 100).toFixed(2)
+  } 
+
+  constructor(private gqlClient: GQLClient, private projectService: ProjectService) { }
 
   ngOnInit(): void {
   }

@@ -259,3 +259,30 @@ export interface ListBrowsersQueryResult {
 export interface ListCountriesQueryResult {
     listCountries: WalletConnectionsAndTransactionsInfo[]
 }
+
+export interface ListSessionsQueryResult {
+    listSessions: SessionsEventInfo[]
+}
+
+export interface SessionsEventInfo {
+    sessionId: string
+    totalEventCount: string,
+    totalErrorEventCount: number,
+    walletAddresses: string[]
+    hasConnectedWallet: boolean
+    hasExecutedTransaction: string,
+    devices: DeviceState[]
+    firstEventDateTime: string
+}
+
+export interface ProjectUserStatsQueryResult {
+    projectUserStats: ProjectUserStats
+}
+
+export interface ProjectUserStats {
+    totalUsers: number
+    usersWithWallet: number
+    usersWithConnectedWallet: number
+    usersWithExecutedTx: number
+    usersWithMultipleExecutedTx: number
+}

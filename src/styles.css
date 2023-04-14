@@ -42,7 +42,7 @@
 }
 
 .pf-gridjs-container {
-    box-shadow: none!important
+    box-shadow: none!important;
 }
 .pf-gridjs-table{
     border: 1px solid rgb(238, 242, 255);

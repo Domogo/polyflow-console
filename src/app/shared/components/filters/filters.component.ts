@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { TimePeriodVars } from '../../graphql/data-types';
 
 @Component({
   selector: 'app-filters',
@@ -8,10 +9,12 @@ import { Component, OnInit } from '@angular/core';
 export class FiltersComponent implements OnInit {
 
   filterList: FilterItem[] = [
-    { title: 'Time', content: 'Jan 1st, 2023 - Feb 15th, 2023', type: 'daterange' },
-    { title: 'Location', content: 'Europe', type: 'multiselect' },
-    { title: 'Term', content: 'nft-marketplace', type: 'multiselect' },
+    // { title: 'Time', content: 'Jan 1st, 2023 - Feb 15th, 2023', type: 'daterange' },
+    // { title: 'Location', content: 'Europe', type: 'multiselect' },
+    // { title: 'Term', content: 'nft-marketplace', type: 'multiselect' },
   ]
+
+  @Output() timePeriodFilter = new EventEmitter<TimePeriodVars>()
 
   constructor() { }
 

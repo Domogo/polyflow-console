@@ -8,6 +8,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export class CardHeaderComponent implements OnInit {
 
   @Input() title: string = ''
+  @Input() isCollapseVisible = true
 
   constructor() { }
 

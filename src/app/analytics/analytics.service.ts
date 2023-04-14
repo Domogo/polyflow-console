@@ -71,7 +71,7 @@ export class AnalyticsService {
         return this.projectSerivice.currentProject$.pipe(
             switchMap(project => this.gqlClient.periodActiveWallets(
                 {
-                    projectId: project!.id
+                    projectId: project!.id,
                 }
             ))
         )

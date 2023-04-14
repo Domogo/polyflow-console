@@ -4,7 +4,7 @@ import { Observable, from, map, switchMap, tap, of, throwError } from 'rxjs';
 import { AuthResponseModel, AuthService } from '../../auth/auth.service'
 import { handleError } from '../error-handler/error';
 import { BASE_GQL_URL } from 'src/app/environments/environments';
-import { AverageTimespanValues, Event, FindEventsQueryResult, FindEventsQueryVars, IntTimespanValues, PeriodActiveWalletsQueryResult, TotalConnectedWalletsQueryResult, TotalNewWalletsQueryResult, TotalTransactionsQueryResult, TotalSuccessfulTransactionsQueryResult, TotalCancelledTransactionsQueryResult, AverageTimespanValue, AverageTransactionsPerUserQueryResult, MovingAverageTimespanValues, AverageTransactionsQueryResult, MinTransactionsInPeriodQueryResult, MaxTransactionsInPeriodQueryResult, WalletConnectionsAndTransactionsInfo, ListWalletProvidersQueryResult, ListBrowsersQueryResult, ListCountriesQueryResult, TimePeriodVars, EventFilterVars } from './data-types';
+import { AverageTimespanValues, Event, FindEventsQueryResult, ProjectUserStats, FindEventsQueryVars, IntTimespanValues, PeriodActiveWalletsQueryResult, TotalConnectedWalletsQueryResult, TotalNewWalletsQueryResult, TotalTransactionsQueryResult, TotalSuccessfulTransactionsQueryResult, TotalCancelledTransactionsQueryResult, AverageTimespanValue, AverageTransactionsPerUserQueryResult, MovingAverageTimespanValues, AverageTransactionsQueryResult, MinTransactionsInPeriodQueryResult, MaxTransactionsInPeriodQueryResult, WalletConnectionsAndTransactionsInfo, ListWalletProvidersQueryResult, ListBrowsersQueryResult, ListCountriesQueryResult, TimePeriodVars, EventFilterVars, ListSessionsQueryResult, SessionsEventInfo, ProjectUserStatsQueryResult } from './data-types';
 import { FindEventsQuery } from './queries/find-events';
 import { TotalConnectedWalletsQuery } from './queries/total-connected-wallets';
 import { TotalNewWalletsQuery } from './queries/total-new-wallets';
@@ -19,6 +19,8 @@ import { MaxTransactionsInPeriodQuery } from './queries/max-transactions-in-peri
 import { ListBrowsersQuery } from './queries/list-browsers';
 import { ListWalletProvidersQuery } from './queries/list-wallet-providers';
 import { ListCountriesQuery } from './queries/list-countries';
+import { ListSessionsQuery } from './queries/list-sessions';
+import { ProjectUserStatsQuery } from './queries/project-user-stats'
 
 @Injectable({
     providedIn: 'root'
@@ -310,6 +312,44 @@ export class GQLClient {
             switchMap(response => {
                 if (response.ok) {
                     return of(response.data.listCountries)
+                } else {
+                    return throwError(() => response.error)
+                }
+            })
+        )
+    }
+
+    listSessions(
+        vars: EventFilterVars
+    ): Observable<SessionsEventInfo[]> {
+        return this._gqlClient$.pipe(
+            switchMap(client => 
+                client.requestSafe<ListSessionsQueryResult, EventFilterVars>(
+                    ListSessionsQuery, vars
+                )
+            ),
+            switchMap(response => {
+                if (response.ok) {
+                    return of(response.data.listSessions)
+                } else {
+                    return throwError(() => response.error)
+                }
+            })
+        )
+    }
+
+    getProjectUserStats(
+        vars: EventFilterVars
+    ): Observable<ProjectUserStats> {
+        return this._gqlClient$.pipe(
+            switchMap(client => 
+                client.requestSafe<ProjectUserStatsQueryResult, EventFilterVars>(
+                    ProjectUserStatsQuery, vars
+                )
+            ),
+            switchMap(response => {
+                if(response.ok) {
+                    return of(response.data.projectUserStats)
                 } else {
                     return throwError(() => response.error)
                 }

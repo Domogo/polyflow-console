@@ -1,5 +1,5 @@
 .active {
-    @apply bg-indigo-600 shadow-md text-white font-medium
+    @apply bg-indigo-500 shadow-md text-white
 }
 
 .transition-slow {
