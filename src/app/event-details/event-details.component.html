@@ -1,0 +1,134 @@
+<div class="w-full flex flex-col gap-y-4 justify-between">
+    <app-back-button screenName="Event overview"></app-back-button>
+</div>
+
+<div class="grid grid-cols-1 gap-x-4 !text-slate-600">
+
+
+    <div *ngIf="event$ | async as event" class="flex flex-col gap-x-4">
+    
+        <div  class=" mb-4 text-xs w-full">
+            
+            <div class="grid grid-cols-1 bg-white py-6 px-2 mt-4 rounded-lg gap-1 w-full">
+
+                <div class="px-4">
+                    <app-event-error-message-holder [event]="castToErrorEvent(event)"></app-event-error-message-holder>
+                </div>
+
+                <div class="flex flex-col gap-y-2 px-8">
+                    <div class=" bg-white grid grid-cols-2 gap-5 mt-8 border-slate-100">
+                        <div class="flex flex-row w-full items-center">
+                            <div class="font-semibold uppercase w-1/2">Event ID</div>
+                            <div class="text-sm text-slate-500 font-medium">{{event.id | shorten}}</div>
+                        </div>
+                        <div class="flex flex-row w-full items-center ">
+                            <div class="font-semibold uppercase w-1/2">Event type</div>
+                            <div class="text-sm text-slate-500 font-medium">{{event.tracker.eventTracker}}</div>
+                        </div>
+                        <div class="flex flex-row w-full items-center ">
+                            <div class="font-semibold uppercase w-1/2">Event time</div>
+                            <div class="text-sm text-slate-500 font-medium">{{event.createdAtParsed.toLocaleString()}}</div>
+                        </div>
+                        <div class="flex flex-row w-full items-center">
+                            <div class="font-semibold uppercase w-1/2">Event App URL</div>
+                            <div class="text-sm text-slate-500 font-medium">{{event.tracker.origin}}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="my-4 border-slate-100">
+
+                <div class="flex flex-col px-8">
+                    <div *ngIf="castToErrorEvent(event) as errorEvent" class="grid h-full grid-cols-2 bg-white gap-4 rounded-lg border-slate-100 justify-between">
+                        <div class="flex flex-row items-center">
+                            <div class="uppercase w-1/2 font-semibold flex flex-row gap-x-2 items-center">
+                                                  
+                                User Address
+                            </div>
+                            <div class="text-sm text-slate-500 font-medium">{{errorEvent.errorEventWallet?.walletAddress ?? "" | shorten:15:12}}</div>
+                        </div>
+                        <div class="flex flex-row items-center">
+                            <div class="uppercase w-1/2 font-semibold flex flex-row gap-x-2 items-center">
+            
+                                                                         
+                                Connected to network
+                            </div>
+                            <div class="!text-base text-slate-500 font-medium">
+                                <app-icon-item-holder color="slate-500"  size="sm" type="network" [iconQuery]="errorEvent.errorEventNetwork!.chainId.toString()" [showQuery]="true"></app-icon-item-holder>
+                            </div>
+                        </div>
+                        <div class="flex flex-row items-center">
+                            <div class="uppercase w-1/2 font-semibold flex flex-row gap-x-2 items-center">
+                                        
+                                Block
+                            </div>
+                            <div class="text-sm text-slate-500 font-medium">{{errorEvent.errorEventNetwork?.blockHeight}}</div>
+                        </div>
+                        <div class="flex flex-row items-center">
+                            <div class="uppercase w-1/2 font-semibold flex flex-row gap-x-2 items-center">
+                                            
+                                Block Gas Price
+                            </div>
+                            <div class="text-sm text-slate-500 font-medium">{{weiToGwei(errorEvent.errorEventNetwork!.gasPrice)}} Gwei</div>
+                        </div>
+                        <div class="flex flex-row items-center">
+                            <div class="uppercase w-1/2 font-semibold flex flex-row gap-x-2 items-center">
+                                   
+                                Gas Balance
+                            </div>
+                            <div class="text-sm text-slate-500 font-medium">{{fromWei(errorEvent.errorEventWallet!.gasBalance)}}</div>
+                        </div>
+                        <div class="flex flex-row items-center">
+                            <div class="uppercase w-1/2 font-semibold flex flex-row gap-x-2 items-center">  
+                                Nonce
+                            </div>
+                            <div class="text-sm text-slate-500 font-medium">{{errorEvent.errorEventWallet?.nonce}}</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <hr class="my-4 border-slate-100">
+                
+                <div class="flex flex-col  px-8">
+                    <div class="grid grid-cols-2 bg-white gap-4 justify-between">
+                        <div class="flex flex-row items-center">
+                            <div class="uppercase w-1/2 font-semibold">Browser</div>
+                            <div>
+                                <app-icon-item-holder color="slate-500" size="sm" type="browser" [iconQuery]="event.device.browser" [showQuery]="true"></app-icon-item-holder>
+                            </div>
+                        </div>
+                        <div class="flex flex-row items-center">
+                            <div class="uppercase font-semibold w-1/2">Wallet Provider</div>
+                            <app-icon-item-holder color="slate-500"  size="sm" [iconQuery]="event.device.walletProvider" type="provider" [showQuery]="true"></app-icon-item-holder>
+                        </div>
+                        <div class="flex flex-row items-center">
+                            <div class="uppercase font-semibold w-1/2">Country</div>
+                            <app-icon-item-holder color="slate-500"  size="sm" [iconQuery]="event.device.country" type="country" [showQuery]="true"></app-icon-item-holder>
+                        </div>
+                        <div class="flex flex-row items-center">
+                            <div class="uppercase font-semibold w-1/2">OS</div>
+                            <div class="text-sm text-slate-500 font-medium">{{event.device.os}}</div>
+                        </div>
+                        <div class="flex flex-row items-center">
+                            <div class="uppercase font-semibold w-1/2">Screen Resolution</div>
+                            <div class="text-sm text-slate-500 font-medium">{{event.device.screen?.w}} x {{event.device.screen?.h}}</div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+                
+            
+
+                
+
+            
+            
+        </div>
+        
+    </div>
+    
+    
+</div>
+
+

@@ -1,89 +1,72 @@
-<div class="p-6 bg-white rounded-lg shadow-sm">
-
-    <app-card-header title="Transaction history"></app-card-header>
+<div class="p-8 bg-white rounded-lg shadow-sm">
     
     <app-filters></app-filters>
 
-    <div class="w-full  border rounded-lg mt-4">
-        <div class="py-3 border-b text-xs uppercase text-indigo-800 px-8 font-semibold flex flex-row bg-indigo-50">
-            <div class="w-[14.28%] flex flex-row items-center gap-x-2">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M5.25 8.25h15m-16.5 7.5h15m-1.8-13.5l-3.9 19.5m-2.1-19.5l-3.9 19.5" />
-                </svg>
+    <div *ngIf="txHistory$ | async as txHistory; else loading">
+        <div class="w-full px-4 flex flex-row uppercase text-xs font-semibold pb-4 mt-4">
+            <div class="w-1/12">
                 Hash
             </div>
-            <div class="w-[14.28%] flex flex-row items-center gap-x-2">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>  
-                Time
+            <div class="w-2/12">
+                Date & Time
             </div>
-            <div class="w-[14.28%] flex flex-row items-center gap-x-2">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a2.25 2.25 0 00-2.25-2.25H15a3 3 0 11-6 0H5.25A2.25 2.25 0 003 12m18 0v6a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 18v-6m18 0V9M3 12V9m18 0a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 9m18 0V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v3" />
-                </svg>                
-                Wallet
+            <div class="w-2/12">
+                From
             </div>
-            <div class="w-[14.28%] flex flex-row items-center gap-x-2">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 7.125C2.25 6.504 2.754 6 3.375 6h6c.621 0 1.125.504 1.125 1.125v3.75c0 .621-.504 1.125-1.125 1.125h-6a1.125 1.125 0 01-1.125-1.125v-3.75zM14.25 8.625c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125v8.25c0 .621-.504 1.125-1.125 1.125h-5.25a1.125 1.125 0 01-1.125-1.125v-8.25zM3.75 16.125c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125v2.25c0 .621-.504 1.125-1.125 1.125h-5.25a1.125 1.125 0 01-1.125-1.125v-2.25z" />
-                </svg>                             
-                Type
+            <div class="w-2/12">
+                To
             </div>
-            <div class="w-[14.28%] flex flex-row items-center gap-x-2">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.115 5.19l.319 1.913A6 6 0 008.11 10.36L9.75 12l-.387.775c-.217.433-.132.956.21 1.298l1.348 1.348c.21.21.329.497.329.795v1.089c0 .426.24.815.622 1.006l.153.076c.433.217.956.132 1.298-.21l.723-.723a8.7 8.7 0 002.288-4.042 1.087 1.087 0 00-.358-1.099l-1.33-1.108c-.251-.21-.582-.299-.905-.245l-1.17.195a1.125 1.125 0 01-.98-.314l-.295-.295a1.125 1.125 0 010-1.591l.13-.132a1.125 1.125 0 011.3-.21l.603.302a.809.809 0 001.086-1.086L14.25 7.5l1.256-.837a4.5 4.5 0 001.528-1.732l.146-.292M6.115 5.19A9 9 0 1017.18 4.64M6.115 5.19A8.965 8.965 0 0112 3c1.929 0 3.716.607 5.18 1.64" />
-                </svg>                             
-                Country
+           
+            <div class="w-1/12">
+                Gas Price
             </div>
-            <div class="w-[14.28%] flex flex-row items-center gap-x-2">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 8.25V18a2.25 2.25 0 002.25 2.25h13.5A2.25 2.25 0 0021 18V8.25m-18 0V6a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 6v2.25m-18 0h18M5.25 6h.008v.008H5.25V6zM7.5 6h.008v.008H7.5V6zm2.25 0h.008v.008H9.75V6z" />
-                </svg>                              
-                Browser
+            <div class="w-1/12">
+                Network
             </div>
-            <div class="w-[14.28%] flex flex-row items-center gap-x-2">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 8.25V18a2.25 2.25 0 002.25 2.25h13.5A2.25 2.25 0 0021 18V8.25m-18 0V6a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 6v2.25m-18 0h18M5.25 6h.008v.008H5.25V6zM7.5 6h.008v.008H7.5V6zm2.25 0h.008v.008H9.75V6z" />
-                </svg>                              
-                Device
+            <div class="w-1/12">
+                Block
+            </div>
+            <div class="w-2/12">
+                Metadata
+            </div>
+
+        </div>
+        <div class="text-xs flex flex-row items-center py-4 transition-all
+         border-t border-slate-50 px-4" *ngFor="let item of txHistory; let i = index" >
+            <a target="_blank" href="https://mumbai.polygonscan.com/tx/{{item.tx.hash}}" class="w-1/12 text-indigo-700 underline cursor-pointer font-medium">
+                {{item.tx.hash ?? "" | shorten}}
+            </a>
+            <div class="w-2/12 flex flex-col text-slate-500 font-medium">
+                {{item.createdAt.toLocaleString()}}
+            </div>
+            <div class="w-2/12 flex flex-row gap-x-2 cursor-pointer underline font-medium text-indigo-700">
+                <div>{{item.tx.from | shorten:8:8 }}</div>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 text-indigo-500 ml-4">
+                    <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm4.28 10.28a.75.75 0 000-1.06l-3-3a.75.75 0 10-1.06 1.06l1.72 1.72H8.25a.75.75 0 000 1.5h5.69l-1.72 1.72a.75.75 0 101.06 1.06l3-3z" clip-rule="evenodd" />
+                </svg>                  
+            </div>
+            <div class="w-2/12 cursor-pointer underline font-medium text-indigo-700">
+                {{item.tx.to ?? "" | shorten:8:8 }}
+            </div>
+            <div class="w-1/12">
+                {{item.tx.gasPrice.toFixed(3)}} Gwei
+            </div>
+            <div class="w-1/12">
+                <app-icon-item-holder type="network" [iconQuery]="item.txRequestNetwork.chainId.toString()"></app-icon-item-holder>
+            </div>
+            <div class="w-1/12">
+                {{item.txRequestNetwork.blockHeight}}
+            </div>
+            <div class="w-2/12 flex flex-row gap-x-2">
+                <app-icon-item-holder type="country" [iconQuery]="item.device.country"></app-icon-item-holder>
+                <app-icon-item-holder type="browser" [iconQuery]="item.device.browser"></app-icon-item-holder>
+                <app-icon-item-holder type="provider" [iconQuery]="item.device.walletProvider"></app-icon-item-holder>
             </div>
         </div>
-        <div class="w-full py-3 text-indigo-900 text-xs px-6 bg-indigo-50 opacity-50 font-semibold flex flex-row gap-x-2 items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z" />
-              </svg>
-              
-            01.07.2022
-        </div>
-        <button *ngFor="let item of txHistory" routerLink="/console/12/tx-details"
-        class="py-3 border-b flex flex-row w-full hover:bg-slate-100 items-center text-xs font-medium px-8">
-            <div class="w-[14.28%]">
-                {{item.hash | shorten}}
-            </div>
-            <div class="w-[14.28%]">
-                <div>{{item.time.split(' ')[1]}}</div>
-            </div>
-            <div class="w-[14.28%]">
-                {{item.wallet | shorten}}
-            </div>
-            <div class="w-[14.28%]">
-                {{item.type}}
-            </div>
-            <div class="w-[14.28%] flex flex-row items-center justify-start gap-x-2">
-                <img
-                    class="h-4 w-4 object-cover rounded-full"
-                    alt="United States"
-                    src="http://purecatamphetamine.github.io/country-flag-icons/3x2/HR.svg"/>
-                {{item.country}}
-            </div>
-            <div class="w-[14.28%] flex flex-row items-center justify-start gap-x-2">
-                <img class="h-4 w-4" src="../../../assets/chrome.png" alt="" srcset="">
-                {{item.browser}}
-            </div>
-            <div class="w-[14.28%]">
-                MacBook Pro
-            </div>
-        </button>
     </div>
 </div>
+<ng-template #loading>
+    <div class="w-full flex flex-row justify-center py-8">
+        <app-spinner></app-spinner>
+    </div>
+</ng-template>

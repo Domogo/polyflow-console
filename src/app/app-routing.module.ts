@@ -13,6 +13,8 @@ import { ConsoleHolderComponent } from './console-holder/console-holder.componen
 import { ErrorLoggerDetailsComponent } from './error-logger/error-logger-details/error-logger-details.component';
 import { ErrorLoggerComponent } from './error-logger/error-logger.component';
 import { ErrorEventDetailsComponent } from './event-details/error-event-details/error-event-details.component';
+import { EventDetailsComponent } from './event-details/event-details.component';
+import { ProjectSettingsComponent } from './project-settings/project-settings.component';
 
 const consoleRoutes: Routes = [
   { path: 'uicomponents', component: ComponentsConfigComponent },
@@ -20,17 +22,18 @@ const consoleRoutes: Routes = [
   { path: 'txhistory', component: TxhistoryComponent },
   { path: 'tx-details', component: TxDetailsComponent},
   { path: 'sessions', component: ErrorLoggerComponent },
-  { path: 'event-details/error', component: ErrorEventDetailsComponent },
+  { path: 'event-details/:id', component: EventDetailsComponent },
   { path: 'sessions/:id', component: ErrorLoggerDetailsComponent },
   { path: 'config', component: ConfigComponent},
-  { path: 'acquisition', component: AcquisitionComponent }
+  { path: 'acquisition', component: AcquisitionComponent },
+  { path: 'project-settings', component: ProjectSettingsComponent }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot([
     {path: '', component: AuthComponent },
     {path: 'verify', component: VerifyComponent},
-    { path: 'console/:projectID', component: ConsoleHolderComponent, children: consoleRoutes, canActivate: [AuthGuardService] },
+    { path: 'console', component: ConsoleHolderComponent, children: consoleRoutes, canActivate: [AuthGuardService] },
   ])],
   exports: [RouterModule]
 })

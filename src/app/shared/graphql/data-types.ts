@@ -130,11 +130,12 @@ export interface TxRequestEvent {
     txRequestWallet: WalletState,
     device: DeviceState,
     txRequestNetwork: NetworkState,
-    txData: TxData
+    tx: TxData
 }
 export interface ErrorEvent {
     __typename: TypeName.ErrorEvent,
     projectId: string,
+    id: string,
     createdAt: string,
     tracker: EventTrackerModel,
     errorEventWallet?: WalletState,
@@ -145,6 +146,7 @@ export interface ErrorEvent {
 export interface UserLandedEvent {
     __typename: TypeName.UserLandedEvent,
     projectId: string,
+    id: string,
     createdAt: string,
     tracker: EventTrackerModel,
     userLandedWallet?: WalletState,
@@ -204,8 +206,17 @@ export interface FindEventsQueryVars {
     projectId: string,
     filter?: EventFilter
 }
+
+export interface FindEventsByIdQueryVars {
+    id: string
+}
+
 export interface FindEventsQueryResult {
     findEvents: Event[]
+}
+
+export interface FindEventsByIdQueryResult {
+    findEventById: Event
 }
 
 export interface TotalConnectedWalletsQueryResult {

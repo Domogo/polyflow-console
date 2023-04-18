@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { switchMap } from 'rxjs';
+import { ErrorEvent, Event } from 'src/app/shared/graphql/data-types';
+import { GQLClient } from 'src/app/shared/graphql/graphql-client';
+import { ProjectService } from 'src/app/shared/project.service';
 
 @Component({
   selector: 'app-error-event-details',
@@ -7,10 +11,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ErrorEventDetailsComponent implements OnInit {
 
-  constructor() { }
+  @Input() event!: ErrorEvent
 
-  ngOnInit(): void {
-    
-  }
+  constructor(private gqlClient: GQLClient, private projectService: ProjectService) { }
+
+  ngOnInit(): void { }
+  
+
 
 }

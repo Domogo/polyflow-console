@@ -11,7 +11,7 @@
             <div>User Sessions</div>
         </div>
         <div class="w-full flex flex-row justify-between items-center
-         border-b border-slate-100 p-4 uppercase font-medium">
+         border-b border-slate-50 p-4 uppercase font-medium">
             <div class="flex flex-row gap-x-8 text-slate-500">
                 <div class="flex flex-row gap-x-2">
                     <input [formControl]="hidePassive" type="checkbox">
@@ -22,7 +22,7 @@
                     Show only sessions with errors
                 </div>
             </div>
-            <div class="w-[26rem] flex flex-row items-center border border-slate-100 pl-4 rounded-lg">
+            <div class="w-[26rem] flex flex-row items-center border border-slate-50 pl-4 rounded-lg">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
                   </svg>                  
@@ -30,15 +30,16 @@
                     placeholder="Search by wallet" type="text">
             </div>
         </div>
-        <div *ngIf="sessions$ | async as sessions" class="flex flex-col w-full overflow-hidden">
+        <div *ngIf="sessions$ | async as sessions; else loading" class="flex flex-col w-full overflow-hidden">
             <div class="flex flex-row text-[10px] py-4 font-semibold uppercase px-6">
+                
                 <div class="w-1/12">
                     Session started
                 </div>
                 <div class="w-1/12 pl-4">
                     OS
                 </div>
-                <div class="w-1/12 text-center">
+                <div class="w-1/12">
                     Country
                 </div>
                 <div class="w-1/12 text-center">
@@ -53,24 +54,31 @@
                 <div class="w-1/12 text-center">
                     Signed Transaction
                 </div>
-                <div class="w-1/12 text-center">
-                    Had errors
-                </div>
+
                 <div class="w-3/12 flex flex-row pl-8">
                     Wallets Used During Session
+                </div>
+                <div class="w-2/12 pl-4">
+                    Notes
                 </div>
             </div>
             <div class="flex flex-row items-center w-full
             hover:bg-slate-50 cursor-pointer px-6
-             py-3 border-t border-slate-100" *ngFor="let session of sessions"
-              [routerLink]="session.sessionId" [state]="session">
+             py-3 border-t border-slate-50" *ngFor="let session of sessions"
+              [routerLink]="session.sessionId" [state]="session" 
+              [class.bg-orange-50]="session.totalErrorEventCount !== 0"
+              [class.border-t-2]="session.totalErrorEventCount !== 0"
+              [class.border-orange-100]="session.totalErrorEventCount !== 0"
+              >
+              
                 <div class="w-1/12 flex flex-col gap-x-2">
-                    <div class="text-xs text-indigo-400">{{session.firstEventDateTime.toLocaleTimeString()}}</div>
+                    <div class="text-xs atext-indigo-400">{{session.firstEventDateTime.toLocaleTimeString()}}</div>
                     <div class="text-sm font-semibold text-indigo-800">{{session.firstEventDateTime.toLocaleDateString()}}</div>    
                 </div>
                 <div class="w-1/12 pl-4">{{session.devices.at(0)?.os}}</div>
-                <div class="w-1/12 flex flex-row justify-center">
-                    <img class="h-4 rounded-sm" src="../../assets/flags/{{getFlag(session.devices.at(0)?.country)}}.svg" alt="" srcset="">
+                <div class="w-1/12 flex flex-row gap-x-2 text-[10px] uppercase font-medium">
+                    <app-icon-item-holder type="country" [iconQuery]="session.devices.at(0)?.country"></app-icon-item-holder>
+                    {{session.devices.at(0)?.country}}
                 </div>
                 <div class="w-1/12 flex flex-row justify-center">
                     <img class="h-4" [src]="getWalletIcon(session.devices.at(0)?.walletProvider)" alt="" srcset="">
@@ -83,8 +91,11 @@
                     <svg *ngIf="session.hasConnectedWallet" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 text-indigo-600">
                         <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clip-rule="evenodd" />
                     </svg>
-                    <svg *ngIf="!session.hasConnectedWallet" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 text-red-500">
-                        <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm-1.72 6.97a.75.75 0 10-1.06 1.06L10.94 12l-1.72 1.72a.75.75 0 101.06 1.06L12 13.06l1.72 1.72a.75.75 0 101.06-1.06L13.06 12l1.72-1.72a.75.75 0 10-1.06-1.06L12 10.94l-1.72-1.72z" clip-rule="evenodd" />
+                    <svg *ngIf="!session.hasConnectedWallet" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 text-slate-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                            <path fill-rule="evenodd" d="M6.72 5.66l11.62 11.62A8.25 8.25 0 006.72 5.66zm10.56 12.68L5.66 6.72a8.25 8.25 0 0011.62 11.62zM5.105 5.106c3.807-3.808 9.98-3.808 13.788 0 3.808 3.807 3.808 9.98 0 13.788-3.807 3.808-9.98 3.808-13.788 0-3.808-3.807-3.808-9.98 0-13.788z" clip-rule="evenodd" />
+                          </svg>
+                          
                     </svg>
                       
                 </div>
@@ -92,26 +103,29 @@
                     <svg *ngIf="session.hasExecutedTransaction" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 text-indigo-600">
                         <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clip-rule="evenodd" />
                     </svg>
-                    <svg *ngIf="!session.hasExecutedTransaction" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 text-red-500">
-                        <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm-1.72 6.97a.75.75 0 10-1.06 1.06L10.94 12l-1.72 1.72a.75.75 0 101.06 1.06L12 13.06l1.72 1.72a.75.75 0 101.06-1.06L13.06 12l1.72-1.72a.75.75 0 10-1.06-1.06L12 10.94l-1.72-1.72z" clip-rule="evenodd" />
+                    <svg *ngIf="!session.hasExecutedTransaction" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 text-slate-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                            <path fill-rule="evenodd" d="M6.72 5.66l11.62 11.62A8.25 8.25 0 006.72 5.66zm10.56 12.68L5.66 6.72a8.25 8.25 0 0011.62 11.62zM5.105 5.106c3.807-3.808 9.98-3.808 13.788 0 3.808 3.807 3.808 9.98 0 13.788-3.807 3.808-9.98 3.808-13.788 0-3.808-3.807-3.808-9.98 0-13.788z" clip-rule="evenodd" />
+                          </svg>                          
                     </svg>
                 </div>
                 
-                <div class="w-1/12 flex flex-row justify-center">
-                    <svg *ngIf="session.totalErrorEventCount !== 0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 text-red-600">
-                        <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clip-rule="evenodd" />
-                    </svg>
-                    <svg *ngIf="session.totalErrorEventCount === 0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 text-green-500">
-                        <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm-1.72 6.97a.75.75 0 10-1.06 1.06L10.94 12l-1.72 1.72a.75.75 0 101.06 1.06L12 13.06l1.72 1.72a.75.75 0 101.06-1.06L13.06 12l1.72-1.72a.75.75 0 10-1.06-1.06L12 10.94l-1.72-1.72z" clip-rule="evenodd" />
-                    </svg>
-                </div>
-                
-                <div class="w-4/12 flex flex-row gap-x-2 text-[10px] font-medium pl-8">
+               
+                <div class="w-3/12 flex scrollbar-none flex-row overflow-x-auto gap-2 text-[10px] font-medium pl-8">
                     <div class="py-1 px-4 rounded-md bg-indigo-50" *ngFor="let wallet of session.walletAddresses">
                         {{wallet | shorten}}
                     </div>
                     <div class="py-1 px-4 rounded-md bg-red-50 text-orange-600" *ngIf="session.walletAddresses.length === 0">
                         No Wallets
+                    </div>
+                </div>
+
+                <div class="w-2/12 flex flex-row justify-start pl-4">
+                    <div class="flex flex-row uppercase text-red-500 font-semibold text-[10px] items-center gap-x-2" *ngIf="session.totalErrorEventCount !== 0">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                        </svg>                          
+                        Session had errors
                     </div>
                 </div>
             </div>
@@ -120,3 +134,10 @@
 
     
 </div>
+
+
+<ng-template #loading>
+    <div class="w-full py-8 flex flex-row justify-center items-center">
+        <app-spinner></app-spinner>
+    </div>
+</ng-template>

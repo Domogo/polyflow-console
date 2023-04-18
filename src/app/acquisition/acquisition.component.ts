@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Chart, ChartConfiguration, LegendItem } from 'chart.js/auto';
 import { UserConfig } from 'gridjs';
-import { switchMap, tap } from 'rxjs';
+import { delay, map, switchMap, tap } from 'rxjs';
+import { ProjectUserStats } from '../shared/graphql/data-types';
 import { GQLClient } from '../shared/graphql/graphql-client';
 import { ProjectService } from '../shared/project.service';
 
@@ -29,49 +31,48 @@ export class AcquisitionComponent implements OnInit {
     '6M'
   ]
 
-  gridConfig: UserConfig = {
-    columns: [
-      { name: 'Campaigns', sort: false },
-      '+ Wallets', 
-      'Connects', 
-      'TXS', 
-      'TX(S) %', 
-      'TX(U) %', 
-      'WConn(S) %', 
-      'WConn(U) %'
-    ],
-    data: [
-      ['Total', '732', '2432', '232', '21%', '73%', '22%', '11%'],
-      ['TwitterAds-1', '550', '1700', '120', '37%','73%', '22%', '11%'],
-      ['DiscordReferals-1', '550', '1700', '120', '37%','73%', '22%', '11%'],
-      ['AdWords-3', '550', '1700', '120', '37%','73%', '22%', '11%'],
-      ['Organic-1', '550', '1700', '120', '37%','73%', '22%', '11%'],
-      ['Unattributed', '550', '1700', '120', '37%','73%', '22%', '11%'],
-    ],
-    sort: true,
-    className: {
-      container: 'pf-gridjs-container',
-      table: 'pf-gridjs-table',
-      th: 'pf-gridjs-th',
-      td: 'pf-gridjs-td',
-      header: 'pf-gridjs-header'
-    }
-  
-  }
-
-  handleCellClick(event: any) {
-
-  }
-
-  handleRowClick(event: any) {
-
-  }
+  trackingCodes = [
+    { name: "By Campaign", codes: ['twitter-referals', 'discord-link', 'adwords-paid']},
+    { name: "By Term", codes: ['nft-marketplace', 'nft-trader', 'nft-speculation']},
+    { name: "By Medium", codes: ['email', 'ads', 'social']},
+    { name: "By Source", codes: ['twitter', 'linkedin', 'discord']},
+    { name: "By Content", codes: []}
+  ]
 
   projectUserStats$ = this.projectService.currentProject$.pipe(
     switchMap(project => this.gqlClient.getProjectUserStats({
       projectId: project!.id
-    })),
-    tap(res => console.log(res))
+    }))
+  )
+
+  chart: any
+
+  chart$ = this.projectUserStats$.pipe(
+    tap(stats => {
+      this.chart = new Chart(document.getElementById("usageChart") as any, {
+        type: 'doughnut',
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'right'
+            }
+          }
+        },
+        data: {
+          labels: [
+            'Landed',
+            'Connected Wallets',
+            'Executed TX',
+            'Executed >1 TXs'
+          ],
+          datasets: [
+            { label: 'Number of users', data: [stats.totalUsers, stats.usersWithConnectedWallet, stats.usersWithExecutedTx, stats.usersWithMultipleExecutedTx]}
+          ]
+        }
+      })
+    })
   )
 
   getPercentageRatio(metric: number, total: number): string {
@@ -81,6 +82,7 @@ export class AcquisitionComponent implements OnInit {
   constructor(private gqlClient: GQLClient, private projectService: ProjectService) { }
 
   ngOnInit(): void {
+    this.chart$.subscribe()
   }
 
   setActiveItem(item: string) {

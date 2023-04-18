@@ -31,6 +31,14 @@ import { VerifyComponent } from './auth/verify/verify.component';
 import { ThankYouScreenComponent } from './thank-you-screen/thank-you-screen.component';
 import { TxDetailsComponent } from './analytics/txhistory/tx-details/tx-details.component';
 import { ErrorEventDetailsComponent } from './event-details/error-event-details/error-event-details.component';
+import { IconItemHolderComponent } from './shared/components/icon-item-holder/icon-item-holder.component';
+import { SpinnerComponent } from './shared/components/spinner/spinner.component';
+import { ProjectSettingsComponent } from './project-settings/project-settings.component';
+import { EventDetailsComponent } from './event-details/event-details.component';
+import { BackButtonComponent } from './back-button/back-button.component';
+import { EventErrorMessageHolderComponent } from './event-details/event-error-message-holder/event-error-message-holder.component';
+import { DropdownSelectorComponent } from './shared/components/dropdown-selector/dropdown-selector.component';
+import { EventsListComponent } from './shared/components/events-list/events-list.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +66,15 @@ import { ErrorEventDetailsComponent } from './event-details/error-event-details/
     VerifyComponent,
     ThankYouScreenComponent,
     TxDetailsComponent,
-    ErrorEventDetailsComponent
+    ErrorEventDetailsComponent,
+    IconItemHolderComponent,
+    SpinnerComponent,
+    ProjectSettingsComponent,
+    EventDetailsComponent,
+    BackButtonComponent,
+    EventErrorMessageHolderComponent,
+    DropdownSelectorComponent,
+    EventsListComponent
   ],
   imports: [
     BrowserModule,

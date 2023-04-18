@@ -1,3 +1,7 @@
 .hover-chars:hover {
     @apply bg-indigo-100
 }
+
+.scrollbar-none {
+    scrollbar-width: none;
+}

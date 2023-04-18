@@ -26,7 +26,8 @@
                     <tr class="border-t border-slate-100" *ngFor="let country of countries">
                         <td class="justify-center flex flex-col gap-y-2 py-2">
                             <div class="flex flex-row items-center gap-x-2">
-                                <img class="h-4 w-4 object-cover rounded-sm" src="../../../assets/flags/{{getFlag(country.name)}}.svg" alt="" srcset="">
+                                <img class="h-4 w-4 object-cover rounded-sm" 
+                                    src="https://www.countryflagicons.com/FLAT/64/{{getFlag(country.name)?.toUpperCase()}}.png" alt="" srcset="">
                                 {{country.name}}
                             </div>
                             <div *ngIf="totalConnections$ | async as totalConnections" 

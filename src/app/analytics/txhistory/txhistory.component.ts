@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { map, switchMap, tap } from 'rxjs';
+import { getIcon, IconType } from 'src/app/shared/graphics/icons';
+import { EventTracker, TxRequestEvent } from 'src/app/shared/graphql/data-types';
+import { GQLClient } from 'src/app/shared/graphql/graphql-client';
+import { ProjectService } from 'src/app/shared/project.service';
 
 @Component({
   selector: 'app-txhistory',
@@ -8,43 +13,38 @@ import { Component, OnInit } from '@angular/core';
 export class TxhistoryComponent implements OnInit {
 
   txHistory: TxHistoryModel[] = [
-    {
-      hash: '0x95F56ce6cbf39E91078f2C4EDe75962BF9087A58',
-      time: '02.07.2022 11:32:21',
-      wallet: '0x95F56ce6cbf39E91078f2C4EDe75962BF9087A58',
-      type: 'Coin',
-      country: 'Albania',
-      browser: 'Chrome'
-    },
-    {
-      hash: '0x95F56ce6cbf39E91078f2C4EDe75962BF9087A58',
-      time: '02.07.2022 11:32:21',
-      wallet: '0x95F56ce6cbf39E91078f2C4EDe75962BF9087A58',
-      type: 'Contract',
-      country: 'Switzerland',
-      browser: 'Firefox'
-    },
-    {
-      hash: '0x95F56ce6cbf39E91078f2C4EDe75962BF9087A58',
-      time: '02.07.2022 11:32:21',
-      wallet: '0x95F56ce6cbf39E91078f2C4EDe75962BF9087A58',
-      type: 'Coin',
-      country: 'Germany',
-      browser: 'Safari'
-    },
-    {
-      hash: '0x95F56ce6cbf39E91078f2C4EDe75962BF9087A58',
-      time: '02.07.2022 11:32:21',
-      wallet: '0x95F56ce6cbf39E91078f2C4EDe75962BF9087A58',
-      type: 'Contract',
-      country: 'Spain',
-      browser: 'Firefox'
-    }
+    
   ]
 
-  constructor() { }
+  txHistory$ = this.projectService.currentProject$.pipe(
+    switchMap(project => this.gqlClient.findEvents({
+      projectId: project!.id,
+      filter: {
+        tracker: {
+          eventTracker: EventTracker.TX_REQUEST
+        }
+      }
+    })),
+    map(events => events.map(event => event as TxRequestEvent)),
+    map(events => events.map(event => { 
+        return {...event, 
+          tx: {...event.tx, gasPrice: this.gasPriceToGwei(event.tx.gasPrice) } 
+        } 
+      }).map(event => { return {...event, createdAt: new Date(event.createdAt)}})
+    )
+  )
+
+  _getIcon(type: IconType, query: string): string | undefined {
+    return getIcon(type, query)
+  }
+
+  constructor(private gqlClient: GQLClient, private projectService: ProjectService) { }
 
   ngOnInit(): void {
+  }
+
+  private gasPriceToGwei(gasPrice: string) {
+    return (parseInt(gasPrice) / 1000000000)
   }
 
 }

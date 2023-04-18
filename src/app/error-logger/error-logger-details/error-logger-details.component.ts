@@ -4,7 +4,7 @@ import { BehaviorSubject, map, switchMap, tap } from 'rxjs';
 import { GQLClient } from 'src/app/shared/graphql/graphql-client';
 import { ProjectService } from 'src/app/shared/project.service';
 import { ActivatedRoute } from '@angular/router';
-import { Event, ErrorEvent, WalletConnectedEvent, TxRequestEvent, UserLandedEvent, SessionsEventInfo, EventTracker } from '../../shared/graphql/data-types';
+import { Event, ErrorEvent, WalletConnectedEvent, TxRequestEvent, UserLandedEvent, SessionsEventInfo, EventTracker, EventFilter } from '../../shared/graphql/data-types';
 import { getNetwork, Network } from 'src/app/shared/networks';
 import { Location } from '@angular/common';
 
@@ -15,22 +15,11 @@ import { Location } from '@angular/common';
 })
 export class ErrorLoggerDetailsComponent implements OnInit {
 
-  events$ = this.projectService.currentProject$.pipe(
-    switchMap(project => {
-      return this.gqlClient.findEvents({
-        projectId: project!.id,
-        filter: {
-          tracker: {
-            sessionId: this.route.snapshot.params["id"]
-          }
-        }
-      })
-    }),
-    map(events => {
-      return events.map(event => { return {...event, createdAtParsed: new Date(event.createdAt)} })
-    }),
-    tap(res => console.log(res))
-  )
+  eventFilter: EventFilter = {
+    tracker: {
+      sessionId: this.route.snapshot.params["id"]
+    }
+  }
 
   eventTracker = {
     userLanded: "1",
