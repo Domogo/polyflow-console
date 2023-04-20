@@ -1,8 +1,8 @@
 <div class="w-full h-full text-xs">
 
 
-    <div class="max-w-7xl w-full bg-white rounded-lg p-6">
-        <div class="flex px-4 mb-2 items-center flex-row gap-x-2 text-indigo-700 uppercase font-semibold">
+    <div class="max-w-7xl w-full bg-white rounded-lg p-8">
+        <div class="flex mb-2 items-center flex-row gap-x-2 text-indigo-700 uppercase font-semibold">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
                 <path fill-rule="evenodd" d="M8.25 6.75a3.75 3.75 0 117.5 0 3.75 3.75 0 01-7.5 0zM15.75 9.75a3 3 0 116 0 3 3 0 01-6 0zM2.25 9.75a3 3 0 116 0 3 3 0 01-6 0zM6.31 15.117A6.745 6.745 0 0112 12a6.745 6.745 0 016.709 7.498.75.75 0 01-.372.568A12.696 12.696 0 0112 21.75c-2.305 0-4.47-.612-6.337-1.684a.75.75 0 01-.372-.568 6.787 6.787 0 011.019-4.38z" clip-rule="evenodd" />
                 <path d="M5.082 14.254a8.287 8.287 0 00-1.308 5.135 9.687 9.687 0 01-1.764-.44l-.115-.04a.563.563 0 01-.373-.487l-.01-.121a3.75 3.75 0 013.57-4.047zM20.226 19.389a8.287 8.287 0 00-1.308-5.135 3.75 3.75 0 013.57 4.047l-.01.121a.563.563 0 01-.373.486l-.115.04c-.567.2-1.156.349-1.764.441z" />
@@ -64,7 +64,7 @@
             </div>
             <div class="flex flex-row items-center w-full
             hover:bg-slate-50 cursor-pointer px-6
-             py-3 border-t border-slate-50" *ngFor="let session of sessions"
+             py-2 border-t border-slate-50" *ngFor="let session of sessions"
               [routerLink]="session.sessionId" [state]="session" 
               [class.bg-orange-50]="session.totalErrorEventCount !== 0"
               [class.border-t-2]="session.totalErrorEventCount !== 0"
@@ -81,7 +81,7 @@
                     {{session.devices.at(0)?.country}}
                 </div>
                 <div class="w-1/12 flex flex-row justify-center">
-                    <img class="h-4" [src]="getWalletIcon(session.devices.at(0)?.walletProvider)" alt="" srcset="">
+                    <app-icon-item-holder type="provider" [iconQuery]="session.devices.at(0)?.walletProvider"></app-icon-item-holder>
                 </div>
                 <div class="w-1/12 flex flex-row justify-center">
                     <img class="h-4 rounded-sm" [src]="getBrowserIcon(session.devices.at(0)?.browser)" alt="" srcset="">

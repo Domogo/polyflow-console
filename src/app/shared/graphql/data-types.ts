@@ -275,6 +275,22 @@ export interface ListSessionsQueryResult {
     listSessions: SessionsEventInfo[]
 }
 
+export interface ListUsersQueryResult {
+    listUsers: UserEventsInfo[]
+}
+
+export interface UserEventsInfo {
+    userId: string,
+    sessionIds: string[],
+    totalEventCount: number,
+    totalErrorEventCount: number,
+    walletAddresses: string[],
+    hasConnectedWallet: boolean,
+    hasExecutedTransaction: boolean,
+    devices: DeviceState[],
+    firstEventDateTime: string
+}
+
 export interface SessionsEventInfo {
     sessionId: string
     totalEventCount: string,

@@ -1,0 +1,104 @@
+<div  class="w-full bg-white text-xs rounded-lg shadow-sm p-8">
+
+    <app-filters></app-filters>
+
+    <div *ngIf="users$ | async as users; else spinner" class="w-full mt-8">
+        <div class="w-full px-4 flex mb-4 flex-row gap-x-2 uppercase text-[10px] font-semibold">
+            <div class="w-1/12">
+                Time of <br>
+                first event
+            </div>
+            <div class="w-1/12">
+                User <br> ID
+            </div>
+            
+            <div class="w-1/12 -ml-8 text-center">
+                User <br> Activity
+            </div>
+            <div class="w-1/12 pl-2 text-center">
+                Wallet Connected
+            </div>
+            <div class="w-1/12 text-center">
+                Signed <br> TX
+            </div>
+            <div class="w-1/12 pl-4">
+                Browser
+            </div>
+            <div class="w-1/12 pl-4">
+                Wallets
+            </div>
+            <div class="w-1/12 pl-4">
+                Countries
+            </div>
+            <div class="w-2/12 pl-8">
+                Addresses
+            </div>
+        </div>
+    
+        <div class="w-full px-4 hover:bg-slate-50 cursor-pointer text-slate-600 flex flex-row items-center gap-x-2 py-2 border-t border-slate-50" *ngFor="let user of users">
+            <div class="w-1/12 flex flex-col">
+                <div>{{user.firstEventDateTimeParsed.toLocaleTimeString()}}</div>
+                <div class="text-sm text-indigo-700 font-semibold">{{user.firstEventDateTimeParsed.toLocaleDateString()}}</div>
+            </div>
+            <div class="w-1/12">
+                {{user.userId | shorten}}
+            </div>
+            
+            <div class="w-1/12 text-center -ml-8">
+                {{user.totalEventCount}}
+            </div>
+            <div class="w-1/12 flex flex-row justify-center">
+                <svg *ngIf="user.hasConnectedWallet" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 text-indigo-600">
+                    <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clip-rule="evenodd" />
+                </svg>
+                <svg *ngIf="!user.hasConnectedWallet" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 text-slate-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path fill-rule="evenodd" d="M6.72 5.66l11.62 11.62A8.25 8.25 0 006.72 5.66zm10.56 12.68L5.66 6.72a8.25 8.25 0 0011.62 11.62zM5.105 5.106c3.807-3.808 9.98-3.808 13.788 0 3.808 3.807 3.808 9.98 0 13.788-3.807 3.808-9.98 3.808-13.788 0-3.808-3.807-3.808-9.98 0-13.788z" clip-rule="evenodd" />
+                      </svg>
+                      
+                </svg>
+                  
+            </div>
+            <div class="w-1/12 text-center flex flex-row justify-center">
+                <svg *ngIf="user.hasExecutedTransaction" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 text-indigo-600">
+                    <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clip-rule="evenodd" />
+                </svg>
+                <svg *ngIf="!user.hasExecutedTransaction" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 text-slate-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path fill-rule="evenodd" d="M6.72 5.66l11.62 11.62A8.25 8.25 0 006.72 5.66zm10.56 12.68L5.66 6.72a8.25 8.25 0 0011.62 11.62zM5.105 5.106c3.807-3.808 9.98-3.808 13.788 0 3.808 3.807 3.808 9.98 0 13.788-3.807 3.808-9.98 3.808-13.788 0-3.808-3.807-3.808-9.98 0-13.788z" clip-rule="evenodd" />
+                      </svg>                          
+                </svg>
+            </div>
+            <div class="w-1/12 pl-4 flex flex-row gap-x-1">
+                <span class="" *ngFor="let device of user.browsersUnique">
+                    <app-icon-item-holder type="browser" [iconQuery]="device"></app-icon-item-holder>
+                </span>
+            </div>
+            <div class="w-1/12 pl-4 flex flex-row gap-x-1">
+                <span class="" *ngFor="let device of user.providrsUnique">
+                    <app-icon-item-holder type="provider" [iconQuery]="device"></app-icon-item-holder>
+                </span>
+            </div>
+            <div class="w-1/12 flex flex-row flex-wrap gap-x-1 pl-4">
+                <span class="" *ngFor="let device of user.countriesUnique">
+                    <app-icon-item-holder type="country" [iconQuery]="device"></app-icon-item-holder>
+                </span>
+            </div>
+            <div class="w-3/12 overflow-x-scroll flex flex-row gap-x-2 pl-8 text-slate-700">
+                <span class="py-1 px-3 bg-indigo-50 rounded-md text-[10px] font-medium" *ngFor="let address of user.walletAddresses">
+                    {{address | shorten:4:4}}
+                </span>
+            </div>
+        </div>
+    </div>
+    
+    
+
+</div>
+
+<ng-template #spinner>
+    <div class="w-full flex flex-row justify-center py-8">
+        <app-spinner></app-spinner>
+
+    </div>
+</ng-template>

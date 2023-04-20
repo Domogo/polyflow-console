@@ -1,66 +1,77 @@
-<div class="p-8 bg-white rounded-lg shadow-sm">
+<div class="py-6 px-8 bg-white rounded-lg shadow-sm">
     
     <app-filters></app-filters>
 
-    <div *ngIf="txHistory$ | async as txHistory; else loading">
-        <div class="w-full px-4 flex flex-row uppercase text-xs font-semibold pb-4 mt-4">
+    <div class="px-4" *ngIf="txHistory$ | async as txHistory; else loading">
+        <div class="w-full flex flex-row uppercase text-xs font-semibold pb-2 mt-8">
+            <div class="w-1/12">
+                Date & <br> Time
+            </div>
             <div class="w-1/12">
                 Hash
             </div>
-            <div class="w-2/12">
-                Date & Time
+            <div class="w-3/12 flex flex-row">
+                <div class="w-10/12 pl-12">From</div>
+                <div class="w-1/2">To</div>
             </div>
-            <div class="w-2/12">
-                From
-            </div>
-            <div class="w-2/12">
-                To
-            </div>
-           
-            <div class="w-1/12">
+            <div class="w-1/12 pl-2">
                 Gas Price
             </div>
-            <div class="w-1/12">
+            <div class="w-1/12 pl-2">
                 Network
             </div>
-            <div class="w-1/12">
+            <div class="w-1/12 pl-4">
                 Block
             </div>
-            <div class="w-2/12">
+            <div class="w-2/12 pl-8">
                 Metadata
             </div>
 
         </div>
-        <div class="text-xs flex flex-row items-center py-4 transition-all
-         border-t border-slate-50 px-4" *ngFor="let item of txHistory; let i = index" >
-            <a target="_blank" href="https://mumbai.polygonscan.com/tx/{{item.tx.hash}}" class="w-1/12 text-indigo-700 underline cursor-pointer font-medium">
-                {{item.tx.hash ?? "" | shorten}}
+        <div class="text-xs flex flex-row items-center py-3 transition-all
+         border-t border-slate-50 " *ngFor="let item of txHistory; let i = index" >
+            <div class="w-1/12 flex flex-col text-slate-500 font-medium">
+                <div>{{item.createdAt.toLocaleTimeString()}}</div>
+                <div class="text-sm font-medium text-indigo-700">{{item.createdAt.toLocaleDateString()}}</div>
+            </div>
+            <a target="_blank" href="https://mumbai.polygonscan.com/tx/{{item.tx.hash}}" 
+                class="w-1/12 text-indigo-700 underline cursor-pointer font-medium">
+                {{item.tx.hash ?? "" | shorten:6:6}}
             </a>
-            <div class="w-2/12 flex flex-col text-slate-500 font-medium">
-                {{item.createdAt.toLocaleString()}}
+            <div class="w-3/12 flex flex-row">
+                <div class="pl-12 w-5/12 flex flex-row gap-x-3 cursor-pointer underline font-medium text-indigo-700">
+                    <div>{{item.tx.from | shorten:4:4 }}</div>
+                                    
+                </div>
+                <div class="w-3/12 pl-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 text-indigo-500 ml-4">
+                        <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm4.28 10.28a.75.75 0 000-1.06l-3-3a.75.75 0 10-1.06 1.06l1.72 1.72H8.25a.75.75 0 000 1.5h5.69l-1.72 1.72a.75.75 0 101.06 1.06l3-3z" clip-rule="evenodd" />
+                    </svg> 
+                </div>
+                 
+                <div class="w-4/12 cursor-pointer underline font-medium text-indigo-700">
+                    {{item.tx.to ?? "" | shorten:4:4 }}
+                </div>
             </div>
-            <div class="w-2/12 flex flex-row gap-x-2 cursor-pointer underline font-medium text-indigo-700">
-                <div>{{item.tx.from | shorten:8:8 }}</div>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 text-indigo-500 ml-4">
-                    <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm4.28 10.28a.75.75 0 000-1.06l-3-3a.75.75 0 10-1.06 1.06l1.72 1.72H8.25a.75.75 0 000 1.5h5.69l-1.72 1.72a.75.75 0 101.06 1.06l3-3z" clip-rule="evenodd" />
-                </svg>                  
+            <div class="w-1/12 pl-2">
+                {{item.tx.gasPrice.toFixed(1)}} Gwei
             </div>
-            <div class="w-2/12 cursor-pointer underline font-medium text-indigo-700">
-                {{item.tx.to ?? "" | shorten:8:8 }}
+            <div class="w-1/12 pl-2">
+                <app-icon-item-holder type="network" [showQuery]="true" [iconQuery]="item.txRequestNetwork.chainId.toString()"></app-icon-item-holder>
             </div>
-            <div class="w-1/12">
-                {{item.tx.gasPrice.toFixed(3)}} Gwei
-            </div>
-            <div class="w-1/12">
-                <app-icon-item-holder type="network" [iconQuery]="item.txRequestNetwork.chainId.toString()"></app-icon-item-holder>
-            </div>
-            <div class="w-1/12">
+            <div class="w-1/12 pl-4">
                 {{item.txRequestNetwork.blockHeight}}
             </div>
-            <div class="w-2/12 flex flex-row gap-x-2">
-                <app-icon-item-holder type="country" [iconQuery]="item.device.country"></app-icon-item-holder>
-                <app-icon-item-holder type="browser" [iconQuery]="item.device.browser"></app-icon-item-holder>
-                <app-icon-item-holder type="provider" [iconQuery]="item.device.walletProvider"></app-icon-item-holder>
+            <div class="w-3/12 flex flex-row pl-8">
+                <div class="w-1/3">
+                    <app-icon-item-holder [showQuery]="true" type="country" [iconQuery]="item.device.country"></app-icon-item-holder>
+                </div>
+                <div class="w-1/3">
+                    <app-icon-item-holder [showQuery]="true" type="browser" [iconQuery]="item.device.browser"></app-icon-item-holder>
+                </div>
+                <div class="w-1/3">
+                    <app-icon-item-holder [showQuery]="true" type="provider" [iconQuery]="item.device.walletProvider"></app-icon-item-holder>
+                </div>
             </div>
         </div>
     </div>

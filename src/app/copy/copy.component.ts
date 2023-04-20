@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-copy',
@@ -8,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class CopyComponent implements OnInit {
 
   checkActive = false
+  @Input() copyValue!: string
 
   constructor() { }
 
@@ -16,6 +17,7 @@ export class CopyComponent implements OnInit {
 
   copyClicked() {
     this.checkActive = true
+    navigator.clipboard.writeText(this.copyValue).then(_ => { })
     setTimeout(() => { this.checkActive = false }, 500)
   }
 

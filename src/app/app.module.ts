@@ -39,6 +39,7 @@ import { BackButtonComponent } from './back-button/back-button.component';
 import { EventErrorMessageHolderComponent } from './event-details/event-error-message-holder/event-error-message-holder.component';
 import { DropdownSelectorComponent } from './shared/components/dropdown-selector/dropdown-selector.component';
 import { EventsListComponent } from './shared/components/events-list/events-list.component';
+import { UsersComponent } from './users/users.component';
 
 @NgModule({
   declarations: [
@@ -74,7 +75,8 @@ import { EventsListComponent } from './shared/components/events-list/events-list
     BackButtonComponent,
     EventErrorMessageHolderComponent,
     DropdownSelectorComponent,
-    EventsListComponent
+    EventsListComponent,
+    UsersComponent
   ],
   imports: [
     BrowserModule,

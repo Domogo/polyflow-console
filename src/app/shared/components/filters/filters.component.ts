@@ -1,6 +1,6 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, ElementRef, EventEmitter, HostBinding, Input, OnChanges, OnInit, Output } from '@angular/core';
-import { TimePeriodVars } from '../../graphql/data-types';
+import { EventFilter, TimePeriodVars } from '../../graphql/data-types';
 
 @Component({
   selector: 'app-filters',
@@ -14,31 +14,25 @@ import { TimePeriodVars } from '../../graphql/data-types';
     ], {params: {startHeight: 0}})
   ])]
 })
-export class FiltersComponent implements OnInit, OnChanges {
-
-  @Input() trigger: any;
-
-  startHeight!: number;
-
-  @HostBinding('@grow') grow: any;
+export class FiltersComponent implements OnInit {
 
   filterList: FilterItem[] = [
   ]
 
   @Output() timePeriodFilter = new EventEmitter<TimePeriodVars>()
 
+  addFiltersOpened = false
+
   constructor(private element: ElementRef) { }
 
   ngOnInit(): void {
+    var vars: EventFilter = {
+
+    }
   }
 
-  ngOnChanges(){
-    this.startHeight = this.element.nativeElement.clientHeight;
-
-    this.grow = {
-      value: this.trigger,
-      params: {startHeight: this.startHeight}
-    };
+  toggleAddFilters() {
+    this.addFiltersOpened = !this.addFiltersOpened
   }
 
 }

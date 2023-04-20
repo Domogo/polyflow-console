@@ -1,8 +1,9 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { combineLatest, filter, map, switchMap } from 'rxjs';
+import { catchError, combineLatest, filter, map, switchMap } from 'rxjs';
 import { browserIcons, getCountryCodeFromName, walletProviderIcons } from '../shared/graphics/icons';
 import { GQLClient } from '../shared/graphql/graphql-client';
+import { ModalService } from '../shared/modal/modal.service';
 import { ProjectService } from '../shared/project.service';
 
 @Component({
@@ -45,10 +46,11 @@ export class ErrorLoggerComponent implements AfterViewInit {
             })
         })
       )
-    })
+    }),
+    catchError(err => this.modalService.displayError(err))
   )
 
-  constructor(private projectService: ProjectService, private gqlClient: GQLClient) { }
+  constructor(private projectService: ProjectService, private gqlClient: GQLClient, private modalService: ModalService) { }
 
   ngAfterViewInit(): void {
     this.hidePassive.setValue(false)
