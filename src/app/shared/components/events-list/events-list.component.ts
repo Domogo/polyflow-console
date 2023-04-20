@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { map, switchMap, tap } from 'rxjs';
-import { ErrorEvent, Event, EventFilter, TxRequestEvent, UserLandedEvent, WalletConnectedEvent } from '../../graphql/data-types';
+import { combineLatest, map, switchMap, tap } from 'rxjs';
+import { ErrorEvent, Event, EventFilter, EventTracker, TxRequestEvent, UserLandedEvent, WalletConnectedEvent } from '../../graphql/data-types';
 import { GQLClient } from '../../graphql/graphql-client';
 import { getNetwork } from '../../networks';
 import { ProjectService } from '../../project.service';
@@ -15,8 +16,14 @@ export class EventsListComponent implements OnInit {
 
   @Input() eventFilter!: EventFilter
 
-  events$ = this.projectService.currentProject$.pipe(
-    switchMap(project => {
+  eventTypeFilterForm = new FormGroup({
+    walletConnected: new FormControl(true, []),
+    userLanded: new FormControl(true, []),
+    genericError: new FormControl(true, [])
+  })
+
+  events$ = combineLatest([this.eventTypeFilterForm.valueChanges, this.projectService.currentProject$]).pipe(
+    switchMap(([filter, project]) => {
       return this.gqlClient.findEvents({
         projectId: project!.id,
         filter: this.eventFilter
@@ -24,12 +31,29 @@ export class EventsListComponent implements OnInit {
     }),
     map(events => {
       return events.map(event => { return {...event, createdAtParsed: new Date(event.createdAt)} })
+        .filter(event => {
+          const tracker = event.tracker.eventTracker
+          const controls = this.eventTypeFilterForm.controls
+          if(controls.userLanded.value) { if(tracker === EventTracker.USER_LANDED) { return true } }
+          if(controls.genericError.value) { if(tracker === EventTracker.GENERIC_ERROR) { return true } }
+          if(controls.walletConnected.value) { if(tracker === EventTracker.WALLET_CONNECT) { return true} }
+          return false
+        })
     })
   )
 
   constructor(private projectService: ProjectService, private gqlClient: GQLClient, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+
+    const controls = this.eventTypeFilterForm.controls
+    setTimeout(() => {
+      controls.walletConnected.setValue(true)
+      controls.genericError.setValue(true)
+      controls.userLanded.setValue(true)
+    }, 200);
+    
+
   }
 
   castToErrorEvent(event: Event): ErrorEvent {

@@ -31,7 +31,7 @@
             </div>
         </div>
         <div *ngIf="sessions$ | async as sessions; else loading" class="flex flex-col w-full overflow-hidden">
-            <div class="flex flex-row text-[10px] py-4 font-semibold uppercase px-6">
+            <div class="flex flex-row text-xs py-4 font-semibold uppercase px-6">
                 
                 <div class="w-1/12">
                     Session started
@@ -52,11 +52,11 @@
                     Wallet Connected
                 </div>
                 <div class="w-1/12 text-center">
-                    Signed Transaction
+                    Signed <br> Tx
                 </div>
 
                 <div class="w-3/12 flex flex-row pl-8">
-                    Wallets Used During Session
+                    Wallets Used <br> During Session
                 </div>
                 <div class="w-2/12 pl-4">
                     Notes

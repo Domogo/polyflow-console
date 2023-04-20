@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { map, switchMap } from 'rxjs';
+import { EventFilter } from '../shared/graphql/data-types';
 import { GQLClient } from '../shared/graphql/graphql-client';
 import { ProjectService } from '../shared/project.service';
 

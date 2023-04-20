@@ -1,14 +1,42 @@
 <div class="w-full bg-white p-8 rounded-lg shadow-sm text-xs">
 
     <div *ngIf="events$ | async as events">
+
+
         <div class="flex flex-row text-indigo-700 gap-x-2 items-center uppercase font-semibold text-xs mb-6">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
                 stroke="currentColor" class="w-4 h-4">
                 <path stroke-linecap="round" stroke-linejoin="round"
                     d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
             </svg>
-            <div>Session event history</div>
+            <div>Event history</div>
         </div>
+
+        <div class="uppercase font-semibold flex flex-col">
+            <form [formGroup]="eventTypeFilterForm" class="flex flex-row gap-x-8 mt-2">
+                <div class="flex flex-row items-center gap-x-2 uppercase">
+                    <input formControlName="walletConnected" type="checkbox">
+                    <div>
+                        Wallet Connected
+                    </div>
+                </div>
+                <div class="flex flex-row items-center gap-x-2 uppercase">
+                    <input formControlName="userLanded" type="checkbox">
+                    <div>
+                        User Landed
+                    </div>
+                </div>
+                <div class="flex flex-row items-center gap-x-2 uppercase">
+                    <input formControlName="genericError" type="checkbox">
+                    <div>
+                        Generic Error
+                    </div>
+                </div>
+            </form>
+        </div>
+        <hr class="my-3 border-slate-100">
+
+        
         <div class="flex px-4 mb-2 text-xs flex-row uppercase font-semibold pb-2">
             <div class="w-1/12">
                 Time

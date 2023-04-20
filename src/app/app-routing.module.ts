@@ -15,6 +15,7 @@ import { ErrorLoggerComponent } from './error-logger/error-logger.component';
 import { ErrorEventDetailsComponent } from './event-details/error-event-details/error-event-details.component';
 import { EventDetailsComponent } from './event-details/event-details.component';
 import { ProjectSettingsComponent } from './project-settings/project-settings.component';
+import { UserDetailsComponent } from './users/user-details/user-details.component';
 import { UsersComponent } from './users/users.component';
 
 const consoleRoutes: Routes = [
@@ -24,6 +25,7 @@ const consoleRoutes: Routes = [
   { path: 'tx-details', component: TxDetailsComponent},
   { path: 'sessions', component: ErrorLoggerComponent },
   { path: 'users', component: UsersComponent },
+  { path: 'users/:id', component: UserDetailsComponent},
   { path: 'event-details/:id', component: EventDetailsComponent },
   { path: 'sessions/:id', component: ErrorLoggerDetailsComponent },
   { path: 'config', component: ConfigComponent},

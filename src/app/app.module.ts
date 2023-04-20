@@ -40,6 +40,7 @@ import { EventErrorMessageHolderComponent } from './event-details/event-error-me
 import { DropdownSelectorComponent } from './shared/components/dropdown-selector/dropdown-selector.component';
 import { EventsListComponent } from './shared/components/events-list/events-list.component';
 import { UsersComponent } from './users/users.component';
+import { UserDetailsComponent } from './users/user-details/user-details.component';
 
 @NgModule({
   declarations: [
@@ -76,7 +77,8 @@ import { UsersComponent } from './users/users.component';
     EventErrorMessageHolderComponent,
     DropdownSelectorComponent,
     EventsListComponent,
-    UsersComponent
+    UsersComponent,
+    UserDetailsComponent
   ],
   imports: [
     BrowserModule,
