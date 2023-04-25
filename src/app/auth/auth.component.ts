@@ -35,6 +35,7 @@ export class AuthComponent {
   constructor(private authService: AuthService,
     private route: ActivatedRoute,
     private projectService: ProjectService,
+    private modalService: ModalService,
     private router: Router) { }
 
   logInClicked(event: Event) {
@@ -62,12 +63,16 @@ export class AuthComponent {
     const controls = this.authForm.controls
     this.projectService.refreshCurrentProject(undefined)
     if(controls.confirmpassword.value !== controls.password.value) {
-      alert("pwds no matchy matchy")
+      this.modalService.openModal({
+        title: "Mismatch",
+        message: "Passwords don't match",
+        type: "error"
+      })
       return
     }
     this.authService.signUp(controls.email.value!, controls.password.value!).pipe(
       buttonLoadingSpinner(event),
-      catchError(err => { this.errorMessageSub.next(err.error.message); alert(err); return throwError(err) })
+      catchError(err => this.modalService.displayError(err))
     ).subscribe(res => {
       res ? this.router.navigate(['console/analytics']) : 
       this.router.navigate(

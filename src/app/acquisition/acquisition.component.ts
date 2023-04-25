@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Chart, ChartConfiguration, LegendItem } from 'chart.js/auto';
 import { UserConfig } from 'gridjs';
-import { delay, map, switchMap, tap } from 'rxjs';
-import { ProjectUserStats } from '../shared/graphql/data-types';
+import { BehaviorSubject, combineLatest, delay, map, switchMap, tap } from 'rxjs';
+import { EventTrackerModelField, ProjectUserStats } from '../shared/graphql/data-types';
 import { GQLClient } from '../shared/graphql/graphql-client';
 import { ProjectService } from '../shared/project.service';
 
@@ -13,67 +13,72 @@ import { ProjectService } from '../shared/project.service';
 })
 export class AcquisitionComponent implements OnInit {
 
-  items = [
-    'Campaigns',
-    'Sources',
-    'Mediums',
-    'Contents',
-    'Terms'
-  ]
-  activeItem = 'Campaign'
-
-  shorthandPeriods = [
-    'Today',
-    'Yesterday',
-    'Week',
-    'Month',
-    '90D',
-    '6M'
-  ]
-
-  trackingCodes = [
-    { name: "By Campaign", codes: ['twitter-referals', 'discord-link', 'adwords-paid']},
-    { name: "By Term", codes: ['nft-marketplace', 'nft-trader', 'nft-speculation']},
-    { name: "By Medium", codes: ['email', 'ads', 'social']},
-    { name: "By Source", codes: ['twitter', 'linkedin', 'discord']},
-    { name: "By Content", codes: []}
-  ]
-
   projectUserStats$ = this.projectService.currentProject$.pipe(
     switchMap(project => this.gqlClient.getProjectUserStats({
       projectId: project!.id
     }))
   )
 
+  eventTrackerSub = new BehaviorSubject(EventTrackerModelField.UTM_CAMPAIGN)
+
+  acquisitions$ = combineLatest([this.projectService.currentProject$, this.eventTrackerSub]).pipe(
+    switchMap(([project, eventTracker]) => {
+      return this.gqlClient.getUserWalletAndTransactionStats({
+        projectId: project!.id,
+        field: eventTracker
+      })
+    })
+  )
+
   chart: any
 
   chart$ = this.projectUserStats$.pipe(
     tap(stats => {
-      this.chart = new Chart(document.getElementById("usageChart") as any, {
+      this.chart = new Chart(document.getElementById('usageChart') as any, {
         type: 'doughnut',
+        data: {
+          labels: ['TOTAL USERS', 'CONNECTED WALLET', 'EXECUTED TX', 'MULTIPLE TXS'],
+          datasets: [
+            { label: 'Users', data: [stats.totalUsers, stats.usersWithConnectedWallet, stats.usersWithExecutedTx, stats.usersWithMultipleExecutedTx] }
+          ]
+        },
         options: {
-          responsive: true,
-          maintainAspectRatio: false,
           plugins: {
             legend: {
-              position: 'right'
+              position: 'right',
+              labels: {
+                color: '#4338ca',
+                font: {
+                  weight: '600',
+                  family: 'Montserrat'
+                }
+              }
             }
-          }
+          }, 
+          responsive: true,
+          maintainAspectRatio: false
         },
-        data: {
-          labels: [
-            'Landed',
-            'Connected Wallets',
-            'Executed TX',
-            'Executed >1 TXs'
-          ],
-          datasets: [
-            { label: 'Number of users', data: [stats.totalUsers, stats.usersWithConnectedWallet, stats.usersWithExecutedTx, stats.usersWithMultipleExecutedTx]}
-          ]
-        }
       })
     })
   )
+
+  attributionDimensionSub = new BehaviorSubject<AttributionDimension>('campaign')
+  attributionDimension$ = this.attributionDimensionSub.asObservable()
+
+  setAttributionDimension(dimension: AttributionDimension) {
+    this.attributionDimensionSub.next(dimension)
+   
+    var tracker: EventTrackerModelField
+    switch(dimension) {
+      case 'campaign': tracker = EventTrackerModelField.UTM_CAMPAIGN; break;
+      case 'source': tracker = EventTrackerModelField.UTM_SOURCE; break;
+      case 'content': tracker = EventTrackerModelField.UTM_CONTENT; break;
+      case 'medium': tracker = EventTrackerModelField.UTM_MEDIUM; break;
+      case 'term': tracker = EventTrackerModelField.UTM_TERM; break;
+    }
+    
+    this.eventTrackerSub.next(tracker)
+  }
 
   getPercentageRatio(metric: number, total: number): string {
     return (metric / total * 100).toFixed(2)
@@ -85,8 +90,6 @@ export class AcquisitionComponent implements OnInit {
     this.chart$.subscribe()
   }
 
-  setActiveItem(item: string) {
-    this.activeItem = item
-  }
-
 }
+
+type AttributionDimension = 'campaign' | 'source' | 'content' | 'medium' | 'term'

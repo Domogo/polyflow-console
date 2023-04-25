@@ -17,7 +17,7 @@ export class ErrorLoggerComponent implements AfterViewInit {
   onlyErrors = new FormControl(false, [])
   walletSearch = new FormControl('', [])
 
-  sessions$ = combineLatest([this.hidePassive.valueChanges, 
+sessions$ = combineLatest([this.hidePassive.valueChanges, 
     this.onlyErrors.valueChanges, 
     this.walletSearch.valueChanges,
     this.projectService.currentProject$])

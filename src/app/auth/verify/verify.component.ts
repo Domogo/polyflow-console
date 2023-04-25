@@ -27,6 +27,7 @@ export class VerifyComponent {
       })
     ).subscribe(res => {
       this.success = true
+      console.log("Verify result: ", res)
     })
   }
 

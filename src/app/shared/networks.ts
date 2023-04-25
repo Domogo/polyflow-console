@@ -10,6 +10,8 @@ export function getNetwork(chainID: number): Network | undefined {
         return { name: 'Polygon Mumbai', shortName: 'matic' }
     } else if(chainID === 5) {
         return { name: 'Goerli', shortName: 'geth' }
+    } else if(chainID === 137) {
+        return { name: 'Polygon', shortName: 'matic' }
     }
     return undefined
 }

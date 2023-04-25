@@ -9,7 +9,9 @@ export const browserIcons: Map<string, string> = new Map([
     ['Firefox', 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Firefox_logo%2C_2019.svg/154px-Firefox_logo%2C_2019.svg.png?20221020111440'],
     ['Mobile Safari', 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Safari_browser_logo.svg/2057px-Safari_browser_logo.svg.png'],
     ['Safari', 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Safari_browser_logo.svg/2057px-Safari_browser_logo.svg.png'],
-    ['Chrome Mobile', 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Google_Chrome_icon_%28February_2022%29.svg/2048px-Google_Chrome_icon_%28February_2022%29.svg.png']
+    ['Chrome Mobile', 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Google_Chrome_icon_%28February_2022%29.svg/2048px-Google_Chrome_icon_%28February_2022%29.svg.png'],
+    ['Chrome Headless', 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Google_Chrome_icon_%28February_2022%29.svg/2048px-Google_Chrome_icon_%28February_2022%29.svg.png'],
+    ['Brave', 'https://ih1.redbubble.net/image.980514513.7568/flat,128x128,075,t.u1.jpg']
 ])
 
 export const walletProviderIcons: Map<string, string> = new Map([
@@ -23,7 +25,8 @@ export const walletProviderIcons: Map<string, string> = new Map([
 export const networkIcons: Map<string, string> = new Map([
   ["80001", 'https://icons.llamao.fi/icons/chains/rsz_polygon.jpg'],
   ["1", 'https://icons.llamao.fi/icons/chains/rsz_ethereum.jpg'],
-  ["5", 'https://icons.llamao.fi/icons/chains/rsz_ethereum.jpg']
+  ["5", 'https://icons.llamao.fi/icons/chains/rsz_ethereum.jpg'],
+  ["137", "https://icons.llamao.fi/icons/chains/rsz_polygon.jpg"]
 ])
 
 function generateLangMap () {
@@ -313,7 +316,8 @@ var isoCountries: CountryDict = {
   'EH' : 'Western Sahara',
   'YE' : 'Yemen',
   'ZM' : 'Zambia',
-  'ZW' : 'Zimbabwe'
+  'ZW' : 'Zimbabwe',
+  'UKN': 'Unknown'
 };
 
 function reverseCodes() {

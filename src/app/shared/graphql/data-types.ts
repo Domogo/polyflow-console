@@ -200,6 +200,26 @@ export interface EventFilterVars {
     filter?: EventFilter
 }
 
+export interface StatsVars {
+    field: EventTrackerModelField,
+    projectId: string,
+    from?: string,
+    to?: string,
+    filter?: EventFilter
+}
+
+export enum EventTrackerModelField {
+    EVENT_TRACKER = "EVENT_TRACKER",
+    SESSION_ID = "SESSION_ID",
+    UTM_SOURCE = "UTM_SOURCE",
+    UTM_MEDIUM = "UTM_MEDIUM",
+    UTM_CAMPAIGN = "UTM_CAMPAIGN",
+    UTM_CONTENT = "UTM_CONTENT",
+    UTM_TERM = "UTM_TERM",
+    ORIGIN = "ORIGIN",
+    PATH = "PATH"
+}
+
 export interface FindEventsQueryVars {
     from?: string,
     to?: string,
@@ -277,6 +297,22 @@ export interface ListSessionsQueryResult {
 
 export interface ListUsersQueryResult {
     listUsers: UserEventsInfo[]
+}
+
+export interface GetUserWalletAndTransactionStatsQueryResult {
+    getUserWalletAndTransactionStats: UsersWalletAndTransactionsInfo[]
+}
+
+
+export interface UsersWalletAndTransactionsInfo {
+    name: string,
+    totalUsers: number,
+    usersWithWallet: number,
+    usersWithConnectedWallet: number,
+    totalWalletConnections: number,
+    uniqueWalletConnections: number,
+    executedTransactions: number,
+    usersWithExecutedTx: number
 }
 
 export interface UserEventsInfo {

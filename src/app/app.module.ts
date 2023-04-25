@@ -41,6 +41,7 @@ import { DropdownSelectorComponent } from './shared/components/dropdown-selector
 import { EventsListComponent } from './shared/components/events-list/events-list.component';
 import { UsersComponent } from './users/users.component';
 import { UserDetailsComponent } from './users/user-details/user-details.component';
+import { TimespanChartComponent } from './shared/components/timespan-chart/timespan-chart.component';
 
 @NgModule({
   declarations: [
@@ -78,7 +79,8 @@ import { UserDetailsComponent } from './users/user-details/user-details.componen
     DropdownSelectorComponent,
     EventsListComponent,
     UsersComponent,
-    UserDetailsComponent
+    UserDetailsComponent,
+    TimespanChartComponent
   ],
   imports: [
     BrowserModule,

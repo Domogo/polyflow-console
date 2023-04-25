@@ -1,5 +1,5 @@
 .active-dimension-item {
-    @apply border-indigo-700 text-indigo-700
+    @apply !text-white !bg-indigo-700
 }
 
 
