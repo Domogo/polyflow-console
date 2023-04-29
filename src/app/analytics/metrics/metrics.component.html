@@ -1,6 +1,8 @@
 
 
-<div class="w-full grid grid-cols-2 gap-x-4">
+
+
+<div class="w-full grid grid-cols-3 gap-x-4 mt-4">
     <div class="w-full bg-white p-4 rounded-b-lg border-slate-100 rounded-t-lg mb-4">
         <div class="w-full  text-indigo-800 rounded-t-lg 
         px-4 py-3 text-xs uppercase font-semibold flex flex-row items-center gap-x-2">
@@ -18,18 +20,14 @@
                         <th class="uppercase font-semibold text-left py-3">Country <br> Name</th>
                         <th class="uppercase font-semibold text-left">Wallet <br> Connects</th>
                         <th class="uppercase font-semibold text-left">Unique <br> Wallets</th>
-                        <th class="uppercase font-semibold text-left">Total <br> Transactions</th>
+                        <th class="uppercase font-semibold text-left">Total <br> TXs</th>
                     </tr>
                 </thead>
     
                 <tbody *ngIf="countries.length !== 0">
                     <tr class="border-t border-slate-100" *ngFor="let country of countries">
-                        <td class="justify-center flex flex-col gap-y-2 py-2">
-                            <div class="flex flex-row items-center gap-x-2">
-                                <img class="h-4 w-4 object-cover rounded-sm" 
-                                    src="https://www.countryflagicons.com/FLAT/64/{{getFlag(country.name)?.toUpperCase()}}.png" alt="" srcset="">
-                                {{country.name}}
-                            </div>
+                        <td class="justify-center w-24 flex flex-col gap-y-2 py-2">
+                            <app-icon-item-holder type="country" [showQuery]="true" [iconQuery]="country.name"></app-icon-item-holder>
                             <div *ngIf="totalConnections$ | async as totalConnections" 
                             [style]="'width: ' + (country.totalInteractions / totalConnections) * 100 + '%'"
                             class="h-1 bg-indigo-400"></div>
@@ -72,7 +70,7 @@
                         <th class="uppercase font-semibold text-left py-3">Browser <br> Name</th>
                         <th class="uppercase font-semibold text-left">Wallet <br> Connects</th>
                         <th class="uppercase font-semibold text-left">Unique <br> Wallets</th>
-                        <th class="uppercase font-semibold text-left">Total <br> Transactions</th>
+                        <th class="uppercase font-semibold text-left">Total <br> TXs</th>
                     </tr>
                 </thead>
     
@@ -122,7 +120,7 @@
                         <th class="uppercase font-semibold text-left py-3">Wallet <br> Name</th>
                         <th class="uppercase font-semibold text-left">Wallet <br> Connects</th>
                         <th class="uppercase font-semibold text-left">Unique <br> Wallets</th>
-                        <th class="uppercase font-semibold text-left">Total <br> Transactions</th>
+                        <th class="uppercase font-semibold text-left">Total <br> TXs</th>
                     </tr>
                 </thead>
     
@@ -153,10 +151,13 @@
         </div>
        
     </div>
+</div>
 
-    <div class="w-full">
-        <app-timespan-chart chartTitle="Total connected wallets"></app-timespan-chart>
+<div class="grid grid-cols-2 gap-x-4">
+    <div *ngIf="wallets$ | async as wallets" class="w-full">
+        <app-timespan-chart [values]="wallets" chartTitle="Unique connected wallets"></app-timespan-chart>
     </div>
-
-
+    <div *ngIf="txs$ | async as txs" class="w-full">
+        <app-timespan-chart [values]="txs" chartTitle="Executed transactions"></app-timespan-chart>
+    </div>
 </div>

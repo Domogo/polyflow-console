@@ -6,6 +6,7 @@ import { TxDetailsComponent } from './analytics/txhistory/tx-details/tx-details.
 import { TxhistoryComponent } from './analytics/txhistory/txhistory.component';
 import { AuthGuardService } from './auth/auth-guard.service';
 import { AuthComponent } from './auth/auth.component';
+import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
 import { VerifyComponent } from './auth/verify/verify.component';
 import { ComponentsConfigComponent } from './components-config/components-config.component';
 import { ConfigComponent } from './config/config.component';
@@ -37,6 +38,7 @@ const consoleRoutes: Routes = [
   imports: [RouterModule.forRoot([
     {path: '', component: AuthComponent },
     {path: 'verify', component: VerifyComponent},
+    {path: 'forgot-password', component: ForgotPasswordComponent},
     { path: 'console', component: ConsoleHolderComponent, children: consoleRoutes, canActivate: [AuthGuardService] },
   ])],
   exports: [RouterModule]

@@ -13,6 +13,7 @@ export class VerifyComponent {
 
   query = this.route.snapshot.queryParams["token"]
   email = this.route.snapshot.queryParams["email"]
+  pricing = this.route.snapshot.queryParams["pricing"]
   
   success = false
 
@@ -27,7 +28,10 @@ export class VerifyComponent {
       })
     ).subscribe(res => {
       this.success = true
-      console.log("Verify result: ", res)
+      console.log(res)
+      this.verifyService.openPricing('pro').subscribe((res) => {
+        console.log(res)
+      })
     })
   }
 

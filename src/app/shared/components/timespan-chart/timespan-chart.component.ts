@@ -1,104 +1,99 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { Chart } from 'chart.js';
+import { IntTimespanValues } from '../../graphql/data-types';
 
 @Component({
   selector: 'app-timespan-chart',
   templateUrl: './timespan-chart.component.html',
   styleUrls: ['./timespan-chart.component.css']
 })
-export class TimespanChartComponent implements OnInit {
+export class TimespanChartComponent implements AfterViewInit {
 
   @Input() chartTitle!: string
 
+  @Input() values!: IntTimespanValues[]
+  chartID = crypto.randomUUID()
+
   constructor() { }
 
-  ngOnInit(): void {
+  ngAfterViewInit() {
 
-    const ctx: any = document.getElementById('chartHolder')
+    const ctx: any = document.getElementById(this.chartID)
 
     var gradient = ctx.getContext('2d').createLinearGradient(0,0,0,400)
-    gradient.addColorStop(0, 'rgba(129, 140, 248, 0.05)')
-    gradient.addColorStop(1, 'rgba(255,255,255,0.2)')
+    gradient.addColorStop(0, 'rgba(129, 140, 248, 0.03)')
+    gradient.addColorStop(1, 'rgba(255,255,255,0.1)')
 
     var gradient2 = ctx.getContext('2d').createLinearGradient(0,0,0,400)
-    gradient2.addColorStop(0, 'rgba(52, 211, 153, 0.05)')
-    gradient2.addColorStop(1, 'rgba(255,255,255,0.2)')
+    gradient2.addColorStop(0, 'rgba(52, 211, 153, 0.03)')
+    gradient2.addColorStop(1, 'rgba(255,255,255,0.1)')
 
     var gradient3 = ctx.getContext('2d').createLinearGradient(0,0,0,400)
-    gradient3.addColorStop(0, 'rgba(167, 139, 250,0.05)')
-    gradient3.addColorStop(1, 'rgba(255,255,255,0.2)')
+    gradient3.addColorStop(0, 'rgba(167, 139, 250,0.03)')
+    gradient3.addColorStop(1, 'rgba(255,255,255,0.1)')
 
-    const data = [37, 21, 22, 27, 45, 11, 23, 34, 39,11,27,12,15,17,21,23,32]
-    const data2 = data.map(x => x+(Math.random() * 30))
-    const data3 = data.map(x => x+(Math.random() * 30))
+
+    const labels = 
+      this.values.map(value => {
+        return  `${new Date(value.from).toLocaleDateString('en-GB', { day: 'numeric', month: 'numeric' })}`
+      })
+    const dataset = this.values.map(value => value.value)
 
     new Chart(ctx as any, {
       type: 'line',
       data: {
-        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', 'Mon', 'Tue', 'Wed'],
+        labels: labels,
         datasets: [
           { 
-            label: 'Firefox', 
-            data: data, 
+            label: this.chartTitle, 
+            data: dataset, 
             backgroundColor: gradient, 
             fill: true,
             borderColor: 'rgb(129, 140, 248)',
             cubicInterpolationMode: 'monotone',
-          },
-          { 
-            label: 'Brave', 
-            data: data2, 
-            backgroundColor: gradient2, 
-            fill: true,
-            borderColor: 'rgb(52, 211, 153)',
-            cubicInterpolationMode: 'monotone',
-          },
-          { 
-            label: 'Brave', 
-            data: data3, 
-            backgroundColor: gradient3, 
-            fill: true,
-            borderColor: 'rgba(167, 139, 250, 255)',
-            cubicInterpolationMode: 'monotone',
           }
+
         ]
       },
       options: {
         plugins: {
           legend: {
-            display: true,
+            display: false,
             labels: {
               color: '#9ca3af'
             }
           }
         },
         responsive: true,
-        elements: {
-          
-        },
         scales: {
           x: {
             grid: {
-              color: '#eef2ff'
+              color: '#f0f9ff'
             },
             beginAtZero: true,
             ticks: {
-              color: '#94a3b8'
+              color: '#94a3b8',
+              autoSkip: true,
+              maxTicksLimit: 10,
+              maxRotation: 0,
+              minRotation: 0
             }
           },
           y: {
             grid: {
-              color: '#eef2ff'
+              color: '#f0f9ff'
             },
             min: 0,
             ticks: {
-              maxTicksLimit: 5,
-              color: '#e0e7ff'
+              maxTicksLimit: 10,
+              color: '#94a3b8'
             }
           }
         }
       }
     })
+
+    return true
   }
 
 }

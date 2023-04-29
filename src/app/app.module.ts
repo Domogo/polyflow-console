@@ -42,6 +42,7 @@ import { EventsListComponent } from './shared/components/events-list/events-list
 import { UsersComponent } from './users/users.component';
 import { UserDetailsComponent } from './users/user-details/user-details.component';
 import { TimespanChartComponent } from './shared/components/timespan-chart/timespan-chart.component';
+import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
 
 @NgModule({
   declarations: [
@@ -80,7 +81,8 @@ import { TimespanChartComponent } from './shared/components/timespan-chart/times
     EventsListComponent,
     UsersComponent,
     UserDetailsComponent,
-    TimespanChartComponent
+    TimespanChartComponent,
+    ForgotPasswordComponent
   ],
   imports: [
     BrowserModule,

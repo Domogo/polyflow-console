@@ -53,8 +53,8 @@
                                                                          
                                 Connected to network
                             </div>
-                            <div class="!text-base text-slate-500 font-medium">
-                                <app-icon-item-holder color="slate-500"  size="sm" type="network" [iconQuery]="errorEvent.errorEventNetwork!.chainId.toString()" [showQuery]="true"></app-icon-item-holder>
+                            <div *ngIf="errorEvent.errorEventNetwork as network" class="!text-base text-slate-500 font-medium">
+                                <app-icon-item-holder color="slate-500"  size="sm" type="network" [iconQuery]="network.toString()" [showQuery]="true"></app-icon-item-holder>
                             </div>
                         </div>
                         <div class="flex flex-row items-center">
@@ -69,14 +69,14 @@
                                             
                                 Block Gas Price
                             </div>
-                            <div class="text-sm text-slate-500 font-medium">{{weiToGwei(errorEvent.errorEventNetwork!.gasPrice)}} Gwei</div>
+                            <div class="text-sm text-slate-500 font-medium">{{weiToGwei(errorEvent.errorEventNetwork?.gasPrice ?? "")}} Gwei</div>
                         </div>
                         <div class="flex flex-row items-center">
                             <div class="uppercase w-1/2 font-semibold flex flex-row gap-x-2 items-center">
                                    
                                 Gas Balance
                             </div>
-                            <div class="text-sm text-slate-500 font-medium">{{fromWei(errorEvent.errorEventWallet!.gasBalance)}}</div>
+                            <div *ngIf="errorEvent.errorEventWallet as wallet" class="text-sm text-slate-500 font-medium">{{fromWei(wallet.gasBalance)}}</div>
                         </div>
                         <div class="flex flex-row items-center">
                             <div class="uppercase w-1/2 font-semibold flex flex-row gap-x-2 items-center">  

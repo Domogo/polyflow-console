@@ -22,6 +22,7 @@ export class AuthComponent {
     password: new FormControl('', [Validators.minLength(8), Validators.required]),
     confirmpassword: new FormControl('', [Validators.minLength(8)])
   })
+  
   authType$: Observable<AuthType> = this.route.queryParams.pipe(
     map(params => {
       return params['signup'] ?
@@ -29,6 +30,11 @@ export class AuthComponent {
         'login'
     })
   )
+
+  pricing$ = this.route.queryParams.pipe(
+    map(params => params['pricing'])
+  )
+
   errorMessageSub = new BehaviorSubject<string | null>(null)
   errorMessage$ = this.errorMessageSub.asObservable()
 
@@ -78,7 +84,10 @@ export class AuthComponent {
       this.router.navigate(
         ['verify'], 
         { 
-          queryParams: { email: this.authForm.controls.email.value }
+          queryParams: { 
+            email: this.authForm.controls.email.value,
+            pricing: this.route.snapshot.queryParams['pricing']
+          }
         }
       )
     })

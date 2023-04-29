@@ -33,6 +33,10 @@ export class AuthService {
     return null
   }
 
+  setUser(user: AuthResponseModel) {
+    this._user = user
+  }
+
   isLoggedIn$ = this.apiToken$.pipe(map(token => token !== null))
 
 
@@ -65,6 +69,10 @@ export class AuthService {
     )
   }
 
+  createStripeSession() {
+
+  }
+
   static buildHeaders(options: HeaderOption[]) {
     const storedUser = localStorage.getItem(AuthService.USER_STORAGE_ID)
     if(!storedUser) { throw "Not logged in" }
@@ -80,6 +88,8 @@ export class AuthService {
     if(storedValue) { return (JSON.parse(storedValue) as AuthResponseModel) }
     return null
   }
+
+
 }
 
 export interface AuthResponseModel {

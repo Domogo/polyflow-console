@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Chart, ChartConfiguration, LegendItem } from 'chart.js/auto';
 import { UserConfig } from 'gridjs';
 import { BehaviorSubject, combineLatest, delay, map, switchMap, tap } from 'rxjs';
+import { fadeAnimation } from '../shared/animations/fade.animation';
 import { EventTrackerModelField, ProjectUserStats } from '../shared/graphql/data-types';
 import { GQLClient } from '../shared/graphql/graphql-client';
 import { ProjectService } from '../shared/project.service';
@@ -9,7 +10,8 @@ import { ProjectService } from '../shared/project.service';
 @Component({
   selector: 'app-acquisition',
   templateUrl: './acquisition.component.html',
-  styleUrls: ['./acquisition.component.css']
+  styleUrls: ['./acquisition.component.css'],
+  animations: [fadeAnimation]
 })
 export class AcquisitionComponent implements OnInit {
 
@@ -29,6 +31,27 @@ export class AcquisitionComponent implements OnInit {
       })
     })
   )
+
+  wallets$ = this.projectService.currentProject$.pipe(
+    switchMap(project => this.gqlClient.totalConnectedWallets({
+      projectId: project!.id,
+      filter: {
+        tracker: {
+          utmCampaign: 'paid-ads-2'
+        }
+      },
+      granularity: '1d',
+      from: new Date(new Date().setDate((new Date()).getDate() - 30)).toISOString(),
+      to: (new Date()).toISOString()
+    })),
+    tap(res => console.log(res))
+  )
+
+  isDimensionSelectorHidden = true
+
+  toggleDimensionSelector() {
+    this.isDimensionSelectorHidden = !this.isDimensionSelectorHidden
+  }
 
   chart: any
 
@@ -75,7 +98,11 @@ export class AcquisitionComponent implements OnInit {
       case 'content': tracker = EventTrackerModelField.UTM_CONTENT; break;
       case 'medium': tracker = EventTrackerModelField.UTM_MEDIUM; break;
       case 'term': tracker = EventTrackerModelField.UTM_TERM; break;
+      case 'path': tracker = EventTrackerModelField.PATH; break;
+      case 'origin': tracker = EventTrackerModelField.ORIGIN; break;
     }
+
+    this.isDimensionSelectorHidden = true
     
     this.eventTrackerSub.next(tracker)
   }
@@ -92,4 +119,11 @@ export class AcquisitionComponent implements OnInit {
 
 }
 
-type AttributionDimension = 'campaign' | 'source' | 'content' | 'medium' | 'term'
+type AttributionDimension = 
+        'campaign' 
+          | 'source' 
+          | 'content' 
+          | 'medium' 
+          | 'term' 
+          | 'path'
+          | 'origin'

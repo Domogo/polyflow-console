@@ -193,11 +193,13 @@ export interface TimePeriodVars {
     granularity?: string,
     projectId: string,
     filter?: EventFilter
+    pagination?: Pagination
 }
 
 export interface EventFilterVars {
     projectId: string,
     filter?: EventFilter
+    pagination?: Pagination
 }
 
 export interface StatsVars {
@@ -206,6 +208,7 @@ export interface StatsVars {
     from?: string,
     to?: string,
     filter?: EventFilter
+    pagination?: Pagination
 }
 
 export enum EventTrackerModelField {
@@ -301,6 +304,11 @@ export interface ListUsersQueryResult {
 
 export interface GetUserWalletAndTransactionStatsQueryResult {
     getUserWalletAndTransactionStats: UsersWalletAndTransactionsInfo[]
+}
+
+export interface Pagination {
+    limit: number,
+    offset: number
 }
 
 
