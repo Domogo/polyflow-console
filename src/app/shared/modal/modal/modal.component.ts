@@ -15,6 +15,8 @@ export class ModalComponent implements OnInit {
   @Input() title = ""
   @Input() message = ""
   @Input() type: 'error' | 'info' | 'success' = 'info'
+  @Input() onAfterClose?: () => void
+  @Input() closeButtonText?: string
 
   constructor(private modalService: ModalService) { }
 
@@ -22,6 +24,7 @@ export class ModalComponent implements OnInit {
   }
 
   closeModal() {
+    this.onAfterClose?.()
     this.modalService.closeModal()
   }
 

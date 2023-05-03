@@ -1,6 +1,7 @@
 import { animate, keyframes, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import { catchError } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 import { fadeAnimation, fadeNoExitAnimation } from '../shared/animations/fade.animation';
 import { ModalService } from '../shared/modal/modal.service';
@@ -43,7 +44,10 @@ export class ProjectSwitcherComponent implements OnInit {
   }
 
   createProjectClicked() {
-    this.projectService.createNewProject(this.projectNameForm.value!).subscribe(res => {
+    this.projectService.createNewProject(this.projectNameForm.value!).pipe(
+      catchError(err => this.modalService.displayError(err))
+    )
+    .subscribe(res => {
       this.projectService.refreshCurrentProject(res)
       this.widgetTogglerService.toggleProjectModal()
       this.projectCreationToggled = false

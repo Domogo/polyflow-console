@@ -1,5 +1,9 @@
 <router-outlet>
 
 <div [@fade] *ngIf="modalContent$ | async as modalContent">
-    <app-modal [title]="modalContent.title" [message]="modalContent.message" [type]="modalContent.type"></app-modal>
+    <app-modal [title]="modalContent.title" 
+        [message]="modalContent.message" 
+        [onAfterClose]="modalContent.action" 
+        [type]="modalContent.type"
+        [closeButtonText]="modalContent.closeButtonText"></app-modal>
 </div>
