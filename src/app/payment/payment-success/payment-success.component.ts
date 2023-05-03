@@ -11,7 +11,9 @@ import { PaymentsService } from '../payments.service';
 })
 export class PaymentSuccessComponent implements OnInit {
 
-  constructor(private paymentService: PaymentsService, private modalService: ModalService, private router: Router) { }
+  constructor(private paymentService: PaymentsService, 
+    private modalService: ModalService, 
+    private router: Router) { }
 
   ngOnInit(): void {
 

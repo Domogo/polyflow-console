@@ -1,4 +1,4 @@
-<div *ngIf="project$ | async as project" class="w-full grid grid-cols-2 gap-4">
+<div *ngIf="project$ | async as project" class="w-full grid grid-cols-1 gap-4">
     <div class="w-full bg-white rounded-lg shadow-sm p-6">
         <div class="uppercase text-indigo-800 font-semibold text-xs flex flex-row gap-x-2 items-center">
             <svg xmlns="http://www.w3.org/2000/svg" 
@@ -52,7 +52,7 @@
             <div class="mt-4 text-xs font-medium">
                 To start tracking your app data - copy this tracking code and paste it into the HTML header of your app.
             </div>
-            <div class="mt-2 p-4 bg-slate-100 font-medium rounded-lg font-mono text-xs flex flex-row gap-x-2">
+            <div class="mt-2 p-4 bg-slate-100 font-medium rounded-lg !font-mono text-xs flex flex-row gap-x-2">
                 {{generatePasteScript(project.apiKey)}}
     
                 <app-copy [copyValue]="generatePasteScript(project.apiKey)"></app-copy>

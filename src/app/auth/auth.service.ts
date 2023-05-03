@@ -44,6 +44,7 @@ export class AuthService {
     private modalService: ModalService) { }
 
   signUp(email: string, password: string): Observable<AuthResponseModel | null> {
+    this.logOut()
     return this.http.post<AuthResponseModel>(`${this.path}/register`, {
       email: email,
       password: password
@@ -59,6 +60,7 @@ export class AuthService {
   }
 
   logIn(email: string, password: string): Observable<AuthResponseModel | null> {
+    this.logOut()
     return this.http.post<AuthResponseModel>(`${this.path}/login`, {
       email: email,
       password: password
