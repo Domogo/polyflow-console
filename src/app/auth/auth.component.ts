@@ -50,8 +50,14 @@ export class AuthComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit(): void {
-    this.authService.user$.subscribe(res => {
-      if(res) {
+    this.authService.user$.subscribe(user => {
+      if(this.route.snapshot.queryParams['signup'] 
+        && this.route.snapshot.queryParams['pricing'] 
+        && this.route.snapshot.queryParams['existingUser']) {
+          this.router.navigate(['/verify'])
+          return
+      }
+      if(user) {
         this.router.navigate(['console/analytics'])
       }
     })

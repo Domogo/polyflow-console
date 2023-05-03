@@ -23,7 +23,7 @@ sessions$ = combineLatest([this.hidePassive.valueChanges,
     this.projectService.currentProject$])
   .pipe(
     switchMap(([hidePassive, onlyErrors, walletQuery, project]) => {
-      return this.gqlClient.listSessions({ projectId: project!.id }).pipe(
+      return this.gqlClient.listSessions({ projectId: project!.id, pagination: { limit: 200, offset: 0 } }).pipe(
         map(sessions => {
           return sessions
             .filter(session => {

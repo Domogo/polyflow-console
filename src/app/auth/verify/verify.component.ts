@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { catchError, of, throwError } from 'rxjs';
+import { catchError, of, tap, throwError } from 'rxjs';
 import { ModalService } from 'src/app/shared/modal/modal.service';
 import { buttonLoadingSpinner } from 'src/app/shared/operators/button-loading-spinner.operator';
 import { PRICING_HOLDER_KEY } from '../auth.component';
@@ -12,7 +12,7 @@ import { VerifyService } from './verify.service';
   templateUrl: './verify.component.html',
   styleUrls: ['./verify.component.css']
 })
-export class VerifyComponent {
+export class VerifyComponent implements OnInit {
 
   query = this.route.snapshot.queryParams["token"]
   email = this.route.snapshot.queryParams["email"]
@@ -27,7 +27,18 @@ export class VerifyComponent {
     private verifyService: VerifyService,
     private authService: AuthService) { }
 
-  verifyEmail(event: Event) {
+  ngOnInit(): void {
+    this.authService.user$.pipe(
+      tap(user => {
+        this.success = true
+      })
+    ).subscribe()
+    if(this.pricing && this.query) {
+      this.verifyEmail()
+    }
+  }
+
+  verifyEmail(event?: Event) {
     if(this.pricing) {
       this.verifyService.verifyEmail(this.query).pipe(
         buttonLoadingSpinner(event),
@@ -35,11 +46,16 @@ export class VerifyComponent {
       ).subscribe((res: AuthResponseModel) => {
         this.success = true
         this.authService.setUser(res)
-        this.verifyService.openPricing(this.pricing!).subscribe((res) => {
-          window.location.href = res
-        })
       })
     }
+  }
+
+  proceedToPaymentClicked(pricing: string, event?: Event) {
+    this.verifyService.openPricing(pricing).pipe(
+      buttonLoadingSpinner(event)
+    ).subscribe((res) => {
+      window.location.href = res
+    })
   }
 
   changePricingClicked(pricing: string) {

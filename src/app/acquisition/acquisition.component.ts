@@ -41,7 +41,7 @@ export class AcquisitionComponent implements OnInit {
         }
       },
       granularity: '1d',
-      from: new Date(new Date().setDate((new Date()).getDate() - 30)).toISOString(),
+      from: new Date(new Date().setDate((new Date()).getDate() - 60)).toISOString(),
       to: (new Date()).toISOString()
     })),
     tap(res => console.log(res))

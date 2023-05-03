@@ -28,7 +28,7 @@ export class ModalService {
         type: 'info',
         closeButtonText: 'Open Pricing',
         action: () => {
-          window.location.href = 'https://polyflow.dev/pricing'
+          window.location.href = `https://polyflow.dev/pricing?existingUser=true`
         }
       })
       return of()
