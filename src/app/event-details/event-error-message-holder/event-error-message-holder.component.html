@@ -2,7 +2,7 @@
     <div class="text-sm w-1/12 uppercase pl-4 font-semibold">   </div>
     <div class="text-sm w-full pl-8 font-medium bg-red-50 py-3 pr-4 rounded-lg text-red-600">
         <div class="flex flex-row">
-            <div class="w-full text-xs max-h-12 overflow-y-hidden">
+            <div class="w-full font-mono text-xs max-h-12 overflow-y-hidden">
                 {{event.errors.at(0)}}
             </div>
         </div>
@@ -36,9 +36,9 @@
               </svg>
               
         </div>
-        <div class="max-h-[30rem] overflow-y-scroll">
-            <div class="font-medium text-sm">{{event.errors.at(0)}}</div>
-            <div class="font-light mt-4">{{event.errors.at(1)}}</div>
+        <div class="max-h-[30rem] overflow-y-scroll font-mono">
+            <div class="font-medium text-sm font-mono">{{event.errors.at(0)}}</div>
+            <div class="font-light mt-4 font-mono">{{event.errors.at(1)}}</div>
         </div>
         <div class="cursor-pointer w-full flex-row justify-center mt-4 text-indigo-700 flex uppercase font-semibold gap-x-2 items-center">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -48,5 +48,4 @@
         </div>
         
     </div>
-
 </div>

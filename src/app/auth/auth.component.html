@@ -49,11 +49,13 @@
                 </div>
         </button>
 
-        <div class="w-full text-center text-slate-500 mt-4 text-sm">Don't have an account? Sign up <a class="underline hover:text-indigo-800 hover:font-medium" [routerLink]="['../']" [queryParams]="{ signup: true }">here</a> </div>
+        <div class="w-full text-center text-slate-500 mt-4 text-sm">Don't have an account?</div>
+
+        <a class="text-sm text-center w-full underline text-indigo-700 font-medium" href="https://polyflow.dev/pricing">Start your free trial</a>
 
     </form>
 
-    <form [@fadeNoExit] *ngIf="authType === 'signup'" [formGroup]="authForm" class="max-w-md w-full flex flex-col gap-y-2 rounded-lg p-6 shadow-sm bg-white">
+    <form [@fadeNoExit] *ngIf="(authType === 'signup') && (pricing$ | async)" [formGroup]="authForm" class="max-w-md w-full flex flex-col gap-y-2 rounded-lg p-6 shadow-sm bg-white">
         <div class="w-full flex flex-row justify-center">
             <img class="h-10" src="../../assets/logo.png" alt="" srcset="">
         </div>

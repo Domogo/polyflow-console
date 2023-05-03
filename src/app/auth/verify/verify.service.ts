@@ -31,9 +31,11 @@ export class VerifyService {
     }
 
     openPricing(tier: string) {
-        return this.http.post(`${this.path}/create-checkout-session`, {
-            lookup_key: tier
-        }, AuthService.buildHeaders(['jwt']))
+        return this.http.post<string>(`${this.path}/stripe/create-checkout-session?lookup_key=polyflow_${tier.toLowerCase()}`, {
+        }, {
+            headers: AuthService.buildHeaders(['jwt']).headers,
+            responseType: 'text' as any
+        })
     }
 
 }

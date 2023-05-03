@@ -15,6 +15,7 @@ import { ErrorLoggerDetailsComponent } from './error-logger/error-logger-details
 import { ErrorLoggerComponent } from './error-logger/error-logger.component';
 import { ErrorEventDetailsComponent } from './event-details/error-event-details/error-event-details.component';
 import { EventDetailsComponent } from './event-details/event-details.component';
+import { PaymentSuccessComponent } from './payment/payment-success/payment-success.component';
 import { ProjectSettingsComponent } from './project-settings/project-settings.component';
 import { UserDetailsComponent } from './users/user-details/user-details.component';
 import { UsersComponent } from './users/users.component';
@@ -32,6 +33,7 @@ const consoleRoutes: Routes = [
   { path: 'config', component: ConfigComponent},
   { path: 'acquisition', component: AcquisitionComponent },
   { path: 'project-settings', component: ProjectSettingsComponent }
+  
 ];
 
 @NgModule({
@@ -39,6 +41,7 @@ const consoleRoutes: Routes = [
     {path: '', component: AuthComponent },
     {path: 'verify', component: VerifyComponent},
     {path: 'forgot-password', component: ForgotPasswordComponent},
+    { path: 'payments/success', component: PaymentSuccessComponent },
     { path: 'console', component: ConsoleHolderComponent, children: consoleRoutes, canActivate: [AuthGuardService] },
   ])],
   exports: [RouterModule]

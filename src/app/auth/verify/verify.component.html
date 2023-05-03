@@ -1,4 +1,4 @@
-<div *ngIf="!success" class="w-screen h-screen flex flex-row justify-center bg-gradient-to-b from-indigo-50 to-white
+<div *ngIf="!success && pricing" class="w-screen h-screen flex flex-row justify-center bg-gradient-to-b from-indigo-50 to-white
  items-center bg-slate-50 text-slate-700">
     <div *ngIf="query" class="max-w-md w-full p-8 rounded-lg bg-white shadow-sm flex gap-y-4 flex-col items-center">
         <img class="h-8" src="../../../assets/logo.png" alt="" srcset="">
@@ -8,8 +8,11 @@
               </svg>
               
             <div>
-            Please verify your email 
+            Please verify your email
             </div>
+        </div>
+        <div class="text-xs py-3 bg-slate-50 w-full text-center uppercase rounded-lg font-medium">
+            You have selected the <span class="text-indigo-700 font-semibold">{{pricing}}</span> tier.
         </div>
         <input placeholder="Verification code" [value]="query" class="w-full text-xs font-medium uppercase py-3 px-4 border rounded-lg border-slate-100" type="text">
         <button (click)="verifyEmail($event)" class="text-xs mt-4 transition-all uppercase font-semibold flex flex-row gap-x-2 justify-center items-center
@@ -18,7 +21,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
               </svg>
               
-            <div>Confirm and start trial</div>
+            <div>Confirm and proceed to payment</div>
         </button>
     </div>
     <div *ngIf="email" class="bg-white max-w-md w-full p-8 rounded-lg flex flex-col gap-y-2 items-center">
@@ -34,6 +37,6 @@
     <div class="p-8 bg-white rounded-lg text-center text-sm max-w-md w-full flex flex-col items-center">
         <img class="h-8" src="../../../assets/logo.png" alt="" srcset="">
         <div class="mb-4 mt-4 font-semibold uppercase text-slate-700">Succesfully verified email.</div>
-        <div><button class="text-indigo-700 hover:font-semibold underline" routerLink="/">Log in</button> to use Polyflow</div> 
+        <div>Redirecting to payment checkout</div>
     </div>
 </div>

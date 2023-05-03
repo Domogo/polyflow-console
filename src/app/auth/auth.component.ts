@@ -32,7 +32,12 @@ export class AuthComponent {
   )
 
   pricing$ = this.route.queryParams.pipe(
-    map(params => params['pricing'])
+    map(params => params['pricing']),
+    tap(res => {
+      if(res) {
+        localStorage.setItem(PRICING_HOLDER_KEY, res)
+      }
+    })
   )
 
   errorMessageSub = new BehaviorSubject<string | null>(null)
@@ -96,3 +101,5 @@ export class AuthComponent {
 }
 
 type AuthType = 'signup' | 'login'
+
+export const PRICING_HOLDER_KEY = "PRICING_HOLDER_KEY"

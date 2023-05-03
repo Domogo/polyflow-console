@@ -98,4 +98,4 @@ export interface AuthResponseModel {
   email: string
 }
 
-export type HeaderOption = 'jwt'
+export type HeaderOption = 'jwt' | 'response-text'

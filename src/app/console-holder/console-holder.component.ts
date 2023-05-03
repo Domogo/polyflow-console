@@ -1,6 +1,7 @@
 import { animate, keyframes, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
-import { tap } from 'rxjs';
+import { map, tap } from 'rxjs';
+import { AuthService } from '../auth/auth.service';
 import { ProjectService } from '../shared/project.service';
 import { WidgetTogglerService } from '../widget-toggler-service';
 
@@ -10,6 +11,8 @@ import { WidgetTogglerService } from '../widget-toggler-service';
   styleUrls: ['./console-holder.component.css']
 })
 export class ConsoleHolderComponent implements OnInit {
+
+  projectID$ = this.projectService.currentProject$.pipe(map(project => project!.apiKey))
 
   currentProject$ = this.projectService.currentProject$.pipe(
     tap(project => {

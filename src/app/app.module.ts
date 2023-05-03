@@ -43,6 +43,7 @@ import { UsersComponent } from './users/users.component';
 import { UserDetailsComponent } from './users/user-details/user-details.component';
 import { TimespanChartComponent } from './shared/components/timespan-chart/timespan-chart.component';
 import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
+import { PaymentSuccessComponent } from './payment/payment-success/payment-success.component';
 
 @NgModule({
   declarations: [
@@ -82,7 +83,8 @@ import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.
     UsersComponent,
     UserDetailsComponent,
     TimespanChartComponent,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
+    PaymentSuccessComponent
   ],
   imports: [
     BrowserModule,
