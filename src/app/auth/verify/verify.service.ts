@@ -15,7 +15,7 @@ export class VerifyService {
     constructor(private http: HttpClient, private authService: AuthService) { } 
 
     verifyEmail(token: string) {
-        return this.http.post(`${this.path}/register/verify`, {
+        return this.http.post<AuthResponseModel>(`${this.path}/register/verify`, {
             token: token
         }).pipe(
             tap(res => {

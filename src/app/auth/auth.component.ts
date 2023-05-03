@@ -15,7 +15,7 @@ import { AuthResponseModel } from './auth.service'
   styleUrls: ['./auth.component.css'],
   animations: [fadeNoExitAnimation]
 })
-export class AuthComponent {
+export class AuthComponent implements OnInit {
 
   authForm = new FormGroup({
     email: new FormControl('', [Validators.email, Validators.required]),
@@ -48,6 +48,14 @@ export class AuthComponent {
     private projectService: ProjectService,
     private modalService: ModalService,
     private router: Router) { }
+
+  ngOnInit(): void {
+    this.authService.user$.subscribe(res => {
+      if(res) {
+        this.router.navigate(['console/analytics'])
+      }
+    })
+  }
 
   logInClicked(event: Event) {
     const controls = this.authForm.controls

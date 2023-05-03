@@ -67,7 +67,7 @@ export class ConfigComponent implements OnInit {
   }
 
   generatePasteScript(apiKey: string) {
-    return `<script src='https://sdk-staging.polyflow.dev/generate?api=${apiKey}' async></script>`
+    return `<script src='https://sdk.polyflow.dev/generate?api=${apiKey}' async></script>`
   }
 
 }
