@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { catchError } from 'rxjs';
+import { ModalService } from 'src/app/shared/modal/modal.service';
 import { PaymentsService } from '../payments.service';
 
 @Component({
@@ -8,11 +10,13 @@ import { PaymentsService } from '../payments.service';
 })
 export class PaymentSuccessComponent implements OnInit {
 
-  constructor(private paymentService: PaymentsService) { }
+  constructor(private paymentService: PaymentsService, private modalService: ModalService) { }
 
   ngOnInit(): void {
 
-    this.paymentService.openPortal().subscribe(res => {
+    this.paymentService.openPortal().pipe(
+      catchError(err => this.modalService.displayError(err))
+    ).subscribe(res => {
       window.location.href = res
     })
 

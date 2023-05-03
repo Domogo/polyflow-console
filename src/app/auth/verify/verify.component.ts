@@ -33,7 +33,10 @@ export class VerifyComponent {
         })
       })
     }
-    
+  }
+
+  changePricingClicked(pricing: string) {
+    this.pricing = pricing
   }
 
   resendVerificationEmail(event: Event) {

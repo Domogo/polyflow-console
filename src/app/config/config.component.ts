@@ -66,4 +66,8 @@ export class ConfigComponent implements OnInit {
     ).subscribe()
   }
 
+  generatePasteScript(apiKey: string) {
+    return `<script src='https://sdk-staging.polyflow.dev/generate?api=${apiKey}' async></script>`
+  }
+
 }
