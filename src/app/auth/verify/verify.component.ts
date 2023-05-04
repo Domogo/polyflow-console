@@ -30,7 +30,9 @@ export class VerifyComponent implements OnInit {
   ngOnInit(): void {
     this.authService.user$.pipe(
       tap(user => {
-        this.success = true
+        if(this.route.snapshot.queryParams['existingUser']) {
+          this.success = true
+        }
       })
     ).subscribe()
     if(this.pricing && this.query) {

@@ -54,7 +54,7 @@ export class AuthComponent implements OnInit {
       if(this.route.snapshot.queryParams['signup'] 
         && this.route.snapshot.queryParams['pricing'] 
         && this.route.snapshot.queryParams['existingUser']) {
-          this.router.navigate(['/verify'])
+          this.router.navigate(['/verify'], { queryParams: { existingUser: true }})
           return
       }
       if(user) {
