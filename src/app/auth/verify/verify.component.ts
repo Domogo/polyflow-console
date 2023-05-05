@@ -53,11 +53,24 @@ export class VerifyComponent implements OnInit {
   }
 
   proceedToPaymentClicked(pricing: string, event?: Event) {
+    const priceID = this.getPriceIDForPricing(pricing.toLowerCase())
     this.verifyService.openPricing(pricing).pipe(
-      buttonLoadingSpinner(event)
+      buttonLoadingSpinner(event),
+      catchError(err => this.modalService.displayError(err))
     ).subscribe((res) => {
       window.location.href = res
     })
+  }
+
+  getPriceIDForPricing(pricing: string) {
+    if(pricing === 'pro') {
+      return 'price_1N3LQ6KxKxZbxAZBTUnbDlLZ'
+    } else if(pricing === 'indie') {
+      return 'price_1N3LQaKxKxZbxAZBnitx6dJk'
+    } else if(pricing === 'business') {
+      return 'price_1N3LQsKxKxZbxAZBCX2axj2A'
+    }
+    return ''
   }
 
   changePricingClicked(pricing: string) {
