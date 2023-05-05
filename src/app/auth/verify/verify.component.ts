@@ -54,7 +54,7 @@ export class VerifyComponent implements OnInit {
 
   proceedToPaymentClicked(pricing: string, event?: Event) {
     const priceID = this.getPriceIDForPricing(pricing.toLowerCase())
-    this.verifyService.openPricing(pricing).pipe(
+    this.verifyService.openPricing(priceID).pipe(
       buttonLoadingSpinner(event),
       catchError(err => this.modalService.displayError(err))
     ).subscribe((res) => {
