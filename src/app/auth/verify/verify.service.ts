@@ -31,7 +31,7 @@ export class VerifyService {
     }
 
     openPricing(tier: string) {
-        return this.http.post<string>(`${this.path}/stripe/create-checkout-session?price_id=${tier.toLowerCase()}`, {
+        return this.http.post<string>(`${this.path}/stripe/create-checkout-session?price_id=${tier}`, {
         }, {
             headers: AuthService.buildHeaders(['jwt']).headers,
             responseType: 'text' as any
