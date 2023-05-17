@@ -154,10 +154,18 @@
 </div>
 
 <div class="grid grid-cols-2 gap-x-4">
-    <div *ngIf="wallets$ | async as wallets" class="w-full">
-        <app-timespan-chart [values]="wallets" chartTitle="Unique connected wallets"></app-timespan-chart>
+    <div *ngIf="wallets$ | async as wallets" class="w-full p-6 bg-white rounded-lg">
+        <div class="uppercase mb-4 text-xs font-semibold text-indigo-700">
+            Total connected unique wallets
+        </div>
+        <app-timespan-chart-filters></app-timespan-chart-filters>
+        <app-timespan-chart [datasets]="[{ label: 'Unique connected wallets', data: wallets$ }]"></app-timespan-chart>
     </div>
-    <div *ngIf="txs$ | async as txs" class="w-full">
-        <app-timespan-chart [values]="txs" chartTitle="Executed transactions"></app-timespan-chart>
+    <div *ngIf="txs$ | async as txs" class="w-full p-6 bg-white rounded-lg">
+        <div class="uppercase mb-4 text-xs font-semibold text-indigo-700">
+            Total transactions
+        </div>
+        <app-timespan-chart-filters></app-timespan-chart-filters>
+        <app-timespan-chart [datasets]="[{ label: 'Total transactions', data: txs$ }]"></app-timespan-chart>
     </div>
 </div>

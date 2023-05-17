@@ -19,7 +19,8 @@ export class EventsListComponent implements OnInit {
   eventTypeFilterForm = new FormGroup({
     walletConnected: new FormControl(true, []),
     userLanded: new FormControl(true, []),
-    genericError: new FormControl(true, [])
+    genericError: new FormControl(true, []),
+    txRequested: new FormControl(true, [])
   })
 
   events$ = combineLatest([this.eventTypeFilterForm.valueChanges, this.projectService.currentProject$]).pipe(
@@ -37,6 +38,7 @@ export class EventsListComponent implements OnInit {
           if(controls.userLanded.value) { if(tracker === EventTracker.USER_LANDED) { return true } }
           if(controls.genericError.value) { if(tracker === EventTracker.GENERIC_ERROR) { return true } }
           if(controls.walletConnected.value) { if(tracker === EventTracker.WALLET_CONNECT) { return true} }
+          if(controls.txRequested.value) { if(tracker === EventTracker.TX_REQUEST ) { return true } }
           return false
         })
     })
@@ -51,6 +53,7 @@ export class EventsListComponent implements OnInit {
       controls.walletConnected.setValue(true)
       controls.genericError.setValue(true)
       controls.userLanded.setValue(true)
+      controls.txRequested.setValue(true)
     }, 200);
     
 

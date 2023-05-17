@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Chart } from 'chart.js/auto';
 import { UserConfig } from 'gridjs';
-import { map, Observable, reduce, switchMap, tap } from 'rxjs';
+import { map, Observable, reduce, share, shareReplay, switchMap, tap } from 'rxjs';
 import { fadeAnimation } from 'src/app/shared/animations/fade.animation';
 import { browserIcons, countryIcons, getCountryCodeFromName, walletProviderIcons } from 'src/app/shared/graphics/icons';
 import { GQLClient } from 'src/app/shared/graphql/graphql-client';
@@ -30,7 +30,8 @@ export class MetricsComponent {
         }),
         map(countries => countries.sort((x,y) => { return y.totalInteractions - x.totalInteractions })),
       )
-    })
+    }),
+    shareReplay(1)
   )
   
   browser$ = this.projectService.currentProject$.pipe(
@@ -38,7 +39,8 @@ export class MetricsComponent {
       return this.gqlClient.listBrowsers({
         projectId: project!.id
       })
-    })
+    }),
+    shareReplay(1)
   )
 
   walletProviders$ = this.projectService.currentProject$.pipe(
@@ -46,7 +48,8 @@ export class MetricsComponent {
       return this.gqlClient.listWalletProviders({
         projectId: project!.id
       })
-    })
+    }),
+    shareReplay(1)
   )
   
   wallets$ = this.projectService.currentProject$.pipe(
@@ -55,7 +58,8 @@ export class MetricsComponent {
       granularity: '1d',
       from: new Date(new Date().setDate((new Date()).getDate() - 30)).toISOString(),
       to: (new Date()).toISOString()
-    }))
+    })),
+    shareReplay(1)
   )
 
   txs$ = this.projectService.currentProject$.pipe(
@@ -64,16 +68,18 @@ export class MetricsComponent {
       granularity: '1d',
       from: new Date(new Date().setDate((new Date()).getDate() - 30)).toISOString(),
       to: (new Date()).toISOString()
-    }))
+    })),
+    shareReplay(1)
   )
 
-
+    
   totalConnections$ = this.countries$.pipe(
     map(countries => {
       var sum = 0
       countries.forEach(country => { sum += (country.totalWalletConnections + country.executedTransactions + country.uniqueWalletConnections) })
       return sum
-    })
+    }),
+    shareReplay(1)
   )
 
   constructor(private projectService: ProjectService, private gqlClient: GQLClient) { }

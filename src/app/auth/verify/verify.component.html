@@ -43,8 +43,13 @@
     <div class="p-8 bg-white rounded-lg text-center text-sm max-w-md w-full flex flex-col items-center">
         <img class="h-8" src="../../../assets/logo.png" alt="" srcset="">
         <div class="mb-4 mt-4 font-semibold uppercase text-slate-700">Succesfully verified email.</div>
+
+        <div class="mt-4 mb-8 text-justify text-slate-600">
+            In order to start your free trial, you must provide Polyflow with your payment info. <br> <br>
+            You will not be billed anything during the trial & you can cancel your subscription anytime.
+        </div>
         <button class="py-3 font-semibold bg-indigo-700 text-white w-full rounded-lg text-xs uppercase"
             (click)="proceedToPaymentClicked(pricing, $event)" 
-            *ngIf="pricing">Proceed to Payment</button>
+            *ngIf="pricing">Continue</button>
     </div>
 </div>

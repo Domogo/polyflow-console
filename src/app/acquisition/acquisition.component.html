@@ -72,7 +72,7 @@
             <div class="max-h-72 overflow-y-scroll" *ngIf="acquisitions$ | async as acquisitions">
                 <div *ngFor="let acquisition of acquisitions" 
                     class="grid grid-cols-8 font-medium border-b border-indigo-100">
-                    <div class="font-medium !break-keep
+                    <div (click)="setDimension(acquisition.name)" class="font-medium !break-keep underline cursor-pointer hover:font-bold
                      overflow-x-scroll text-indigo-700 col-span-2 border-r border-slate-100 py-3 pl-4">
                         {{acquisition.name}}
                     </div>
@@ -109,25 +109,46 @@
     <div class="grid grid-cols-2 gap-x-4
     items-center rounded-lg font-normal uppercase">
         
-        <div class="p-6 bg-white flex flex-col gap-y-2 rounded-lg w-full h-96">
-            <div class="flex flex-row gap-x-2 uppercase font-semibold text-indigo-700">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.042 21.672L13.684 16.6m0 0l-2.51 2.225.569-9.47 5.227 7.917-3.286-.672zm-7.518-.267A8.25 8.25 0 1120.25 10.5M8.288 14.212A5.25 5.25 0 1117.25 10.5" />
-                  </svg>
-                <div>User Behavior</div>
-            </div>
-            <div class="rounded-lg h-64 mt-4">
-                <canvas id="usageChart" class="">
-                    Chaart
-                </canvas>
-            </div>
-            <div>
+        <div class="w-full bg-white p-6 rounded-lg shadow-sm">
+            
+            <div *ngIf="selectedDimension$ | async as dimension; else noDimension">
+                <div class="font-semibold mb-4 text-indigo-700">{{dimension}} total connected wallets</div>
+                <app-timespan-chart-filters></app-timespan-chart-filters>
+                <ng-container>
+                    <app-timespan-chart 
+                        chartTitle="Total connected wallets"
+                        [datasets]="[{ label: 'Total wallet connections', data: wallets$ }]"
+                        [legend]="false"
+                        [refreshTrigger]="wallets$"
+                        >
+                    </app-timespan-chart>
+                </ng-container>
                 
             </div>
-        </div>
-        <div class="w-full">
-            <app-timespan-chart *ngIf="wallets$ | async as wallets" [values]="wallets"></app-timespan-chart>
+            <ng-template #noDimension>
+                <div class="w-full text-center font-medium">
+                    No dimension selected. Click on an attribution dimension to see details.
+                </div>
+            </ng-template>
+            
 
+        </div>
+        
+        <div class="p-6 bg-white shadow-sm rounded-lg font-medium">
+            <div *ngIf="selectedDimension$ | async as dimension; else noDimension">
+                <div class="font-semibold mb-4 text-indigo-700">{{dimension}} total transactions</div>
+                <app-timespan-chart-filters></app-timespan-chart-filters>
+                <ng-container>
+                    <app-timespan-chart 
+                        chartTitle="Total transactions"
+                        [datasets]="[{ label: 'Total transactions', data: transactions$ }]"
+                        [legend]="false"
+                        [refreshTrigger]="transactions$"
+                        >
+                    </app-timespan-chart>
+                </ng-container>
+            </div>
+            
         </div>
 
     </div>

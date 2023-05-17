@@ -54,7 +54,7 @@
                                 Connected to network
                             </div>
                             <div *ngIf="errorEvent.errorEventNetwork as network" class="!text-base text-slate-500 font-medium">
-                                <app-icon-item-holder color="slate-500"  size="sm" type="network" [iconQuery]="network.toString()" [showQuery]="true"></app-icon-item-holder>
+                                <app-icon-item-holder color="slate-500"  size="sm" type="network" [iconQuery]="network.chainId.toString()" [showQuery]="true"></app-icon-item-holder>
                             </div>
                         </div>
                         <div class="flex flex-row items-center">

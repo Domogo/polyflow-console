@@ -1,6 +1,12 @@
-import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
-import { Chart } from 'chart.js';
+import { AfterViewInit, Component, INJECTOR, Input, OnInit } from '@angular/core';
+import { Chart } from 'chart.js/auto';
 import { IntTimespanValues } from '../../graphql/data-types';
+import { Observable, combineLatest, first, map, tap } from 'rxjs';
+
+type DatasetType = {
+  label: string,
+  data: Observable<IntTimespanValues[]>
+}
 
 @Component({
   selector: 'app-timespan-chart',
@@ -9,56 +15,69 @@ import { IntTimespanValues } from '../../graphql/data-types';
 })
 export class TimespanChartComponent implements AfterViewInit {
 
-  @Input() chartTitle!: string
-
-  @Input() values!: IntTimespanValues[]
+  @Input() legend = false
+  @Input() datasets!: DatasetType[]
+  @Input() refreshTrigger?: Observable<any>
+  
   chartID = crypto.randomUUID()
+
 
   constructor() { }
 
   ngAfterViewInit() {
+    combineLatest(this.datasets.map(set => set.data)).subscribe(data => {
+      this.setChart(data)
+    })
+  }
 
+  setChart(data: IntTimespanValues[][]) {
     const ctx: any = document.getElementById(this.chartID)
 
-    var gradient = ctx.getContext('2d').createLinearGradient(0,0,0,400)
-    gradient.addColorStop(0, 'rgba(129, 140, 248, 0.03)')
-    gradient.addColorStop(1, 'rgba(255,255,255,0.1)')
+    var that = this
+    function buildGradient(r: number, g: number, b: number) {
 
-    var gradient2 = ctx.getContext('2d').createLinearGradient(0,0,0,400)
-    gradient2.addColorStop(0, 'rgba(52, 211, 153, 0.03)')
-    gradient2.addColorStop(1, 'rgba(255,255,255,0.1)')
+      const ctx: any = document.getElementById(that.chartID)
 
-    var gradient3 = ctx.getContext('2d').createLinearGradient(0,0,0,400)
-    gradient3.addColorStop(0, 'rgba(167, 139, 250,0.03)')
-    gradient3.addColorStop(1, 'rgba(255,255,255,0.1)')
+      var gradient = ctx.getContext('2d').createLinearGradient(0,0,0,400)
+      gradient.addColorStop(0, `rgba(${r}, ${g}, ${b}, 0.03)`)
+      gradient.addColorStop(0, `rgba(255,255,255,0.1)`)
+
+      return { color: `rgba(${r}, ${g}, ${b}, 255)`, gradient: gradient }
+    }
+
+    const gradients = [
+      buildGradient(129, 140, 248),
+      buildGradient(52,211,153),
+      buildGradient(167, 139, 250),
+      buildGradient(192,132,252),
+      buildGradient(232,121,249)
+    ]
 
 
-    const labels = 
-      this.values.map(value => {
-        return  `${new Date(value.from).toLocaleDateString('en-GB', { day: 'numeric', month: 'numeric' })}`
-      })
-    const dataset = this.values.map(value => value.value)
+    const chartDatasets = data.map((dataset, index) => {
+      return {
+        label: this.datasets.at(index)?.label,
+        data: dataset.map(data => data.value),
+        backgroundColor: gradients.at(index)?.gradient,
+        fill: true,
+        borderColor: gradients.at(index)?.color,
+        cubicInterpolationMode: "monotone" as any
+      }
+    })
 
     new Chart(ctx as any, {
       type: 'line',
       data: {
-        labels: labels,
-        datasets: [
-          { 
-            label: this.chartTitle, 
-            data: dataset, 
-            backgroundColor: gradient, 
-            fill: true,
-            borderColor: 'rgb(129, 140, 248)',
-            cubicInterpolationMode: 'monotone',
-          }
-
-        ]
+        labels: data.at(0)?.map(item => 
+            { 
+              return (new Date(item.from)).toLocaleDateString('en', { month: 'short', day: '2-digit' }) 
+            }),
+        datasets: chartDatasets
       },
       options: {
         plugins: {
           legend: {
-            display: false,
+            display: this.legend,
             labels: {
               color: '#9ca3af'
             }

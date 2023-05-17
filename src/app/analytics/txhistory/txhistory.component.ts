@@ -31,6 +31,7 @@ export class TxhistoryComponent implements OnInit {
           tx: {...event.tx, gasPrice: this.gasPriceToGwei(event.tx.gasPrice) } 
         } 
       }).map(event => { return {...event, createdAt: new Date(event.createdAt)}})
+      .sort((a,b) => { return Math.abs(a.createdAt.getTime() - b.createdAt.getTime()) })
     )
   )
 
