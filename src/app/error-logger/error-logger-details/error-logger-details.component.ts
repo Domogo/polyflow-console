@@ -40,6 +40,23 @@ export class ErrorLoggerDetailsComponent implements OnInit {
     map(sessions => sessions.at(0))
   )
 
+  uniqueDeviceValues$ = this.session$.pipe(
+    map(session => session?.devices),
+    map(devices => {
+      const browsers = [... new Set(devices?.map(device => device.browser))]
+      const countries =[... new Set(devices?.map(device => device.country))]
+      const operatingsystems = [... new Set(devices?.map(device => device.os))]
+      const providers = [... new Set(devices?.map(device => device.walletProvider))]
+
+      return {
+        uniqueBrowsers: browsers,
+        uniqueCountries: countries,
+        uniqueOSs: operatingsystems,
+        uniqueProviders: providers
+      }
+    })
+  )
+
 
 
   castToErrorEvent(event: Event) {

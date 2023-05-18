@@ -44,6 +44,7 @@ import { UserDetailsComponent } from './users/user-details/user-details.componen
 import { TimespanChartComponent } from './shared/components/timespan-chart/timespan-chart.component';
 import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
 import { PaymentSuccessComponent } from './payment/payment-success/payment-success.component';
+import { TimespanChartFiltersComponent } from './shared/components/timespan-chart/timespan-chart-filters/timespan-chart-filters.component';
 
 @NgModule({
   declarations: [
@@ -84,7 +85,8 @@ import { PaymentSuccessComponent } from './payment/payment-success/payment-succe
     UserDetailsComponent,
     TimespanChartComponent,
     ForgotPasswordComponent,
-    PaymentSuccessComponent
+    PaymentSuccessComponent,
+    TimespanChartFiltersComponent
   ],
   imports: [
     BrowserModule,

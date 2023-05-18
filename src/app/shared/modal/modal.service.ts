@@ -23,10 +23,10 @@ export class ModalService {
     console.log(err)
     if(err.error.errorCode === 'NO_ACTIVE_SUBSCRIPTION') {
       this.modalSub.next({
-        title: 'No active subscription',
-        message: 'You must buy a subscription or start a free trial!',
+        title: 'Account not activated',
+        message: 'To start your free trial or continue using the app, you must provide Polyflow with your payment details.',
         type: 'info',
-        closeButtonText: 'Open Pricing',
+        closeButtonText: 'Continue',
         action: () => {
           window.location.href = `https://polyflow.dev/pricing?existingUser=true`
         }

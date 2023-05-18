@@ -15,12 +15,6 @@ import { ProjectService } from '../shared/project.service';
 })
 export class AcquisitionComponent implements OnInit {
 
-  projectUserStats$ = this.projectService.currentProject$.pipe(
-    switchMap(project => this.gqlClient.getProjectUserStats({
-      projectId: project!.id
-    }))
-  )
-
   eventTrackerSub = new BehaviorSubject(EventTrackerModelField.UTM_CAMPAIGN)
 
   acquisitions$ = combineLatest([this.projectService.currentProject$, this.eventTrackerSub]).pipe(
@@ -32,19 +26,42 @@ export class AcquisitionComponent implements OnInit {
     })
   )
 
-  wallets$ = this.projectService.currentProject$.pipe(
-    switchMap(project => this.gqlClient.totalConnectedWallets({
+  setDimension(name: string) {
+    if(this.attributionDimensionSub.value === 'campaign') {
+      this.selectedDimensionSub.next(name)
+    }
+  }
+
+  selectedDimensionSub = new BehaviorSubject<string | null>("")
+  selectedDimension$ = this.selectedDimensionSub.asObservable()
+
+  wallets$ = combineLatest([this.projectService.currentProject$, this.selectedDimension$]).pipe(
+    switchMap(([project, dimension]) => this.gqlClient.totalConnectedWallets({
       projectId: project!.id,
       filter: {
         tracker: {
-          utmCampaign: 'paid-ads-2'
+          utmCampaign: dimension ?? ""
         }
       },
       granularity: '1d',
-      from: new Date(new Date().setDate((new Date()).getDate() - 60)).toISOString(),
+      from: new Date(new Date().setDate((new Date()).getDate() - 30)).toISOString(),
       to: (new Date()).toISOString()
     })),
     tap(res => console.log(res))
+  )
+
+  transactions$ = combineLatest([this.projectService.currentProject$, this.selectedDimension$]).pipe(
+    switchMap(([project, dimension]) => this.gqlClient.totalTransactions({
+      projectId: project!.id,
+      filter: {
+        tracker: {
+          utmCampaign: dimension ?? ""
+        }
+      },
+      granularity: '1d',
+      from: new Date(new Date().setDate((new Date()).getDate() - 30)).toISOString(),
+      to: (new Date()).toISOString()
+    }))
   )
 
   isDimensionSelectorHidden = true
@@ -53,37 +70,36 @@ export class AcquisitionComponent implements OnInit {
     this.isDimensionSelectorHidden = !this.isDimensionSelectorHidden
   }
 
-  chart: any
 
-  chart$ = this.projectUserStats$.pipe(
-    tap(stats => {
-      this.chart = new Chart(document.getElementById('usageChart') as any, {
-        type: 'doughnut',
-        data: {
-          labels: ['TOTAL USERS', 'CONNECTED WALLET', 'EXECUTED TX', 'MULTIPLE TXS'],
-          datasets: [
-            { label: 'Users', data: [stats.totalUsers, stats.usersWithConnectedWallet, stats.usersWithExecutedTx, stats.usersWithMultipleExecutedTx] }
-          ]
-        },
-        options: {
-          plugins: {
-            legend: {
-              position: 'right',
-              labels: {
-                color: '#4338ca',
-                font: {
-                  weight: '600',
-                  family: 'Montserrat'
-                }
-              }
-            }
-          }, 
-          responsive: true,
-          maintainAspectRatio: false
-        },
-      })
-    })
-  )
+  // chart$ = this.projectUserStats$.pipe(
+  //   tap(stats => {
+  //     this.chart = new Chart(document.getElementById('usageChart') as any, {
+  //       type: 'doughnut',
+  //       data: {
+  //         labels: ['TOTAL USERS', 'CONNECTED WALLET', 'EXECUTED TX', 'MULTIPLE TXS'],
+  //         datasets: [
+  //           { label: 'Users', data: [stats.totalUsers, stats.usersWithConnectedWallet, stats.usersWithExecutedTx, stats.usersWithMultipleExecutedTx] }
+  //         ]
+  //       },
+  //       options: {
+  //         plugins: {
+  //           legend: {
+  //             position: 'right',
+  //             labels: {
+  //               color: '#4338ca',
+  //               font: {
+  //                 weight: '600',
+  //                 family: 'Montserrat'
+  //               }
+  //             }
+  //           }
+  //         }, 
+  //         responsive: true,
+  //         maintainAspectRatio: false
+  //       },
+  //     })
+  //   })
+  // )
 
   attributionDimensionSub = new BehaviorSubject<AttributionDimension>('campaign')
   attributionDimension$ = this.attributionDimensionSub.asObservable()
@@ -114,7 +130,7 @@ export class AcquisitionComponent implements OnInit {
   constructor(private gqlClient: GQLClient, private projectService: ProjectService) { }
 
   ngOnInit(): void {
-    this.chart$.subscribe()
+    // this.chart$.subscribe()
   }
 
 }

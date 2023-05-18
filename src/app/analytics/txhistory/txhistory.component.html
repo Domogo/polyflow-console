@@ -15,9 +15,9 @@
                 <div class="w-1/2">To</div>
             </div>
             <div class="w-1/12 pl-2">
-                Gas Price
+                Gas <br> Price
             </div>
-            <div class="w-1/12 pl-2">
+            <div class="w-2/12 pl-2">
                 Network
             </div>
             <div class="w-1/12 pl-4">
@@ -54,23 +54,23 @@
                 </div>
             </div>
             <div class="w-1/12 pl-2">
-                {{item.tx.gasPrice.toFixed(1)}} Gwei
+                <span class="text-sm font-semibold">{{item.tx.gasPrice.toFixed(1)}}</span>  <br> Gwei
             </div>
-            <div class="w-1/12 pl-2">
+            <div class="w-2/12 pl-2">
                 <app-icon-item-holder type="network" [showQuery]="true" [iconQuery]="item.txRequestNetwork.chainId.toString()"></app-icon-item-holder>
             </div>
             <div class="w-1/12 pl-4">
                 {{item.txRequestNetwork.blockHeight}}
             </div>
-            <div class="w-3/12 flex flex-row items-center pl-8">
-                <div class="w-1/3">
-                    <app-icon-item-holder [showQuery]="true" type="country" [iconQuery]="item.device.country"></app-icon-item-holder>
+            <div class="w-2/12 flex flex-row gap-x-3 items-center pl-8">
+                <div class="">
+                    <app-icon-item-holder [showQuery]="false" type="country" [iconQuery]="item.device.country"></app-icon-item-holder>
                 </div>
-                <div class="w-1/3">
-                    <app-icon-item-holder [showQuery]="true" type="browser" [iconQuery]="item.device.browser"></app-icon-item-holder>
+                <div class="">
+                    <app-icon-item-holder [showQuery]="false" type="browser" [iconQuery]="item.device.browser"></app-icon-item-holder>
                 </div>
-                <div class="w-1/3">
-                    <app-icon-item-holder [showQuery]="true" type="provider" [iconQuery]="item.device.walletProvider"></app-icon-item-holder>
+                <div class="">
+                    <app-icon-item-holder [showQuery]="false" type="provider" [iconQuery]="item.device.walletProvider"></app-icon-item-holder>
                 </div>
             </div>
         </div>
