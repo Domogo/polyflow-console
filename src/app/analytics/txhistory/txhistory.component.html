@@ -34,12 +34,12 @@
                 <div>{{item.createdAt.toLocaleTimeString()}}</div>
                 <div class="text-sm font-medium text-indigo-700">{{item.createdAt.toLocaleDateString()}}</div>
             </div>
-            <a target="_blank" href="https://mumbai.polygonscan.com/tx/{{item.tx.hash}}" 
-                class="w-1/12 text-indigo-700 underline cursor-pointer font-medium">
+            <a
+                class="w-1/12 text-indigo-700 font-medium">
                 {{item.tx.hash ?? "" | shorten:6:6}}
             </a>
             <div class="w-3/12 flex flex-row">
-                <div class="pl-12 w-5/12 flex flex-row gap-x-3 cursor-pointer underline font-medium text-indigo-700">
+                <div class="pl-12 w-5/12 flex flex-row gap-x-3 font-medium text-indigo-700">
                     <div>{{item.tx.from | shorten:4:4 }}</div>
                                     
                 </div>
@@ -49,7 +49,7 @@
                     </svg> 
                 </div>
                  
-                <div class="w-4/12 cursor-pointer underline font-medium text-indigo-700">
+                <div class="w-4/12 font-medium text-indigo-700">
                     {{item.tx.to ?? "" | shorten:4:4 }}
                 </div>
             </div>
