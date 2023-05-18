@@ -21,11 +21,13 @@ export class TimespanChartComponent implements AfterViewInit {
   
   chartID = crypto.randomUUID()
 
+  private chart?: Chart
 
   constructor() { }
 
   ngAfterViewInit() {
     combineLatest(this.datasets.map(set => set.data)).subscribe(data => {
+      this.chart?.destroy()
       this.setChart(data)
     })
   }
@@ -65,7 +67,7 @@ export class TimespanChartComponent implements AfterViewInit {
       }
     })
 
-    new Chart(ctx as any, {
+    this.chart = new Chart(ctx as any, {
       type: 'line',
       data: {
         labels: data.at(0)?.map(item => 

@@ -134,6 +134,19 @@
             No sessions tracked yet
         </div>
         </div>
+        <div *ngIf="{ value: currentPage$ | async } as page" class="w-full flex flex-col items-center gap-y-4 mt-4">
+            <div class="flex flex-row gap-x-4">
+                <div *ngIf="page.value !== 0" (click)="setPage(page.value! - 1)" class="border px-4 py-2 rounded-lg uppercase font-semibold hover:bg-indigo-50 cursor-pointer transition-all">
+                    Previous
+                </div>
+                <div (click)="setPage(page.value! + 1)" class="border px-4 py-2 rounded-lg uppercase font-semibold hover:bg-indigo-50 cursor-pointer transition-all">
+                    Next
+                </div>
+            </div>
+            <div class="text-slate-500 uppercase font-medium">
+                Current page: {{page.value}}
+            </div>
+        </div>
     </div>
 
     

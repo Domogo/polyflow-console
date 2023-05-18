@@ -19,6 +19,7 @@ export class TimespanChartFiltersComponent implements OnInit {
   ]
 
   discriminatorFilterItems = [
+    'Nothing',
     'Browser',
     'Network',
     'Wallet Provider',
@@ -43,6 +44,10 @@ export class TimespanChartFiltersComponent implements OnInit {
     '1Y'
   ]
 
+  selectedTimeframe = '30D'
+  selectedDiscriminator = 'Nothing'
+  selectedTopN = 'Top 1'
+
   visibilitySub = new BehaviorSubject<VisibilityState>('none')
   visibility$ = this.visibilitySub.asObservable()
 
@@ -52,21 +57,28 @@ export class TimespanChartFiltersComponent implements OnInit {
 
   }
 
-  timeFrameFilterClicked() {
-
+  timeFrameFilterClicked(timeframe: string) {
+    this.selectedTimeframe = timeframe
+    this.visibilitySub.next('none')
   }
 
-  discriminatorFilterClicked() {
-
+  discriminatorFilterClicked(item: string) {
+    this.selectedDiscriminator = item
+    this.visibilitySub.next('none')
   }
 
-  topNFilterClicked() {
-
+  topNFilterClicked(item: string) {
+    this.selectedTopN = item
+    this.visibilitySub.next('none')
   }
 
   setVisibility(visibility: VisibilityState) {
     if(visibility === this.visibilitySub.value) { this.visibilitySub.next('none'); return }
     this.visibilitySub.next(visibility)
+  }
+
+  private updateAppliedFilters() {
+    
   }
 
 }
@@ -76,6 +88,6 @@ type VisibilityState = 'topN' | 'discriminator' | 'timeframe' | 'none'
 type AppliedFilters = {
   from: string,
   to: string,
-  filter: EventFilter,
+  filters: EventFilter[],
   topN: number
 }

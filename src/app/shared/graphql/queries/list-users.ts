@@ -1,6 +1,6 @@
 export const ListUsersQuery = `
-    query ListUsers($projectId: UUID!, $filter: EventFilter) {
-        listUsers(projectId: $projectId, filter: $filter) {
+    query ListUsers($projectId: UUID!, $filter: EventFilter, $pagination: Pagination) {
+        listUsers(projectId: $projectId, filter: $filter, pagination: $pagination) {
             userId
             sessionIds
             totalEventCount
