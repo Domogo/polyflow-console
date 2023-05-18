@@ -26,7 +26,11 @@ export class EventsListComponent implements OnInit {
     switchMap(([filter, project]) => {
       return this.gqlClient.findEvents({
         projectId: project!.id,
-        filter: this.eventFilter
+        filter: this.eventFilter,
+        pagination: {
+          limit: 50,
+          offset: 0
+        }
       })
     }),
     map(events => {

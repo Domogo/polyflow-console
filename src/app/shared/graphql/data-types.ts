@@ -227,7 +227,8 @@ export interface FindEventsQueryVars {
     from?: string,
     to?: string,
     projectId: string,
-    filter?: EventFilter
+    filter?: EventFilter,
+    pagination?: Pagination
 }
 
 export interface FindEventsByIdQueryVars {

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { map, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, combineLatest, map, switchMap, tap } from 'rxjs';
 import { getIcon, IconType } from 'src/app/shared/graphics/icons';
 import { EventTracker, TxRequestEvent } from 'src/app/shared/graphql/data-types';
 import { GQLClient } from 'src/app/shared/graphql/graphql-client';
@@ -16,13 +16,28 @@ export class TxhistoryComponent implements OnInit {
     
   ]
 
-  txHistory$ = this.projectService.currentProject$.pipe(
-    switchMap(project => this.gqlClient.findEvents({
+  currentPageSub = new BehaviorSubject(0)
+  currentPage$ = this.currentPageSub.asObservable()
+
+  setPage(newPage: number) {
+    this.currentPageSub.next(newPage)
+  }
+
+  txHistory$ = combineLatest([
+    this.projectService.currentProject$,
+    this.currentPage$
+  ])
+  .pipe(
+    switchMap(([project, page]) => this.gqlClient.findEvents({
       projectId: project!.id,
       filter: {
         tracker: {
           eventTracker: EventTracker.TX_REQUEST
-        }
+        },
+      },
+      pagination: {
+        limit: 10,
+        offset: (page * 10)
       }
     })),
     map(events => events.map(event => event as TxRequestEvent)),

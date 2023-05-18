@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { catchError, combineLatest, filter, map, switchMap } from 'rxjs';
+import { BehaviorSubject, catchError, combineLatest, filter, map, switchMap } from 'rxjs';
 import { browserIcons, getCountryCodeFromName, walletProviderIcons } from '../shared/graphics/icons';
 import { GQLClient } from '../shared/graphql/graphql-client';
 import { ModalService } from '../shared/modal/modal.service';
@@ -13,17 +13,33 @@ import { ProjectService } from '../shared/project.service';
 })
 export class ErrorLoggerComponent implements AfterViewInit {
 
-  hidePassive = new FormControl(false, [])
-  onlyErrors = new FormControl(false, [])
-  walletSearch = new FormControl('', [])
+hidePassive = new FormControl(false, [])
+onlyErrors = new FormControl(false, [])
+walletSearch = new FormControl('', [])
+
+currentPageSub = new BehaviorSubject(0)
+currentPage$ = this.currentPageSub.asObservable()
+
+setPage(newPage: number) {
+  this.currentPageSub.next(newPage)
+}
 
 sessions$ = combineLatest([this.hidePassive.valueChanges, 
     this.onlyErrors.valueChanges, 
     this.walletSearch.valueChanges,
-    this.projectService.currentProject$])
+    this.projectService.currentProject$,
+    this.currentPage$])
   .pipe(
-    switchMap(([hidePassive, onlyErrors, walletQuery, project]) => {
-      return this.gqlClient.listSessions({ projectId: project!.id, pagination: { limit: 200, offset: 0 } }).pipe(
+    switchMap(([hidePassive, onlyErrors, walletQuery, project, page]) => {
+      return this.gqlClient.listSessions({ 
+        projectId: project!.id, 
+        pagination: { limit: 10, offset: (page * 10) } ,
+        filter: {
+          wallet: {
+            walletAddress: walletQuery?.length ? walletQuery! : undefined
+          }
+        }
+      }).pipe(
         map(sessions => {
           return sessions
             .filter(session => {
@@ -33,12 +49,6 @@ sessions$ = combineLatest([this.hidePassive.valueChanges,
               const noError = session.totalErrorEventCount === 0
               if(onlyErrors && noError) { return false }
               return true
-            }).filter(session => {
-              const addresses = session.walletAddresses.map(address => address.toUpperCase())
-              if(!walletQuery) { return true }
-              if(walletQuery.length !== 42) { return true }
-              if(addresses.includes(walletQuery.toUpperCase())) { return true }
-              return false
             }).map(session => {
               return {...session, firstEventDateTime: new Date(session.firstEventDateTime)}
             }).sort((first, second) => {

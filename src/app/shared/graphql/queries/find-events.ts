@@ -1,6 +1,6 @@
 export const FindEventsQuery = `
-    query FindEvents($from: DateTime, $to: DateTime, $projectId: UUID!, $filter: EventFilter) {
-        findEvents(from: $from, to: $to, projectId: $projectId, filter: $filter) {
+    query FindEvents($from: DateTime, $to: DateTime, $projectId: UUID!, $filter: EventFilter, $pagination: Pagination) {
+        findEvents(from: $from, to: $to, projectId: $projectId, filter: $filter, pagination: $pagination) {
             __typename
             ... on WalletConnectedEvent {
                 id

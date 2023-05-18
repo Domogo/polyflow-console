@@ -14,6 +14,8 @@ export class TimespanChartComponent implements AfterViewInit {
   @Input() values!: IntTimespanValues[]
   chartID = crypto.randomUUID()
 
+  chart?: Chart
+
   constructor() { }
 
   ngAfterViewInit() {
@@ -39,7 +41,7 @@ export class TimespanChartComponent implements AfterViewInit {
       })
     const dataset = this.values.map(value => value.value)
 
-    new Chart(ctx as any, {
+    this.chart = new Chart(ctx as any, {
       type: 'line',
       data: {
         labels: labels,
