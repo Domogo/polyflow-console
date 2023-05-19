@@ -26,10 +26,10 @@ export const walletProviderIcons: Map<string, string> = new Map([
   ])
 
 export const networkIcons: Map<string, string> = new Map([
-  ["80001", 'https://icons.llamao.fi/icons/chains/rsz_polygon.jpg'],
-  ["1", 'https://icons.llamao.fi/icons/chains/rsz_ethereum.jpg'],
-  ["5", 'https://icons.llamao.fi/icons/chains/rsz_ethereum.jpg'],
-  ["137", "https://icons.llamao.fi/icons/chains/rsz_polygon.jpg"]
+  ["80001", 'https://cdn.iconscout.com/icon/free/png-256/free-polygon-token-4086724-3379854.png'],
+  ["1", 'https://www.iconarchive.com/download/i109534/cjdowner/cryptocurrency-flat/Ethereum-ETH.ico'],
+  ["5", 'https://www.iconarchive.com/download/i109534/cjdowner/cryptocurrency-flat/Ethereum-ETH.ico'],
+  ["137", "https://cdn.iconscout.com/icon/free/png-256/free-polygon-token-4086724-3379854.png"]
 ])
 
 function generateLangMap () {
