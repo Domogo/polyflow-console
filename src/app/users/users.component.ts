@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { map, switchMap } from 'rxjs';
+import { BehaviorSubject, combineLatest, map, switchMap } from 'rxjs';
 import { EventFilter } from '../shared/graphql/data-types';
 import { GQLClient } from '../shared/graphql/graphql-client';
 import { ProjectService } from '../shared/project.service';
@@ -11,9 +11,23 @@ import { ProjectService } from '../shared/project.service';
 })
 export class UsersComponent implements OnInit {
 
-  users$ = this.projectService.currentProject$.pipe(
-    switchMap(project => this.gqlClient.listUsers({
-      projectId: project!.id
+  private currentPageSub = new BehaviorSubject(0)
+  currentPage$ = this.currentPageSub.asObservable()
+
+  setPage(newPage: number) {
+    this.currentPageSub.next(newPage)
+  }
+
+  users$ = combineLatest([
+    this.projectService.currentProject$,
+    this.currentPage$
+  ]).pipe(
+    switchMap(([project, page]) => this.gqlClient.listUsers({
+      projectId: project!.id,
+      pagination: {
+        offset: (10 * page),
+        limit: 10
+      }
     })),
     map(users => users.map(user => { 
       return {
