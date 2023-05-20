@@ -13,7 +13,8 @@ export const browserIcons: Map<string, string> = new Map([
     ['Chrome Headless', 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Google_Chrome_icon_%28February_2022%29.svg/2048px-Google_Chrome_icon_%28February_2022%29.svg.png'],
     ['Brave', 'https://ih1.redbubble.net/image.980514513.7568/flat,128x128,075,t.u1.jpg'],
     ['WebKit', 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/WebKit_logo_%282015%29_2.png/1200px-WebKit_logo_%282015%29_2.png'],
-    ['Facebook', 'https://cdn-icons-png.flaticon.com/256/124/124010.png']
+    ['Facebook', 'https://cdn-icons-png.flaticon.com/256/124/124010.png'],
+    ['Chrome WebView', 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Google_Chrome_icon_%28February_2022%29.svg/2048px-Google_Chrome_icon_%28February_2022%29.svg.png']
 ])
 
 export const walletProviderIcons: Map<string, string> = new Map([
