@@ -27,7 +27,7 @@
             <div class="w-1/12 pl-4">
                 Wallets
             </div>
-            <div class="w-1/12 pl-4">
+            <div class="w-1/12 pl-4 text-center">
                 Countries
             </div>
             <div class="w-2/12 pl-8">
@@ -80,9 +80,9 @@
                     <app-icon-item-holder type="provider" [iconQuery]="device"></app-icon-item-holder>
                 </span>
             </div>
-            <div class="w-1/12 flex flex-row flex-wrap gap-x-1 pl-4">
-                <span class="" *ngFor="let device of user.countriesUnique">
-                    <app-icon-item-holder type="country" [iconQuery]="device"></app-icon-item-holder>
+            <div class="w-1/12 flex flex-row justify-center flex-wrap gap-x-1 pl-4">
+                <span class="" *ngFor="let country of user.countriesUnique">
+                    <app-icon-item-holder type="country" [iconQuery]="country"></app-icon-item-holder>
                 </span>
             </div>
             <div class="w-3/12 overflow-x-scroll flex flex-row gap-x-2 pl-8 text-slate-700">
