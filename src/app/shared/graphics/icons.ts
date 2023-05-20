@@ -68,7 +68,12 @@ export type IconType = 'browser' | 'country' | 'provider' | 'network'
 export function getIcon(type: IconType, query: string) {
   switch(type) {
     case 'browser': return browserIcons.get(query);
-    case 'country': return `https://www.countryflagicons.com/FLAT/64/${getCountryCodeFromName(query)}.png`;
+    case 'country': 
+      if(query !== 'unknown') {
+        return `https://www.countryflagicons.com/FLAT/64/${getCountryCodeFromName(query)}.png`;
+      } else {
+        return 'https://friconix.com/jpg/fi-cnsuxl-question-mark.jpg'
+      }
     case 'network': return networkIcons.get(query);
     case 'provider': return walletProviderIcons.get(query)
   }
