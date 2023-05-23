@@ -32,7 +32,8 @@ export const networkIcons: Map<string, string> = new Map([
   ["80001", 'https://cdn.iconscout.com/icon/free/png-256/free-polygon-token-4086724-3379854.png'],
   ["1", 'https://www.iconarchive.com/download/i109534/cjdowner/cryptocurrency-flat/Ethereum-ETH.ico'],
   ["5", 'https://www.iconarchive.com/download/i109534/cjdowner/cryptocurrency-flat/Ethereum-ETH.ico'],
-  ["137", "https://cdn.iconscout.com/icon/free/png-256/free-polygon-token-4086724-3379854.png"]
+  ["137", "https://cdn.iconscout.com/icon/free/png-256/free-polygon-token-4086724-3379854.png"],
+  ["122", 'https://styles.redditmedia.com/t5_3gefzw/styles/communityIcon_8d43rxfqe0va1.png?width=256&s=6266b08fbe4dba4e5485d45090607de958cc001e']
 ])
 
 function generateLangMap () {
