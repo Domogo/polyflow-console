@@ -14,4 +14,8 @@ export class ChainExplorers {
         return `${base}/address/${address}`
     }
 
+    public static generateBlockscanLink(address: string) {
+        return `https://blockscan.com/address/${address}`
+    }
+
 }

@@ -14,7 +14,7 @@ export class AddressDetailsComponent implements OnInit {
 
   walletAddress = this.route.snapshot.params['walletAddress']
 
-  addressExplorerLink = ChainExplorers.generateLinkForAddress(this.walletAddress, 1)
+  addressExplorerLink = ChainExplorers.generateBlockscanLink(this.walletAddress)
 
   ngOnInit(): void {
   }
