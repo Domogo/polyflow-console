@@ -239,6 +239,8 @@ export class AnalyticsComponent implements AfterViewInit {
       return this.gqlClient.getProjectUserStats({
         projectId: project!.id,
         filter: this.generateTrackerFilters(),
+        from: timespanVals.from.toISOString(),
+        to: timespanVals.to.toISOString()
       })
     })
   )
