@@ -244,8 +244,8 @@ export class AnalyticsComponent implements AfterViewInit {
   )
 
   getDropoffString(prev: number, current: number) {
-    if(current === 0) { return "100" }
-    if(prev === 0) { return "0" }
+    if(current === 0) { return "0" }
+    if(prev === 0) { return "100" }
     return (((current / prev) * 100)).toFixed(0)
   }
 
