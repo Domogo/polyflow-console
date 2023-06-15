@@ -2,6 +2,7 @@ import { AfterViewInit, Component, INJECTOR, Input, OnInit } from '@angular/core
 import { Chart } from 'chart.js/auto';
 import { IntTimespanValues } from '../../graphql/data-types';
 import { Observable, combineLatest, first, map, tap } from 'rxjs';
+import * as dayjs from 'dayjs';
 
 type DatasetType = {
   label: string,
@@ -72,7 +73,7 @@ export class TimespanChartComponent implements AfterViewInit {
       data: {
         labels: data.at(0)?.map(item => 
             { 
-              return (new Date(item.from)).toLocaleDateString('en', { month: 'short', day: '2-digit' }) 
+              return dayjs(item.from).format('MMM DD.')
             }),
         datasets: chartDatasets
       },
@@ -86,6 +87,7 @@ export class TimespanChartComponent implements AfterViewInit {
           }
         },
         responsive: true,
+        maintainAspectRatio: false,
         scales: {
           x: {
             grid: {
@@ -95,7 +97,7 @@ export class TimespanChartComponent implements AfterViewInit {
             ticks: {
               color: '#94a3b8',
               autoSkip: true,
-              maxTicksLimit: 10,
+              maxTicksLimit: 5,
               maxRotation: 0,
               minRotation: 0
             }

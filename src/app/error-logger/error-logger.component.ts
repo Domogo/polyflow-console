@@ -5,6 +5,7 @@ import { browserIcons, getCountryCodeFromName, walletProviderIcons } from '../sh
 import { GQLClient } from '../shared/graphql/graphql-client';
 import { ModalService } from '../shared/modal/modal.service';
 import { ProjectService } from '../shared/project.service';
+import { EventTracker } from '../shared/graphql/data-types';
 
 @Component({
   selector: 'app-error-logger',
@@ -37,6 +38,9 @@ sessions$ = combineLatest([this.hidePassive.valueChanges,
         filter: {
           wallet: {
             walletAddress: walletQuery?.length ? walletQuery! : undefined
+          },
+          tracker: {
+            eventTracker: onlyErrors! ? EventTracker.GENERIC_ERROR : undefined
           }
         }
       }).pipe(
@@ -45,14 +49,8 @@ sessions$ = combineLatest([this.hidePassive.valueChanges,
             .filter(session => {
               if(!session.hasConnectedWallet && hidePassive) { return false }
               return true
-            }).filter(session => {
-              const noError = session.totalErrorEventCount === 0
-              if(onlyErrors && noError) { return false }
-              return true
             }).map(session => {
               return {...session, firstEventDateTime: new Date(session.firstEventDateTime)}
-            }).sort((first, second) => {
-              return (second.firstEventDateTime.getTime() - first.firstEventDateTime.getTime())
             })
         })
       )

@@ -41,7 +41,8 @@ export class AnalyticsService {
         return this.projectSerivice.currentProject$.pipe(
             switchMap(project => this.gqlClient.totalConnectedWallets(
                 {
-                    projectId: project!.id
+                    projectId: project!.id,
+                    granularity: '30d'
                 }
             ))
         )

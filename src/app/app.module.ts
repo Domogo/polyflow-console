@@ -45,6 +45,8 @@ import { TimespanChartComponent } from './shared/components/timespan-chart/times
 import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
 import { PaymentSuccessComponent } from './payment/payment-success/payment-success.component';
 import { TimespanChartFiltersComponent } from './shared/components/timespan-chart/timespan-chart-filters/timespan-chart-filters.component';
+import { AddressDetailsComponent } from './shared/components/address-details/address-details.component';
+import { CampaignDetailsComponent } from './acquisition/details/campaign-details/campaign-details.component';
 
 @NgModule({
   declarations: [
@@ -86,7 +88,9 @@ import { TimespanChartFiltersComponent } from './shared/components/timespan-char
     TimespanChartComponent,
     ForgotPasswordComponent,
     PaymentSuccessComponent,
-    TimespanChartFiltersComponent
+    TimespanChartFiltersComponent,
+    AddressDetailsComponent,
+    CampaignDetailsComponent
   ],
   imports: [
     BrowserModule,

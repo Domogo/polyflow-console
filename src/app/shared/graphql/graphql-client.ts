@@ -4,7 +4,7 @@ import { Observable, from, map, switchMap, tap, of, throwError } from 'rxjs';
 import { AuthResponseModel, AuthService } from '../../auth/auth.service'
 import { handleError } from '../error-handler/error';
 import { BASE_GQL_URL } from 'src/app/environments/environments';
-import { AverageTimespanValues, Event, FindEventsQueryResult, ListUsersQueryResult, ProjectUserStats, FindEventsQueryVars, IntTimespanValues, PeriodActiveWalletsQueryResult, TotalConnectedWalletsQueryResult, TotalNewWalletsQueryResult, TotalTransactionsQueryResult, TotalSuccessfulTransactionsQueryResult, TotalCancelledTransactionsQueryResult, AverageTimespanValue, AverageTransactionsPerUserQueryResult, MovingAverageTimespanValues, AverageTransactionsQueryResult, MinTransactionsInPeriodQueryResult, MaxTransactionsInPeriodQueryResult, WalletConnectionsAndTransactionsInfo, ListWalletProvidersQueryResult, ListBrowsersQueryResult, ListCountriesQueryResult, TimePeriodVars, EventFilterVars, ListSessionsQueryResult, SessionsEventInfo, ProjectUserStatsQueryResult, FindEventsByIdQueryResult, FindEventsByIdQueryVars, UserEventsInfo, StatsVars, GetUserWalletAndTransactionStatsQueryResult, UsersWalletAndTransactionsInfo } from './data-types';
+import { AverageTimespanValues, Event, FindEventsQueryResult, ListUsersQueryResult, ProjectUserStats, FindEventsQueryVars, IntTimespanValues, PeriodActiveWalletsQueryResult, TotalConnectedWalletsQueryResult, TotalNewWalletsQueryResult, TotalTransactionsQueryResult, TotalSuccessfulTransactionsQueryResult, TotalCancelledTransactionsQueryResult, AverageTimespanValue, AverageTransactionsPerUserQueryResult, MovingAverageTimespanValues, AverageTransactionsQueryResult, MinTransactionsInPeriodQueryResult, MaxTransactionsInPeriodQueryResult, WalletConnectionsAndTransactionsInfo, ListWalletProvidersQueryResult, ListBrowsersQueryResult, ListCountriesQueryResult, TimePeriodVars, EventFilterVars, ListSessionsQueryResult, SessionsEventInfo, ProjectUserStatsQueryResult, FindEventsByIdQueryResult, FindEventsByIdQueryVars, UserEventsInfo, StatsVars, GetUserWalletAndTransactionStatsQueryResult, UsersWalletAndTransactionsInfo, ListNetworksQueryResult, WalletConnectionsAndTransactionsInfoForNetworks } from './data-types';
 import { FindEventsQuery } from './queries/find-events';
 import { TotalConnectedWalletsQuery } from './queries/total-connected-wallets';
 import { TotalNewWalletsQuery } from './queries/total-new-wallets';
@@ -23,6 +23,7 @@ import { ListSessionsQuery } from './queries/list-sessions';
 import { ProjectUserStatsQuery } from './queries/project-user-stats'
 import { FindEventByIdQuery } from './queries/find-events-id';
 import { ListUsersQuery } from './queries/list-users';
+import { ListNetworksQuery } from './queries/list-networks'
 import { GetUserWalletAndTransactionStatsQuery } from './queries/get-user-wallet-and-transaction-stats';
 
 @Injectable({
@@ -100,7 +101,6 @@ export class GQLClient {
             ),
             switchMap(response => {
                 if (response.ok) {
-                    console.log(response.data);
                     return of(response.data.totalConnectedWallets)
                 } else {
                     return throwError(() => response.error)
@@ -292,6 +292,25 @@ export class GQLClient {
             switchMap(response => {
                 if (response.ok) {
                     return of(response.data.listWalletProviders)
+                } else {
+                    return throwError(() => response.error)
+                }
+            })
+        )
+    }
+
+    listNetworks(
+        vars: EventFilterVars
+    ): Observable<WalletConnectionsAndTransactionsInfoForNetworks[]> {
+        return this._gqlClient$.pipe(
+            switchMap(client => 
+                client.requestSafe<ListNetworksQueryResult, EventFilterVars>(
+                    ListNetworksQuery, vars
+                )
+            ),
+            switchMap(response => {
+                if (response.ok) {
+                    return of(response.data.listNetworks)
                 } else {
                     return throwError(() => response.error)
                 }

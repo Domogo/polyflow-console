@@ -2,8 +2,106 @@
 
 
 
-<div class="w-full grid grid-cols-3 gap-x-4 mt-4">
-    <div class="w-full bg-white p-4 rounded-b-lg border-slate-100 rounded-t-lg mb-4">
+<div class="w-full grid grid-cols-6 gap-x-4 mt-4">
+
+    <div class="w-full col-span-2 bg-white p-4 border-slate-100 rounded-lg mb-4">
+        <div class="w-full  text-indigo-800 rounded-t-lg 
+        px-4 py-3 text-xs uppercase font-semibold flex flex-row items-center gap-x-2">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418" />
+            </svg>
+            Networks
+        </div>
+
+        <div class=" border-slate-100 px-4">
+            <table *ngIf="networks$ | async as networks" class="w-full table-auto text-xs">
+                <thead class=" border-slate-100 text-[10px]">
+                    <tr>
+                        <th class="uppercase font-semibold text-left py-3">Browser <br> Name</th>
+                        <th class="uppercase font-semibold text-left">Wallet <br> Connects</th>
+                        <th class="uppercase font-semibold text-left">Unique <br> Wallets</th>
+                        <th class="uppercase font-semibold text-left">Total <br> TXs</th>
+                    </tr>
+                </thead>
+    
+                <tbody>
+                    <tr class="border-t border-slate-100" *ngFor="let network of networks">
+                        <td class="items-center flex flex-row gap-x-2 py-4">
+                            <app-icon-item-holder type="network" [showQuery]="true" [iconQuery]="network.chainId.toString()"></app-icon-item-holder>
+                        </td>
+                        <td>
+                            {{network.totalWalletConnections}}
+                        </td>
+                        <td>
+                            {{network.uniqueWalletConnections}}
+                        </td>
+                        <td>
+                            {{network.executedTransactions}}
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="networks.length === 0">
+                    <td class="mt-4 text-xs font-medium uppercase text-slate-500">
+                        No data collected yet
+                    </td>
+                </tbody>
+                
+            </table>
+        </div>
+       
+    </div>
+
+    <div class="w-full col-span-2 bg-white border-slate-100 rounded-lg p-4 mb-4">
+        <div class="w-full text-indigo-800 rounded-t-lg 
+        px-4 py-3 text-xs uppercase font-semibold flex flex-row items-center gap-x-2">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a2.25 2.25 0 00-2.25-2.25H15a3 3 0 11-6 0H5.25A2.25 2.25 0 003 12m18 0v6a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 18v-6m18 0V9M3 12V9m18 0a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 9m18 0V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v3" />
+          </svg>
+          
+              
+            Wallet Providers
+        </div>
+
+        <div class="col-span-2 border-slate-100 px-4">
+            <table *ngIf="walletProviders$ | async as providers" class="w-full table-auto text-xs">
+                <thead class=" border-slate-100 text-[10px]">
+                    <tr>
+                        <th class="uppercase font-semibold text-left py-3">Wallet <br> Name</th>
+                        <th class="uppercase font-semibold text-left">Wallet <br> Connects</th>
+                        <th class="uppercase font-semibold text-left">Unique <br> Wallets</th>
+                        <th class="uppercase font-semibold text-left">Total <br> TXs</th>
+                    </tr>
+                </thead>
+    
+                <tbody *ngIf="providers.length !== 0">
+                    <tr class="border-t border-slate-100" *ngFor="let provider of providers">
+                        <td class="items-center flex flex-row gap-x-2 py-4">
+                            <img class="h-4 w-4 object-cover rounded-full" [src]="getWalletIcon(provider.name)" alt="" srcset="">
+                            {{provider.name}}
+                        </td>
+                        <td>
+                            {{provider.totalWalletConnections}}
+                        </td>
+                        <td>
+                            {{provider.uniqueWalletConnections}}
+                        </td>
+                        <td>
+                            {{provider.executedTransactions}}
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="providers.length === 0">
+                    <td class="mt-4 text-xs font-medium uppercase text-slate-500">
+                        No data collected yet
+                    </td>
+                </tbody>
+                
+            </table>
+        </div>
+       
+    </div>
+
+    <div class="w-full col-span-2 bg-white p-4 rounded-b-lg border-slate-100 rounded-t-lg mb-4">
         <div class="w-full  text-indigo-800 rounded-t-lg 
         px-4 py-3 text-xs uppercase font-semibold flex flex-row items-center gap-x-2">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
@@ -54,7 +152,7 @@
        
     </div>
 
-    <div class="w-full bg-white p-4 border-slate-100 rounded-lg mb-4">
+    <div class="w-full col-span-2 bg-white p-4 border-slate-100 rounded-lg mb-4">
         <div class="w-full  text-indigo-800 rounded-t-lg 
         px-4 py-3 text-xs uppercase font-semibold flex flex-row items-center gap-x-2">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
@@ -102,70 +200,33 @@
        
     </div>
 
-    <div class="w-full bg-white border-slate-100 rounded-lg p-4 mb-4">
-        <div class="w-full text-indigo-800 rounded-t-lg 
-        px-4 py-3 text-xs uppercase font-semibold flex flex-row items-center gap-x-2">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a2.25 2.25 0 00-2.25-2.25H15a3 3 0 11-6 0H5.25A2.25 2.25 0 003 12m18 0v6a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 18v-6m18 0V9M3 12V9m18 0a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 9m18 0V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v3" />
-          </svg>
-          
-              
-            Wallet Providers
-        </div>
-
-        <div class=" border-slate-100 px-4">
-            <table *ngIf="walletProviders$ | async as providers" class="w-full table-auto text-xs">
-                <thead class=" border-slate-100 text-[10px]">
-                    <tr>
-                        <th class="uppercase font-semibold text-left py-3">Wallet <br> Name</th>
-                        <th class="uppercase font-semibold text-left">Wallet <br> Connects</th>
-                        <th class="uppercase font-semibold text-left">Unique <br> Wallets</th>
-                        <th class="uppercase font-semibold text-left">Total <br> TXs</th>
-                    </tr>
-                </thead>
-    
-                <tbody *ngIf="providers.length !== 0">
-                    <tr class="border-t border-slate-100" *ngFor="let provider of providers">
-                        <td class="items-center flex flex-row gap-x-2 py-4">
-                            <img class="h-4 w-4 object-cover rounded-full" [src]="getWalletIcon(provider.name)" alt="" srcset="">
-                            {{provider.name}}
-                        </td>
-                        <td>
-                            {{provider.totalWalletConnections}}
-                        </td>
-                        <td>
-                            {{provider.uniqueWalletConnections}}
-                        </td>
-                        <td>
-                            {{provider.executedTransactions}}
-                        </td>
-                    </tr>
-                </tbody>
-                <tbody *ngIf="providers.length === 0">
-                    <td class="mt-4 text-xs font-medium uppercase text-slate-500">
-                        No data collected yet
-                    </td>
-                </tbody>
-                
-            </table>
-        </div>
-       
-    </div>
-</div>
-
-<div class="grid grid-cols-2 gap-x-4">
-    <div *ngIf="wallets$ | async as wallets" class="w-full p-6 bg-white rounded-lg">
+    <div *ngIf="wallets$ | async as wallets" class="w-full p-6 col-span-4 bg-white rounded-lg mb-4">
         <div class="uppercase mb-4 text-xs font-semibold text-indigo-700">
             Total connected unique wallets
         </div>
-        <app-timespan-chart-filters></app-timespan-chart-filters>
+        <app-timespan-chart-filters [appliedFilters]="walletsAppliedFiltersSub"></app-timespan-chart-filters>
         <app-timespan-chart [datasets]="[{ label: 'Unique connected wallets', data: wallets$ }]"></app-timespan-chart>
     </div>
-    <div *ngIf="txs$ | async as txs" class="w-full p-6 bg-white rounded-lg">
+
+    <div *ngIf="txs$ | async as txs" class="w-full p-6 col-span-3 bg-white rounded-lg">
         <div class="uppercase mb-4 text-xs font-semibold text-indigo-700">
-            Total transactions
+            Total transaction requests
         </div>
-        <app-timespan-chart-filters></app-timespan-chart-filters>
+        <app-timespan-chart-filters [appliedFilters]="txsAppliedFiltersSub"></app-timespan-chart-filters>
         <app-timespan-chart [datasets]="[{ label: 'Total transactions', data: txs$ }]"></app-timespan-chart>
     </div>
+
+    <div *ngIf="signedTxs$ | async as txs" class="w-full p-6 col-span-3 bg-white rounded-lg">
+        <div class="uppercase mb-4 text-xs font-semibold text-indigo-700">
+            Total successfull transactions
+        </div>
+        <app-timespan-chart-filters [appliedFilters]="singedTxsAppliedFiltersSub"></app-timespan-chart-filters>
+        <app-timespan-chart [datasets]="[{ label: 'Total transactions', data: signedTxs$ }]"></app-timespan-chart>
+    </div>
+
+</div>
+
+<div class="grid grid-cols-2 gap-x-4">
+    
+    
 </div>

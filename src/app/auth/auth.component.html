@@ -59,10 +59,44 @@
         <div class="w-full flex flex-row justify-center">
             <img class="h-10" src="../../assets/logo.png" alt="" srcset="">
         </div>
-        <div class="uppercase flex px-8 flex-row justify-center text-xs py-4 bg-slate-50 text-slate-700 my-4 rounded-lg font-medium" *ngIf="pricing$ | async as pricing">
-            You are starting a trial of the <b class="mx-1">{{pricing}}</b> tier
+        <div class="text-sm flex flex-col items-center px-8 leading-relaxed normal-case py-4 bg-slate-50 text-slate-700 my-4 rounded-lg font-medium" *ngIf="pricing$ | async as pricing">
+            <div class="flex flex-row items-center gap-x-4 w-full">
+                <div class="text-indigo-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+                        <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clip-rule="evenodd" />
+                      </svg>                      
+                </div>
+                <div class="w-full">
+                    Sign up to start a 30 day<span class="text-indigo-700 font-bold px-1">FREE</span> trial.
+                </div>
+
+            </div>
+
+            <div class="flex flex-row items-center gap-x-4 w-full mt-4">
+                <div class="text-indigo-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+                        <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clip-rule="evenodd" />
+                      </svg>                                            
+                </div>
+                <div class="w-full">
+                    You will not be billed.
+                </div>
+
+            </div>
+
+            <div class="flex flex-row items-center gap-x-4 w-full mt-4">
+                <div class="text-indigo-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+                        <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clip-rule="evenodd" />
+                      </svg>                                            
+                </div>
+                <div class="w-full">
+                    You can cancel anytime.
+                </div>
+
+            </div>
+            
         </div>
-        <div class="uppercase text-center w-full text-xs font-medium mb-2">Sign Up</div>
         <div class="flex flex-col">
             <small class="uppercase font-medium flex flex-row items-center gap-x-2 mb-1">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4">
