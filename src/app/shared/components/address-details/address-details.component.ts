@@ -17,7 +17,6 @@ export class AddressDetailsComponent implements OnInit {
   addressExplorerLink = ChainExplorers.generateLinkForAddress(this.walletAddress, 1)
 
   ngOnInit(): void {
-    alert(this.addressExplorerLink)
   }
 
   eventFilter: EventFilter = {
