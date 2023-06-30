@@ -1,5 +1,4 @@
-<div class="text-xs uppercase text-slate-500 mb-2 font-medium">Chart settings coming soon</div>
-<div *ngIf="visibility$ | async as visibility" class="w-full opacity-20 flex flex-row gap-x-2
+<div *ngIf="visibility$ | async as visibility" class="w-full flex flex-row gap-x-2 z-0
      text-xs font-semibold uppercase">
 
      <div class=" relative flex flex-col text-indigo-700 rounded-lg cursor-pointer">
@@ -21,7 +20,7 @@
         
     </div>
 
-    <div class="relative flex flex-col text-indigo-700 rounded-lg cursor-pointer">
+    <div class="relative hidden flex flex-col text-indigo-700 rounded-lg cursor-pointer">
         <div (click)="setVisibility('discriminator')" class="px-6 py-3 rounded-lg border transition-all flex flex-row 
                 items-center justify-center gap-x-2 hover:bg-indigo-700 hover:text-white">
             <div>Split By {{selectedDiscriminator}}</div>

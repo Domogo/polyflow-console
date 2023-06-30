@@ -19,6 +19,8 @@ import { PaymentSuccessComponent } from './payment/payment-success/payment-succe
 import { ProjectSettingsComponent } from './project-settings/project-settings.component';
 import { UserDetailsComponent } from './users/user-details/user-details.component';
 import { UsersComponent } from './users/users.component';
+import { AddressDetailsComponent } from './shared/components/address-details/address-details.component';
+import { CampaignDetailsComponent } from './acquisition/details/campaign-details/campaign-details.component';
 
 const consoleRoutes: Routes = [
   { path: 'uicomponents', component: ComponentsConfigComponent },
@@ -32,7 +34,9 @@ const consoleRoutes: Routes = [
   { path: 'sessions/:id', component: ErrorLoggerDetailsComponent },
   { path: 'config', component: ConfigComponent},
   { path: 'acquisition', component: AcquisitionComponent },
-  { path: 'project-settings', component: ProjectSettingsComponent }
+  { path: 'acquisition/:filterType/:filterName', component: CampaignDetailsComponent },
+  { path: 'project-settings', component: ProjectSettingsComponent },
+  { path: 'address/:walletAddress', component: AddressDetailsComponent }
   
 ];
 

@@ -12,6 +12,8 @@ export function getNetwork(chainID: number): Network | undefined {
         return { name: 'Goerli', shortName: 'geth' }
     } else if(chainID === 137) {
         return { name: 'Polygon', shortName: 'matic' }
+    } else if(chainID === 122) {
+        return { name: 'Fuse', shortName: 'fuse' }
     }
     return undefined
 }

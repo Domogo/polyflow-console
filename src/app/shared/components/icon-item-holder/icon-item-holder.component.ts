@@ -15,6 +15,8 @@ export class IconItemHolderComponent implements OnInit {
   @Input() size: Size | string = 'xs'
   @Input() color = 'slate-700'
 
+  tooltipHidden = true
+
   constructor() { }
 
   ngOnInit(): void {
@@ -27,6 +29,14 @@ export class IconItemHolderComponent implements OnInit {
 
   _getNetworkQuery() {
     return getNetwork(parseInt(this.iconQuery!))
+  }
+
+  mouseEnter() {
+    this.tooltipHidden = false
+  }
+
+  mouseLeave() {
+    this.tooltipHidden = true
   }
 
 }

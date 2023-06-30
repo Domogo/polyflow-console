@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { BigNumber, ethers } from 'ethers';
 import { BehaviorSubject, combineLatest, map, switchMap, tap } from 'rxjs';
 import { getIcon, IconType } from 'src/app/shared/graphics/icons';
 import { EventTracker, TxRequestEvent } from 'src/app/shared/graphql/data-types';
@@ -43,10 +44,11 @@ export class TxhistoryComponent implements OnInit {
     map(events => events.map(event => event as TxRequestEvent)),
     map(events => events.map(event => { 
         return {...event, 
-          tx: {...event.tx, gasPrice: this.gasPriceToGwei(event.tx.gasPrice) } 
+          tx: {...event.tx, 
+            gasPrice: this.gasPriceToGwei(event.tx.gasPrice),
+            value: this.valueToEth(event.tx.value) } 
         } 
       }).map(event => { return {...event, createdAt: new Date(event.createdAt)}})
-      .sort((a,b) => { return Math.abs(a.createdAt.getTime() - b.createdAt.getTime()) })
     )
   )
 
@@ -61,6 +63,11 @@ export class TxhistoryComponent implements OnInit {
 
   private gasPriceToGwei(gasPrice: string) {
     return (parseInt(gasPrice) / 1000000000)
+  }
+
+  private valueToEth(value?: string) {
+    if(!value) { return 0 }
+    return parseFloat(ethers.utils.formatEther(value)).toFixed(4)
   }
 
 }

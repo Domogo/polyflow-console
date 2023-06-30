@@ -185,6 +185,13 @@ export interface WalletConnectionsAndTransactionsInfo {
     executedTransactions: number
 }
 
+export interface WalletConnectionsAndTransactionsInfoForNetworks {
+    chainId: number,
+    totalWalletConnections: number,
+    uniqueWalletConnections: number,
+    executedTransactions: number
+}
+
 /** QUERY VARS */
 
 export interface TimePeriodVars {
@@ -199,7 +206,9 @@ export interface TimePeriodVars {
 export interface EventFilterVars {
     projectId: string,
     filter?: EventFilter
-    pagination?: Pagination
+    pagination?: Pagination,
+    from?: string,
+    to?: string
 }
 
 export interface StatsVars {
@@ -291,6 +300,10 @@ export interface ListBrowsersQueryResult {
     listBrowsers: WalletConnectionsAndTransactionsInfo[]
 }
 
+export interface ListNetworksQueryResult {
+    listNetworks: WalletConnectionsAndTransactionsInfoForNetworks[]
+}
+
 export interface ListCountriesQueryResult {
     listCountries: WalletConnectionsAndTransactionsInfo[]
 }
@@ -357,4 +370,44 @@ export interface ProjectUserStats {
     usersWithConnectedWallet: number
     usersWithExecutedTx: number
     usersWithMultipleExecutedTx: number
+}
+
+export interface WalletPortfolioResponse {
+    walletAddress: string,
+    nativeAssetBalances: AssetBalanceAndValueResponse[],
+    fungibleTokenBalances: FungibleTokenBalanceAndValueResponse[],
+    nftTokenBalances: NftTokenBalanceAndValueResponse[],
+    failedRpcCalls: AssetRpcCallResponse[],
+    totalValue: number,
+    updatedAt: string
+}
+
+export interface AssetBalanceAndValueResponse {
+    name: string,
+    chainid: number,
+    amount: number,
+    value: number
+}
+
+export interface FungibleTokenBalanceAndValueResponse {
+    name: string,
+    tokenAddress: string,
+    chainId: number,
+    amount: number,
+    value: number
+}
+
+export interface NftTokenBalanceAndValueResponse {
+    name: string,
+    tokenAddress: string,
+    chainId: number,
+    ownsAsset: boolean,
+    amountOfOwnedAssets: number,
+    totalValue: number
+}
+
+export interface AssetRpcCallResponse {
+    tokenAddress: string,
+    chainId: number,
+    isNft: boolean
 }

@@ -6,6 +6,7 @@ import { fadeAnimation } from '../shared/animations/fade.animation';
 import { EventTrackerModelField, ProjectUserStats } from '../shared/graphql/data-types';
 import { GQLClient } from '../shared/graphql/graphql-client';
 import { ProjectService } from '../shared/project.service';
+import { TimespanChartFiltersComponent } from '../shared/components/timespan-chart/timespan-chart-filters/timespan-chart-filters.component';
 
 @Component({
   selector: 'app-acquisition',
@@ -35,32 +36,42 @@ export class AcquisitionComponent implements OnInit {
   selectedDimensionSub = new BehaviorSubject<string | null>("")
   selectedDimension$ = this.selectedDimensionSub.asObservable()
 
-  wallets$ = combineLatest([this.projectService.currentProject$, this.selectedDimension$]).pipe(
-    switchMap(([project, dimension]) => this.gqlClient.totalConnectedWallets({
+
+  walletsFiltersSub = TimespanChartFiltersComponent.generateInitialFilters()
+  walletFilters$ = this.walletsFiltersSub.asObservable()
+
+  wallets$ = combineLatest([this.projectService.currentProject$, 
+    this.selectedDimension$,
+    this.walletFilters$]).pipe(
+    switchMap(([project, dimension, filters]) => this.gqlClient.totalConnectedWallets({
       projectId: project!.id,
       filter: {
         tracker: {
           utmCampaign: dimension ?? ""
         }
       },
-      granularity: '1d',
-      from: new Date(new Date().setDate((new Date()).getDate() - 30)).toISOString(),
-      to: (new Date()).toISOString()
+      granularity: filters.granularity,
+      from: filters.from,
+      to: filters.to
     })),
-    tap(res => console.log(res))
   )
 
-  transactions$ = combineLatest([this.projectService.currentProject$, this.selectedDimension$]).pipe(
-    switchMap(([project, dimension]) => this.gqlClient.totalTransactions({
+  transactionsFiltersSub = TimespanChartFiltersComponent.generateInitialFilters()
+  transactionsFilters$ = this.transactionsFiltersSub.asObservable()
+
+  transactions$ = combineLatest([this.projectService.currentProject$, 
+    this.selectedDimension$,
+    this.transactionsFilters$]).pipe(
+    switchMap(([project, dimension, filters]) => this.gqlClient.totalTransactions({
       projectId: project!.id,
       filter: {
         tracker: {
           utmCampaign: dimension ?? ""
         }
       },
-      granularity: '1d',
-      from: new Date(new Date().setDate((new Date()).getDate() - 30)).toISOString(),
-      to: (new Date()).toISOString()
+      granularity: filters.granularity,
+      from: filters.from,
+      to: filters.to
     }))
   )
 

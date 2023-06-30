@@ -55,7 +55,7 @@
         <div *ngIf="session.walletAddresses.length === 0">
             No addresses used in session
         </div>
-        <div class="py-3 mt-2 text-center rounded-lg text-indigo-700 text-xs bg-indigo-50
+        <div routerLink="/console/address/{{address}}" class="py-3 mt-2 text-center rounded-lg text-indigo-700 text-xs bg-indigo-50
              hover:bg-indigo-700 transition-all hover:text-white cursor-pointer font-medium" 
              *ngFor="let address of session.walletAddresses">
             {{address}}

@@ -1,0 +1,13 @@
+<div class="mb-2">
+    <app-back-button></app-back-button>
+</div>
+
+<div class="p-4 border border-indigo-100 rounded-lg bg-indigo-50">
+    <div class="mb-2 flex flex-col items-center rounded-lg py-2">
+        <div class="text-xs uppercase font-semibold text-indigo-700">{{filterType}} details</div>
+        <div class="text-base mt-1 text-slate-700">{{filterName}}</div>
+    </div>
+    
+    <app-analytics [filter]="{ type: filterType, name: filterName }"></app-analytics>
+    
+</div>
