@@ -81,37 +81,6 @@ export class AcquisitionComponent implements OnInit {
     this.isDimensionSelectorHidden = !this.isDimensionSelectorHidden
   }
 
-
-  // chart$ = this.projectUserStats$.pipe(
-  //   tap(stats => {
-  //     this.chart = new Chart(document.getElementById('usageChart') as any, {
-  //       type: 'doughnut',
-  //       data: {
-  //         labels: ['TOTAL USERS', 'CONNECTED WALLET', 'EXECUTED TX', 'MULTIPLE TXS'],
-  //         datasets: [
-  //           { label: 'Users', data: [stats.totalUsers, stats.usersWithConnectedWallet, stats.usersWithExecutedTx, stats.usersWithMultipleExecutedTx] }
-  //         ]
-  //       },
-  //       options: {
-  //         plugins: {
-  //           legend: {
-  //             position: 'right',
-  //             labels: {
-  //               color: '#4338ca',
-  //               font: {
-  //                 weight: '600',
-  //                 family: 'Montserrat'
-  //               }
-  //             }
-  //           }
-  //         }, 
-  //         responsive: true,
-  //         maintainAspectRatio: false
-  //       },
-  //     })
-  //   })
-  // )
-
   attributionDimensionSub = new BehaviorSubject<AttributionDimension>('campaign')
   attributionDimension$ = this.attributionDimensionSub.asObservable()
 

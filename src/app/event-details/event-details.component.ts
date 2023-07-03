@@ -16,7 +16,8 @@ export class EventDetailsComponent implements OnInit {
   id = this.route.snapshot.params['id']
 
   event$ = this.gqlClient.findEventsById({ id: this.id }).pipe(
-    map(event => { return {...event, createdAtParsed: new Date(event.createdAt)} })
+    map(event => { return {...event, createdAtParsed: new Date(event.createdAt)} }),
+    tap(event => console.log(event))
   )
 
   castToErrorEvent(event: Event) { return event as ErrorEvent }

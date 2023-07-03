@@ -11,9 +11,17 @@
             
             <div class="grid grid-cols-1 bg-white py-6 px-2 mt-4 rounded-lg gap-1 w-full">
 
-                <div class="px-4">
+                <div *ngIf="event.tracker.eventTracker === 'GENERIC_ERROR'" class="px-4">
                     <app-event-error-message-holder [event]="castToErrorEvent(event)"></app-event-error-message-holder>
                 </div>
+
+                <div class="w-full flex flex-col gap-y-2 px-8">
+                    <div class="uppercase font-semibold">Referrer</div>
+                    <div>{{event.tracker.referrer}}</div>
+                </div>
+
+                <hr class="mt-4 border-slate-100">
+
 
                 <div class="flex flex-col gap-y-2 px-8">
                     <div class=" bg-white grid grid-cols-2 gap-5 mt-8 border-slate-100">

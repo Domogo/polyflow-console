@@ -5,6 +5,7 @@ export const ListNetworksQuery = `
             totalWalletConnections
             uniqueWalletConnections
             executedTransactions
+            uniqueUsersLanded
         }
     }
 `

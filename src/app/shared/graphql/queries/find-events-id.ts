@@ -17,6 +17,7 @@ export const FindEventByIdQuery = `
                     utmTerm
                     origin
                     path
+                    referrer
                 }
                 walletConnectedWallet: wallet {
                     walletAddress
@@ -55,6 +56,7 @@ export const FindEventByIdQuery = `
                     utmTerm
                     origin
                     path
+                    referrer
                 }
                 txRequestWallet: wallet {
                     walletAddress
@@ -104,6 +106,7 @@ export const FindEventByIdQuery = `
                     utmTerm
                     origin
                     path
+                    referrer
                 }
                 userLandedWallet: wallet {
                     walletAddress
@@ -143,6 +146,7 @@ export const FindEventByIdQuery = `
                     utmTerm
                     origin
                     path
+                    referrer
                 }
                 errorEventWallet: wallet {
                     walletAddress
