@@ -22,7 +22,8 @@ export interface EventTrackerModelFilter {
     utmContent?: string,
     utmTerm?: string,
     origin?: string,
-    path?: string
+    path?: string,
+    referrer?: string
 }
 
 export interface WalletStateFilter {
@@ -60,6 +61,7 @@ export interface EventTrackerModel {
     utmTerm?: string,
     origin?: string,
     path?: string
+    referrer?: string
 }
 
 export interface WalletState {
@@ -183,13 +185,15 @@ export interface WalletConnectionsAndTransactionsInfo {
     totalWalletConnections: number,
     uniqueWalletConnections: number,
     executedTransactions: number
+    uniqueUsersLanded: number
 }
 
 export interface WalletConnectionsAndTransactionsInfoForNetworks {
     chainId: number,
     totalWalletConnections: number,
     uniqueWalletConnections: number,
-    executedTransactions: number
+    executedTransactions: number,
+    uniqueUsersLanded: number
 }
 
 /** QUERY VARS */
@@ -242,6 +246,10 @@ export interface FindEventsQueryVars {
 
 export interface FindEventsByIdQueryVars {
     id: string
+}
+
+export interface GetPortfolioQueryVars {
+    address: string
 }
 
 export interface FindEventsQueryResult {
@@ -298,6 +306,10 @@ export interface ListWalletProvidersQueryResult {
 
 export interface ListBrowsersQueryResult {
     listBrowsers: WalletConnectionsAndTransactionsInfo[]
+}
+
+export interface GetPortfolioQueryResult {
+    getPortfolio: WalletPortfolioResponse
 }
 
 export interface ListNetworksQueryResult {
@@ -411,3 +423,4 @@ export interface AssetRpcCallResponse {
     chainId: number,
     isNft: boolean
 }
+

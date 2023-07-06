@@ -1,43 +1,30 @@
-<div class="flex flex-col gap-y-4 mb-4">
-    <app-back-button screenName="Session overview"></app-back-button>
-    <div class="flex flex-col items-center text-xs bg-white py-4 gap-y-2 rounded-lg px-6"
-        *ngIf="session$ | async as session">
-        <div class="uppercase text-sm font-semibold text-indigo-700">Session ID</div>
-        <div class="text-slate-500">{{session.sessionId}}</div>
-    </div>
+<div *ngIf="session$  | async as session" class="flex flex-col gap-y-4 mb-4">
+    <app-back-button screenName="Session - {{session.sessionId}}"></app-back-button>
 </div>
 
 <div class="w-full grid grid-cols-9 gap-4 mb-4" *ngIf="uniqueDeviceValues$ | async as values">
     <div class="bg-white col-span-6 p-6 rounded-lg flex flex-col shadow-sm text-xs">
-        <div class="flex flex-row gap-x-2 items-center uppercase mb-4 font-semibold text-indigo-700">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                stroke="currentColor" class="w-4 h-4">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M8.25 3v1.5M4.5 8.25H3m18 0h-1.5M4.5 12H3m18 0h-1.5m-15 3.75H3m18 0h-1.5M8.25 19.5V21M12 3v1.5m0 15V21m3.75-18v1.5m0 15V21m-9-1.5h10.5a2.25 2.25 0 002.25-2.25V6.75a2.25 2.25 0 00-2.25-2.25H6.75A2.25 2.25 0 004.5 6.75v10.5a2.25 2.25 0 002.25 2.25zm.75-12h9v9h-9v-9z" />
-            </svg>
-            <div>Session Metadata</div>
-        </div>
-        <div class="w-full grid grid-cols-5 gap-4 ">
-            <div class="flex flex-col items-center gap-y-1 border rounded-lg border-slate-100 px-4 py-4 text-center">
+        <div class="w-full grid grid-cols-5 gap-4 border rounded-lg border-slate-100 py-2">
+            <div class="flex flex-col items-center gap-y-1 border-r  rounded-lg border-slate-100 px-4 py-4 text-center">
                 <div class="font-semibold uppercase mb-4">Browsers</div>
                 <app-icon-item-holder *ngFor="let browser of values.uniqueBrowsers" type="browser" [showQuery]="true"
                     [iconQuery]="browser"></app-icon-item-holder>
             </div>
-            <div class="flex flex-col gap-y-1 border rounded-lg border-slate-100 px-4 py-4 text-center">
+            <div class="flex flex-col gap-y-1  rounded-lg border-r   border-slate-100 px-4 py-4 text-center">
                 <div class="font-semibold uppercase mb-4">Operating Systems</div>
                 <div *ngFor="let os of values.uniqueOSs" >{{os}}</div>
             </div>
-            <div class="flex flex-col gap-y-1 border rounded-lg items-center border-slate-100 px-4 py-4 text-center">
+            <div class="flex flex-col gap-y-1  rounded-lg border-r   items-center border-slate-100 px-4 py-4 text-center">
                 <div class="font-semibold uppercase mb-4">Countries</div>
                 <app-icon-item-holder *ngFor="let country of values.uniqueCountries" type="country" [showQuery]="true"
                     [iconQuery]="country"></app-icon-item-holder>
             </div>
-            <div class="flex flex-col gap-y-1 border rounded-lg items-center border-slate-100 px-4 py-4 text-center">
+            <div class="flex flex-col gap-y-1  rounded-lg border-r   items-center border-slate-100 px-4 py-4 text-center">
                 <div class="font-semibold uppercase mb-4">Wallet Providers</div>
                 <app-icon-item-holder *ngFor="let provider of values.uniqueProviders" type="provider" [showQuery]="true"
                     [iconQuery]="provider"></app-icon-item-holder>
             </div>
-            <div *ngIf="session$ | async as session" class="flex flex-col gap-y-1 border rounded-lg border-slate-100 px-4 py-4 text-center">
+            <div *ngIf="session$ | async as session" class="flex border-r   flex-col gap-y-1  rounded-lg border-slate-100 px-4 py-4 text-center">
                 <div class="font-semibold uppercase mb-4">Screen Resolution</div>
                 <div>{{session.devices.at(0)?.screen?.w}} x {{session.devices.at(0)?.screen?.h}}</div>
             </div>

@@ -1,13 +1,10 @@
 <app-back-button screenName="Address details"></app-back-button>
-<div class="w-full mt-4 bg-white p-8 rounded-lg shadow-sm flex flex-row justify-between items-center mb-4">
+<div class="w-full mt-4 bg-white p-6 rounded-lg shadow-sm flex flex-row justify-between items-center mb-4">
     <div class="text-xs   flex flex-col gap-x-2">
-        <div class="flex flex-row gap-x-4 items-center font-semibold text-indigo-700 uppercase">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a2.25 2.25 0 00-2.25-2.25H15a3 3 0 11-6 0H5.25A2.25 2.25 0 003 12m18 0v6a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 18v-6m18 0V9M3 12V9m18 0a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 9m18 0V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v3" />
-              </svg>          
+        <div class="flex flex-row gap-x-2 items-center font-semibold text-indigo-700 uppercase">        
             Address
         </div>
-        <div class="text-sm mt-3 flex flex-row justify-between items-center">
+        <div class="text-sm text-slate-500 mt-1 flex flex-row justify-between items-center">
             <div>
                 {{walletAddress}}
             </div>
@@ -24,4 +21,89 @@
     </a>
     
 </div>
+<div *ngIf="portfolio$ | async as portfolio" class="my-4 bg-white rounded-lg p-6">
+    <div class="uppercase text-xs font-semibold text-indigo-700 flex flex-row items-center gap-x-2">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        <div>
+            Address portfolio
+        </div>          
+    </div>
+    <div class="mt-2 border border-slate-100 p-4 rounded-lg flex flex-row justify-between">
+        <div class="flex flex-col">
+            <div class="uppercase text-xs font-bold text-slate-700">Total address net worth</div>
+            <div class="text-2xl mt-1 font-semibold text-slate-500">${{formatValue(portfolio.totalValue)}}</div>    
+        </div>
+        <div class="flex flex-row items-center gap-x-4">
+            <div class="flex flex-col items-end">
+                <div class="uppercase text-xs font-bold">Last updated at</div>
+                <div class="mt-1 text-sm">
+                    {{portfolio.updatedAt.toDate().toLocaleString('en-US', {  })}}
+                </div>
+            </div>
+            <div class="h-full border rounded-lg cursor-pointer hover:bg-slate-50 px-6 flex flex-row gap-x-3 items-center text-xs uppercase font-semibold">
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+                      </svg>
+                      
+                </div>
+                <div>Refresh</div>
+            </div>
+            
+        </div>
+    </div>
+    <div class="grid grid-cols-10 p-4 border border-slate-100 mt-4 rounded-lg">
+        <div class="col-span-10 pb-2 mb-2 border-b border-slate-100 text-indigo-700 uppercase text-xs flex flex-row font-semibold">
+            Native coins
+        </div>
+        <div *ngIf="portfolio.nativeAssetBalances as nativeAssets" class="col-span-10 text-base">
+            <div *ngFor="let nativeAsset of nativeAssets">
+                {{formatValue(nativeAsset.amount)}} <span class="font-semibold">{{nativeAsset.name}}</span> (${{formatValue(nativeAsset.value)}})
+            </div>
+        </div>
+        <hr class="col-span-10 my-2 border-slate-100">
+        <div class="col-span-10 grid-cols-10 grid mb-4 font-semibold uppercase text-xs text-indigo-700 border-slate-100 border-b pb-2">
+            <div class="col-span-5">
+                ERC20 Tokens
+            </div>
+            <div class="col-span-5">
+                NFTs
+            </div>
+        </div>
+        
+        <div class="col-span-5">
+            <div class="flex flex-col pr-4 gap-y-2" *ngFor="let asset of portfolio.fungibleTokenBalances">
+                <div class="flex flex-row border-r pr-4 text-base">
+                    <div class="flex flex-row gap-x-2 items-center">
+                        <app-icon-item-holder type="network" [iconQuery]="asset.chainId.toString()"></app-icon-item-holder>
+                        {{formatValue(asset.value)}} <span class="font-semibold">{{asset.name}}</span> (${{formatValue(asset.value)}}) 
+                    </div>
+                </div>
+                <hr class="w-full border-slate-100">
+            </div>
+            <div *ngIf="portfolio.fungibleTokenBalances.length === 0; then noItems"></div>
+        </div>
+        <div class="col-span-5">
+            <div class="flex flex-col pr-4 gap-y-2" *ngFor="let asset of portfolio.nftTokenBalances">
+                <div class="flex flex-row justify-between border-r pr-4 text-base">
+                    <div class="uppercase font-semibold">{{asset.amountOfOwnedAssets}}</div>
+                    <div>${{parseFloat(asset.totalValue.toString()).toFixed(2)}}</div>
+                </div>
+                <hr class="w-full border-slate-100">
+            </div>
+            <div *ngIf="portfolio.nftTokenBalances.length === 0; then noItems">
+            </div>
+        </div>
+    </div>
+</div>
 <app-events-list [eventFilter]="eventFilter"></app-events-list>
+
+<ng-template #noItems>
+    <div class="flex flex-row">
+        <div class="text-xs bg-amber-50 py-1 px-4 uppercase text-amber-700 font-medium rounded-lg">No items</div>
+    </div>
+    <hr class="mt-2 border-slate-100">
+    
+</ng-template>

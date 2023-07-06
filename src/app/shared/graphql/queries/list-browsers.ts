@@ -5,6 +5,7 @@ export const ListBrowsersQuery = `
             totalWalletConnections
             uniqueWalletConnections
             executedTransactions
+            uniqueUsersLanded
         }
     }
 `

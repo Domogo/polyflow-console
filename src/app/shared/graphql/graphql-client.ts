@@ -4,7 +4,7 @@ import { Observable, from, map, switchMap, tap, of, throwError } from 'rxjs';
 import { AuthResponseModel, AuthService } from '../../auth/auth.service'
 import { handleError } from '../error-handler/error';
 import { BASE_GQL_URL } from 'src/app/environments/environments';
-import { AverageTimespanValues, Event, FindEventsQueryResult, ListUsersQueryResult, ProjectUserStats, FindEventsQueryVars, IntTimespanValues, PeriodActiveWalletsQueryResult, TotalConnectedWalletsQueryResult, TotalNewWalletsQueryResult, TotalTransactionsQueryResult, TotalSuccessfulTransactionsQueryResult, TotalCancelledTransactionsQueryResult, AverageTimespanValue, AverageTransactionsPerUserQueryResult, MovingAverageTimespanValues, AverageTransactionsQueryResult, MinTransactionsInPeriodQueryResult, MaxTransactionsInPeriodQueryResult, WalletConnectionsAndTransactionsInfo, ListWalletProvidersQueryResult, ListBrowsersQueryResult, ListCountriesQueryResult, TimePeriodVars, EventFilterVars, ListSessionsQueryResult, SessionsEventInfo, ProjectUserStatsQueryResult, FindEventsByIdQueryResult, FindEventsByIdQueryVars, UserEventsInfo, StatsVars, GetUserWalletAndTransactionStatsQueryResult, UsersWalletAndTransactionsInfo, ListNetworksQueryResult, WalletConnectionsAndTransactionsInfoForNetworks } from './data-types';
+import { AverageTimespanValues, Event, FindEventsQueryResult, ListUsersQueryResult, ProjectUserStats, FindEventsQueryVars, IntTimespanValues, PeriodActiveWalletsQueryResult, TotalConnectedWalletsQueryResult, TotalNewWalletsQueryResult, TotalTransactionsQueryResult, TotalSuccessfulTransactionsQueryResult, TotalCancelledTransactionsQueryResult, AverageTimespanValue, AverageTransactionsPerUserQueryResult, MovingAverageTimespanValues, AverageTransactionsQueryResult, MinTransactionsInPeriodQueryResult, MaxTransactionsInPeriodQueryResult, WalletConnectionsAndTransactionsInfo, ListWalletProvidersQueryResult, ListBrowsersQueryResult, ListCountriesQueryResult, TimePeriodVars, EventFilterVars, ListSessionsQueryResult, SessionsEventInfo, ProjectUserStatsQueryResult, FindEventsByIdQueryResult, FindEventsByIdQueryVars, UserEventsInfo, StatsVars, GetUserWalletAndTransactionStatsQueryResult, UsersWalletAndTransactionsInfo, ListNetworksQueryResult, WalletConnectionsAndTransactionsInfoForNetworks, WalletPortfolioResponse, GetPortfolioQueryResult, GetPortfolioQueryVars } from './data-types';
 import { FindEventsQuery } from './queries/find-events';
 import { TotalConnectedWalletsQuery } from './queries/total-connected-wallets';
 import { TotalNewWalletsQuery } from './queries/total-new-wallets';
@@ -25,7 +25,7 @@ import { FindEventByIdQuery } from './queries/find-events-id';
 import { ListUsersQuery } from './queries/list-users';
 import { ListNetworksQuery } from './queries/list-networks'
 import { GetUserWalletAndTransactionStatsQuery } from './queries/get-user-wallet-and-transaction-stats';
-
+import { GetPortfolioQuery } from './queries/get-portfolio';
 @Injectable({
     providedIn: 'root'
 })
@@ -387,6 +387,25 @@ export class GQLClient {
             switchMap(response => {
                 if (response.ok) {
                     return of(response.data.listUsers)
+                } else {
+                    return throwError(() => response.error)
+                }
+            })
+        )
+    }
+
+    getPortfolio(
+        vars: GetPortfolioQueryVars
+    ): Observable<WalletPortfolioResponse> {
+        return this._gqlClient$.pipe(
+            switchMap(client => 
+                client.requestSafe<GetPortfolioQueryResult, GetPortfolioQueryVars>(
+                    GetPortfolioQuery, vars
+                )
+            ),
+            switchMap(response => {
+                if(response.ok) {
+                    return of(response.data.getPortfolio)
                 } else {
                     return throwError(() => response.error)
                 }

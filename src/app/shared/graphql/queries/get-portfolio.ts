@@ -1,21 +1,21 @@
 export const GetPortfolioQuery = `
-    query GetPortfolio($address: string) {
-        getPortfolio(address: $address) {
+    query GetPortfolio($address: String!) {
+        getPortfolio(walletAddress: $address) {
             walletAddress,
-            nativeAssetBalances: {
+            nativeAssetBalances {
                 name,
                 chainId,
                 amount,
                 value
             },
-            fungibleTokenBalances: {
+            fungibleTokenBalances {
                 name,
                 tokenAddress,
                 chainId,
                 amount,
                 value
             },
-            nftTokenBalances: {
+            nftTokenBalances {
                 name,
                 tokenAddress,
                 chainId,
@@ -23,9 +23,9 @@ export const GetPortfolioQuery = `
                 amountOfOwnedAssets,
                 totalValue
             },
-            failedRpcCalls: {
+            failedRpcCalls {
                 tokenAddress,
-                chainid,
+                chainId,
                 isNft
             },
             totalValue,

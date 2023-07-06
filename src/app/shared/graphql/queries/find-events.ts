@@ -17,6 +17,7 @@ export const FindEventsQuery = `
                     utmTerm
                     origin
                     path
+                    referrer
                 }
                 walletConnectedWallet: wallet {
                     walletAddress
