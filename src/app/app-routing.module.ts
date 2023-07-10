@@ -37,7 +37,6 @@ const consoleRoutes: Routes = [
   { path: 'acquisition/:filterType/:filterName', component: CampaignDetailsComponent },
   { path: 'project-settings', component: ProjectSettingsComponent },
   { path: 'address/:walletAddress', component: AddressDetailsComponent }
-  
 ];
 
 @NgModule({
