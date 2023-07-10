@@ -61,6 +61,27 @@ export class AuthComponent implements OnInit {
         this.router.navigate(['console/analytics'])
       }
     })
+    if (this.route.snapshot.queryParams['demo']) {
+      this.demoLogIn();
+    }
+  }
+
+  demoLogIn() {
+    this.authService.logIn('mislav+er@polyflow.dev', 'polyflow').pipe(
+      buttonLoadingSpinner(event),
+      catchError(err => { 
+        if(err.error.message.includes("verified")) {
+          this.router.navigate(['verify'], {
+            queryParams: {
+              email: this.authForm.controls.email.value
+            }
+          })
+        }
+        this.errorMessageSub.next(err.error.message) 
+        return throwError(err) 
+      })).subscribe(res => {
+      res ? this.router.navigate(['console/analytics']) : ''
+    })
   }
 
   logInClicked(event: Event) {
