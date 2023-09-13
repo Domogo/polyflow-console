@@ -22,6 +22,10 @@ export function getNetwork(chainID: number): Network | undefined {
         return { name: "Arbitrum", shortName: 'ARB' }
     } else if (chainID === 11155111) {
         return { name: "Sepolia", shortName: 'ETH Sepolia' }
+    } else if(chainID === 8453) {
+        return { name: "Base", shortName: "BASE" }
+    } else if(chainID === 421613) {
+        return { name: "Arbitrum Goerli", shortName: "ARB Goerli" }
     }
     
     return undefined

@@ -44,6 +44,8 @@ export const networkIcons: Map<string, string> = new Map([
   ["10", "https://icons.llamao.fi/icons/chains/rsz_optimism.jpg"],
   ["420", "https://icons.llamao.fi/icons/chains/rsz_optimism.jpg"],
   ["42161", "https://icons.llamao.fi/icons/chains/rsz_arbitrum.jpg"],
+  ["8453", "https://icons.llamao.fi/icons/chains/rsz_base.jpg"],
+  ["421613", "https://icons.llamao.fi/icons/chains/rsz_arbitrum.jpg"]
 ])
 
 function generateLangMap () {
