@@ -26,6 +26,8 @@ export function getNetwork(chainID: number): Network | undefined {
         return { name: "Base", shortName: "BASE" }
     } else if(chainID === 421613) {
         return { name: "Arbitrum Goerli", shortName: "ARB Goerli" }
+    } else if(chainID === 43113) {
+        return { name: "Avalanche Fui", shortName: "AVAX Fuji" }
     }
     
     return undefined
