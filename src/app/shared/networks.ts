@@ -14,6 +14,15 @@ export function getNetwork(chainID: number): Network | undefined {
         return { name: 'Polygon', shortName: 'matic' }
     } else if(chainID === 122) {
         return { name: 'Fuse', shortName: 'fuse' }
+    } else if (chainID === 420) {
+        return { name: "Optimism Goerli", shortName: 'OP Goerli' }
+    } else if (chainID === 10) {
+        return { name: "Optimism", shortName: 'OP' }
+    } else if (chainID === 42161) {
+        return { name: "Arbitrum", shortName: 'ARB' }
+    } else if (chainID === 11155111) {
+        return { name: "Sepolia", shortName: 'ETH Sepolia' }
     }
+    
     return undefined
 }
