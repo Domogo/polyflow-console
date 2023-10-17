@@ -28,6 +28,28 @@ export function getNetwork(chainID: number): Network | undefined {
         return { name: "Arbitrum Goerli", shortName: "ARB Goerli" }
     } else if(chainID === 43113) {
         return { name: "Avalanche Fui", shortName: "AVAX Fuji" }
+    } else if(chainID === 56) {
+        return { name: 'BNB Smart Chain', shortName: 'BSC' }
+    } else if(chainID === 204) {
+        return { name: 'opBNB Mainnet', shortName: 'opBNB' }
+    } else if(chainID === 324) {
+        return { name: 'zkSync Era', shortName: 'zkSYNC'}
+    } else if(chainID === 462) {
+        return { name: 'Areon Network Testnet', shortName: 'TAREA' }
+    } else if(chainID === 500) {
+        return { name: 'Camino Test Chain', shortName: 'CAM'}
+    } else if(chainID === 1116) {
+        return { name: 'Core Blockchain Mainnet', shortName: 'CORE' }
+    } else if(chainID === 11891) {
+        return { name: 'Polygon Supernet Arianne', shortName: 'ARIA20' } 
+    } else if(chainID === 1945) {
+        return { name: 'ONUS Chain Testnet', shortName: 'ONUS' }
+    } else if(chainID === 5611) {
+        return { name: 'opBNB Testnet', shortName: 'opBNB' }
+    } else if(chainID === 43114) {
+        return { name: 'Avalanche C-Chain', shortName: 'AVAX' }
+    } else {
+        return { name: chainID.toString(), shortName: chainID.toString()}
     }
     
     return undefined

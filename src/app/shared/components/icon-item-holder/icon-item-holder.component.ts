@@ -24,7 +24,13 @@ export class IconItemHolderComponent implements OnInit {
 
   _getIcon() {
     if(!this.iconQuery) { return 'undefined' }
-    return getIcon(this.type, this.iconQuery)
+    
+    const icon =  getIcon(this.type, this.iconQuery)
+    if(icon) {
+      return icon
+    } else {
+      return 'https://friconix.com/jpg/fi-cnsuxl-question-mark.jpg'
+    }
   }
 
   _getNetworkQuery() {
