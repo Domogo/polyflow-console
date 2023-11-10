@@ -1,326 +1,830 @@
-<div class="w-full h-full grid grid-cols-9 gap-4">
-    <div class="col-span-9 h-full">
-        <div class="bg-white rounded-lg p-6 h-full w-full">
-            <div class="text-indigo-700 uppercase text-xs font-semibold flex flex-row justify-between gap-y-2 mb-2">
-                <div *ngIf="activeTimespan$ | async as time" class="flex flex-row items-center gap-x-2">
-                    <div *ngFor="let item of timespanOptions" [class.!bg-indigo-700]="item === time"
-                        [class.text-white]="item === time" (click)="changeSelectedTimespan(item)" class="border border-slate-100 hover:bg-indigo-50
-                         transition-all rounded-md py-2 px-4 cursor-pointer">
-                        {{item}}
+<div class="flex flex-col gap-6 mt-5">
+  <div class="w-full flex flex-row justify-between relative">
+    <p class="text-[32px] leading-[32px] font-semibold">Dashboard</p>
+    <button
+      class="bg-white rounded-xl p-4 flex flex-row justify-between items-center gap-6"
+      (click)="toggleHistoryDropdown()"
+    >
+      <p class="text-base leading-4 font-medium">Last 28 days</p>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="12"
+        height="7"
+        viewBox="0 0 12 7"
+        fill="none"
+      >
+        <path
+          d="M11.1563 0.85083L6.24292 5.76371C6.17852 5.82819 6.09113 5.86443 6 5.86443C5.90887 5.86443 5.82148 5.82819 5.75708 5.76371L0.84375 0.85083"
+          stroke="#273143"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </button>
+    <div
+      *ngIf="showHistoryDropdown"
+      class="absolute right-0 bg-white top-14 w-[160px] rounded-xl shadow-md shadow-slate-300 overflow-hidden"
+    >
+      <div
+        *ngIf="activeTimespan$ | async as time"
+        class="flex flex-col items-center"
+      >
+        <div
+          *ngFor="let item of timespanOptions"
+          [class.!bg-indigo-500]="item === time"
+          (click)="changeSelectedTimespan(item)"
+          [class.text-white]="item === time"
+          class="py-4 px-[18px] w-full cursor-pointer hover:bg-slate-100"
+        >
+          {{ item }}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="w-full h-full grid grid-cols-2 gap-6">
+    <div class="bg-white p-8 gap-10 flex flex-col rounded-3xl">
+      <div class="flex flex-row w-full justify-between items-center">
+        <div class="flex flex-col">
+          <p class="text-2xl font-semibold leading-[34px]">Transactions</p>
+          <p class="text-sm font-normal text-[#777A9B]">Last 28 days</p>
+        </div>
+        <div
+          class="bg-red-200 rounded-full flex flex-row gap-[2px] h-min items-center p-[6px] pl-2"
+        >
+          <p class="text-sm font-medium leading-5 text-[#E74090]">-4.3%</p>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="none"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M10 18C14.4183 18 18 14.4183 18 10C18 5.58172 14.4183 2 10 2C5.58172 2 2 5.58172 2 10C2 14.4183 5.58172 18 10 18ZM10.75 6.75C10.75 6.33579 10.4142 6 10 6C9.58579 6 9.25 6.33579 9.25 6.75V11.3401L7.29959 9.23966C7.01774 8.93613 6.54319 8.91855 6.23966 9.20041C5.93613 9.48226 5.91855 9.95681 6.20041 10.2603L9.45041 13.7603C9.59231 13.9132 9.79145 14 10 14C10.2086 14 10.4077 13.9132 10.5496 13.7603L13.7996 10.2603C14.0814 9.95681 14.0639 9.48226 13.7603 9.20041C13.4568 8.91855 12.9823 8.93613 12.7004 9.23966L10.75 11.3401V6.75Z"
+              fill="#E74090"
+            />
+          </svg>
+        </div>
+      </div>
+      <div class="flex flex-row w-full justify-between relative">
+        <div
+          class="chart-container"
+          style="position: relative; height: 202px; width: 202px"
+        >
+          <canvas #doughnutCanvas style="width: 20px"></canvas>
+        </div>
+        <div
+          class="w-[200px] h-[200px] rounded-full bg-red-300/0 items-center justify-center flex flex-col gap-2 absolute"
+          *ngIf="totalTransactions$ | async as txs"
+        >
+          <p class="text-5xl leading-[44px] font-semibold">
+            {{ txs.at(0)?.value }}
+          </p>
+          <p class="text-base font-normal leading-5 text-[#777A9B]">
+            Total transactions
+          </p>
+        </div>
+        <div class="flex flex-col gap-3 max-w-[314px] w-full">
+          <div
+            class="border rounded-xl flex flex-row w-full justify-between p-4"
+          >
+            <div class="flex flex-row justify-between w-full items-center">
+              <div class="flex flex-row gap-2 items-center text-sm font-normal">
+                <div class="h-[9px] w-[9px] bg-red-400 rounded-full"></div>
+                <p>Successful</p>
+              </div>
+              <ng-container *ngIf="totalTransactions$ | async as txs">
+                <ng-container
+                  *ngIf="totalSuccessfulTransactions$ | async as wallets"
+                >
+                  <div class="flex flex-row gap-2 items-center">
+                    <p class="text-xl leading-5 font-semibold">
+                      {{ wallets.at(0)?.value }}
+                    </p>
+                    <div
+                      class="bg-slate-200 rounded-md p-[6px] text-xs font-medium leading-3"
+                    >
+                      {{
+                        (
+                          ((wallets.at(0)?.value || 0) /
+                            (txs.at(0)?.value || 1)) *
+                          100
+                        ).toFixed(1)
+                      }}%
                     </div>
-                </div>
+                  </div>
+                </ng-container>
+              </ng-container>
+            </div>
+          </div>
+          <div
+            class="border rounded-xl flex flex-row w-full justify-between p-4"
+          >
+            <div class="flex flex-row justify-between w-full items-center">
+              <div class="flex flex-row gap-2 items-center text-sm font-normal">
+                <div class="h-[9px] w-[9px] bg-red-400 rounded-full"></div>
+                <p>Cancelled</p>
+              </div>
+              <ng-container
+                *ngIf="totalCancelledTransactions$ | async as wallets"
+              >
+                <ng-container *ngIf="totalTransactions$ | async as txs">
+                  <div class="flex flex-row gap-2 items-center">
+                    <p class="text-xl leading-5 font-semibold">
+                      {{ wallets.at(0)?.value }}
+                    </p>
+                    <div
+                      class="bg-slate-200 rounded-md p-[6px] text-xs font-medium leading-3"
+                    >
+                      {{
+                        (
+                          ((wallets.at(0)?.value || 0) /
+                            (txs.at(0)?.value || 1)) *
+                          100
+                        ).toFixed(1)
+                      }}%
+                    </div>
+                  </div>
+                </ng-container>
+              </ng-container>
+            </div>
+          </div>
+
+          <div
+            class="border rounded-xl flex flex-row w-full justify-between p-4"
+          >
+            <div class="flex flex-row justify-between w-full items-center">
+              <div class="flex flex-row gap-2 items-center text-sm font-normal">
+                <div class="h-[9px] w-[9px] bg-red-400 rounded-full"></div>
+                <p>Failed</p>
+              </div>
+              <ng-container *ngIf="totalTransactions$ | async as txs">
+                <ng-container
+                  *ngIf="totalCancelledTransactions$ | async as wallets"
+                >
+                  <div class="flex flex-row gap-2 items-center">
+                    <div class="text-xl leading-5 font-semibold">
+                      {{ wallets.at(0)?.value }}
+                    </div>
+                    <div
+                      class="bg-slate-200 rounded-md p-[6px] text-xs font-medium leading-3"
+                    >
+                      {{
+                        (
+                          ((wallets.at(0)?.value || 0) /
+                            (txs.at(0)?.value || 1)) *
+                          100
+                        ).toFixed(1)
+                      }}%
+                    </div>
+                  </div>
+                </ng-container>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="bg-white rounded-3xl p-8 flex flex-col gap-8">
+      <div class="flex flex-col">
+        <p class="text-2xl font-semibold leading-[34px]">Wallets</p>
+        <p class="text-sm font-normal text-[#777A9B]">Last 28 days</p>
+      </div>
+      <div class="flex flex-col gap-4">
+        <div
+          class="border rounded-2xl flex flex-row w-full justify-between items-center py-5 pr-4 pl-6"
+        >
+          <div class="flex flex-row gap-4 items-center">
+            <div class="bg-[#4300AF] rounded-full p-3">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="25"
+                viewBox="0 0 24 25"
+                fill="none"
+              >
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M10.7881 3.71068C11.2365 2.63274 12.7635 2.63273 13.2119 3.71068L15.2939 8.7164L20.6979 9.14964C21.8617 9.24293 22.3336 10.6952 21.4469 11.4547L17.3296 14.9817L18.5875 20.2551C18.8584 21.3908 17.623 22.2883 16.6267 21.6798L12 18.8538L7.37335 21.6798C6.37703 22.2883 5.14164 21.3908 5.41252 20.2551L6.67044 14.9817L2.55309 11.4547C1.66645 10.6952 2.13833 9.24293 3.30206 9.14964L8.70615 8.7164L10.7881 3.71068Z"
+                  fill="white"
+                />
+              </svg>
             </div>
             <div
-                class="w-full bg-slate-50 border px-4 py-6 rounded-lg border-slate-100 grid grid-cols-12 gap-4 mt-4 text-indigo-700 text-xs uppercase items-center">
-
-                
-                <div class="font-semibold col-span-1 flex flex-row items-center gap-x-2">
-                    <div>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="currentColor" class="w-6 h-6">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M21 12a2.25 2.25 0 00-2.25-2.25H15a3 3 0 11-6 0H5.25A2.25 2.25 0 003 12m18 0v6a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 18v-6m18 0V9M3 12V9m18 0a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 9m18 0V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v3" />
-                        </svg>
-                    </div>
-                    Unique Wallets
-                </div>
-                <div class="col-span-1 text-lg font-semibold text-slate-500 text-right pr-8 border-r"
-                    *ngIf="totalConnectedWallets$ | async as wallets">{{wallets.values.at(0)?.value}}</div>
-
-                <div class="font-semibold col-span-1 flex flex-row items-center gap-x-3">
-                    <div>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="currentColor" class="w-6 h-6">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M21 12a2.25 2.25 0 00-2.25-2.25H15a3 3 0 11-6 0H5.25A2.25 2.25 0 003 12m18 0v6a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 18v-6m18 0V9M3 12V9m18 0a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 9m18 0V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v3" />
-                        </svg>
-                    </div>
-                    New Wallets
-                </div>
-                <div class="col-span-1 text-lg font-semibold text-slate-500 text-right pr-8 border-r"
-                    *ngIf="newWalletsConnected$ | async as wallets">{{wallets.at(0)?.value}}</div>
-
-
-                <div class="font-semibold col-span-1 flex flex-row gap-x-2 items-center">
-                    <div>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="currentColor" class="w-6 h-6">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
-                        </svg>
-
-                    </div>
-                    Total TXs
-                </div>
-                <div class="col-span-1 text-lg font-semibold text-slate-500 text-right pr-8 border-r"
-                    *ngIf="totalTransactions$ | async as txs">{{txs.at(0)?.value}}</div>
-
-                <!-- <hr class="col-span-10 border-slate-100"> -->
-
-                <div class="font-semibold text-green-700 col-span-1 flex flex-row items-center gap-x-2">
-                    <div>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="currentColor" class="w-6 h-6">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M10.125 2.25h-4.5c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125v-9M10.125 2.25h.375a9 9 0 019 9v.375M10.125 2.25A3.375 3.375 0 0113.5 5.625v1.5c0 .621.504 1.125 1.125 1.125h1.5a3.375 3.375 0 013.375 3.375M9 15l2.25 2.25L15 12" />
-                        </svg>
-
-                    </div>
-                    Successful <br> TXs
-                </div>
-                <div class="col-span-1 text-lg font-semibold text-slate-500 text-right pr-8 border-r"
-                    *ngIf="totalSuccessfulTransactions$ | async as wallets">{{wallets.at(0)?.value}}</div>
-
-
-                <div class="font-semibold text-amber-700 col-span-1 flex felx-row items-center gap-x-3 ">
-                    <div>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
-                          </svg>
-                          
-
-                    </div>
-                    Cancelled TXs
-                </div>
-                <div class="col-span-1 text-lg font-semibold text-slate-500 text-right pr-8 border-r"
-                    *ngIf="totalCancelledTransactions$ | async as wallets">{{wallets.at(0)?.value}}</div>
-
-                <div class="font-semibold text-red-700 col-span-1 flex felx-row items-center gap-x-2">
-                    <div>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="currentColor" class="w-6 h-6">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-
-                    </div>
-                    Failed TXs
-                </div>
-                <div class="col-span-1 text-lg font-semibold text-slate-500 text-right pr-8"
-                    *ngIf="totalCancelledTransactions$ | async as wallets">{{wallets.at(0)?.value}}</div>
-    
-
+              class="flex flex-col"
+              *ngIf="totalConnectedWallets$ | async as wallets"
+            >
+              <p class="text-2xl font-semibold">
+                {{ wallets.values.at(0)?.value }}
+              </p>
+              <p class="text-base font-normal leading-5 text-[#777A9B]">
+                Unique
+              </p>
             </div>
-
-
-
-
-            <div *ngIf="projectUserStats$ | async as stats"
-                class="grid grid-cols-5 mt-4 gap-2 uppercase border p-4 bg-slate-50 rounded-lg border-slate-100 text-xs font-semibold text-indigo-700">
-                
-                                
-                <div class="col-span-5 flex flex-row gap-x-2 items-center justify-between">
-                    <div class="flex flex-row gap-x-2 items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 01-.659 1.591l-5.432 5.432a2.25 2.25 0 00-.659 1.591v2.927a2.25 2.25 0 01-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 00-.659-1.591L3.659 7.409A2.25 2.25 0 013 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0112 3z" />
-                        </svg>                      
-                        User funnel
-                    </div>
-                    <div class="font-normal normal-case text-slate-500">
-                        This metric counts numbers for 'users'. Polyflow intelligently merges mutliple addresses into a single user.
-                    </div>
-                </div>
-                
-                <hr class="col-span-5 border-slate-100">
-                
-                <div class="flex flex-col items-center text-center rounded-lg justify-center p-4 gap-y-2">
-                    Total <br> Unique Users
-                    <div class="text-lg text-slate-600">{{stats.totalUsers}}</div>
-                    <hr class="border-slate-100 w-full">
-                    <div class="text-sm">100% <br> <span class="text-slate-500 text-xs">of total</span> </div>
-                </div>
-
-                <div class="flex flex-col items-center text-center rounded-lg justify-center p-4 gap-y-2">
-                    Users <br> With Wallets
-                    <div class="text-lg text-slate-600">{{stats.usersWithWallet}}</div>
-                    <hr class="border-slate-100 w-full">
-                    <div class="text-sm">{{getDropoffString(stats.totalUsers, stats.usersWithWallet)}}% <br> <span class="text-slate-500 text-xs">of total</span> </div>
-                </div>
-                <div class="flex flex-col items-center text-center rounded-lg justify-center p-4 gap-y-2">
-                    Users That <br> Connected Wallet
-                    <div class="text-lg text-slate-600">{{stats.usersWithConnectedWallet}}</div>
-                    <hr class="border-slate-100 w-full">
-                    <div class="text-sm">{{getDropoffString(stats.totalUsers, stats.usersWithConnectedWallet)}}% <br> <span class="text-slate-500 text-xs">of total</span> </div>
-                </div>
-                <div class="flex flex-col items-center text-center rounded-lg justify-center p-4 gap-y-2">
-                    Users That <br> Executed a TX
-                    <div class="text-lg text-slate-600">{{stats.usersWithExecutedTx}}</div>
-                    <hr class="border-slate-100 w-full">
-                    <div class="text-sm">{{getDropoffString(stats.totalUsers, stats.usersWithExecutedTx)}}% <br> <span class="text-slate-500 text-xs">of total</span> </div>
-                </div>
-                <div class="flex flex-col items-center text-center rounded-lg justify-center p-4 gap-y-2">
-                    Users That Executed multiple TXs
-                    <div class="text-lg text-slate-600">{{stats.usersWithMultipleExecutedTx}}</div>
-                    <hr class="border-slate-100 w-full">
-                    <div class="text-sm">{{getDropoffString(stats.totalUsers, stats.usersWithMultipleExecutedTx)}}% <br> <span class="text-slate-500 text-xs">of total</span> </div>
-                </div>
-            </div>
-
+          </div>
+          <div
+            class="bg-[#0b5eff1f] rounded-[40px] p-[6px] pl-2 flex flex-row gap-[2px] h-min items-center"
+          >
+            <p class="text-sm font-medium text-[#0B5EFF]">+1.3%</p>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="21"
+              viewBox="0 0 20 21"
+              fill="none"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M10 2.5C14.4183 2.5 18 6.08172 18 10.5C18 14.9183 14.4183 18.5 10 18.5C5.58172 18.5 2 14.9183 2 10.5C2 6.08172 5.58172 2.5 10 2.5ZM10.75 13.75C10.75 14.1642 10.4142 14.5 10 14.5C9.58579 14.5 9.25 14.1642 9.25 13.75V9.1599L7.29959 11.2603C7.01774 11.5639 6.54319 11.5814 6.23966 11.2996C5.93613 11.0177 5.91855 10.5432 6.20041 10.2397L9.45041 6.73966C9.59231 6.58684 9.79145 6.5 10 6.5C10.2086 6.5 10.4077 6.58684 10.5496 6.73966L13.7996 10.2397C14.0814 10.5432 14.0639 11.0177 13.7603 11.2996C13.4568 11.5814 12.9823 11.5639 12.7004 11.2603L10.75 9.1599V13.75Z"
+                fill="#0B5EFF"
+              />
+            </svg>
+          </div>
         </div>
+        <div
+          class="border rounded-2xl flex flex-row w-full justify-between items-center py-5 pr-4 pl-6"
+        >
+          <div class="flex flex-row gap-4 items-center">
+            <div class="bg-[#A01ECD] rounded-full p-3">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="25"
+                viewBox="0 0 24 25"
+                fill="none"
+              >
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M14.6152 2.09495C14.9165 2.26289 15.0643 2.61463 14.9736 2.94736L12.982 10.25H20.25C20.5487 10.25 20.8189 10.4272 20.9379 10.7011C21.0569 10.975 21.0021 11.2934 20.7983 11.5118L10.2983 22.7618C10.063 23.0139 9.68604 23.073 9.38481 22.9051C9.08357 22.7372 8.9357 22.3854 9.02644 22.0527L11.0181 14.75H3.75002C3.45137 14.75 3.18118 14.5728 3.06216 14.2989C2.94313 14.025 2.99795 13.7066 3.20173 13.4883L13.7017 2.23829C13.937 1.98615 14.314 1.92701 14.6152 2.09495Z"
+                  fill="white"
+                />
+              </svg>
+            </div>
+            <div
+              class="flex flex-col"
+              *ngIf="newWalletsConnected$ | async as wallets"
+            >
+              <p class="text-2xl font-semibold">{{ wallets.at(0)?.value }}</p>
+              <p class="text-base font-normal leading-5 text-[#777A9B]">New</p>
+            </div>
+          </div>
+          <div
+            class="bg-[#e740901f] rounded-[40px] p-[6px] pl-2 flex flex-row gap-[2px] h-min items-center"
+          >
+            <p class="text-sm font-medium text-[#E74090]">+1.3%</p>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="21"
+              viewBox="0 0 20 21"
+              fill="none"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M10 18.5C14.4183 18.5 18 14.9183 18 10.5C18 6.08172 14.4183 2.5 10 2.5C5.58172 2.5 2 6.08172 2 10.5C2 14.9183 5.58172 18.5 10 18.5ZM10.75 7.25C10.75 6.83579 10.4142 6.5 10 6.5C9.58579 6.5 9.25 6.83579 9.25 7.25V11.8401L7.29959 9.73966C7.01774 9.43613 6.54319 9.41855 6.23966 9.70041C5.93613 9.98226 5.91855 10.4568 6.20041 10.7603L9.45041 14.2603C9.59231 14.4132 9.79145 14.5 10 14.5C10.2086 14.5 10.4077 14.4132 10.5496 14.2603L13.7996 10.7603C14.0814 10.4568 14.0639 9.98226 13.7603 9.70041C13.4568 9.41855 12.9823 9.43613 12.7004 9.73966L10.75 11.8401V7.25Z"
+                fill="#E74090"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
     </div>
-
-    <div *ngIf="filter === undefined" class="col-span-3 bg-white rounded-lg p-6 flex flex-col justify-between">
-        <div>
-            <div class="uppercase font-semibold text-xs text-indigo-700 flex flex-row gap-x-2 items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="w-5 h-5">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5M9 11.25v1.5M12 9v3.75m3-6v6" />
-                </svg>
-
-                Top marketing campaigns
-            </div>
-            <div class="flex flex-col gap-y-2 text-xs pt-4" *ngIf="campaigns$ | async as campaigns">
-                <div class="grid grid-cols-9 text-[10px] uppercase text-indigo-700 font-semibold">
-                    <div class="col-span-5">Name</div>
-                    <div class="col-span-2 text-center">Landed</div>
-                    <div class="col-span-2 text-center">Signed TXs</div>
-                </div>
-                <div class="flex flex-col" *ngFor="let campaign of campaigns">
-                    <div class="grid py-2 grid-cols-9">
-                        <div class="col-span-5">
-                            {{campaign.name}}
-                        </div>
-                        <div class="col-span-2 text-center font-semibold">
-                            {{campaign.totalUsers}}
-                        </div>
-                        <div class="col-span-2 text-center font-semibold">
-                            {{campaign.usersWithConnectedWallet}}
-                        </div>
-
-                    </div>
-                    <hr class="border-slate-100">
-                </div>
-            </div>
+    <div
+      class="bg-white rounded-3xl flex flex-col gap-8 p-8"
+      *ngIf="projectUserStats$ | async as stats"
+    >
+      <div class="flex flex-col">
+        <div class="flex flex-row gap-1 items-center">
+          <p class="text-2xl font-semibold leading-[34px]">User funnel</p>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M2.25 12C2.25 6.61522 6.61522 2.25 12 2.25C17.3848 2.25 21.75 6.61522 21.75 12C21.75 17.3848 17.3848 21.75 12 21.75C6.61522 21.75 2.25 17.3848 2.25 12ZM10.9562 10.5584C12.1025 9.98533 13.3931 11.0206 13.0823 12.2639L12.3733 15.0999L12.4148 15.0792C12.7852 14.894 13.2357 15.0441 13.421 15.4146C13.6062 15.7851 13.4561 16.2356 13.0856 16.4208L13.0441 16.4416C11.8979 17.0147 10.6072 15.9794 10.9181 14.7361L11.6271 11.9001L11.5856 11.9208C11.2151 12.1061 10.7646 11.9559 10.5793 11.5854C10.3941 11.2149 10.5443 10.7644 10.9148 10.5792L10.9562 10.5584ZM12 9C12.4142 9 12.75 8.66421 12.75 8.25C12.75 7.83579 12.4142 7.5 12 7.5C11.5858 7.5 11.25 7.83579 11.25 8.25C11.25 8.66421 11.5858 9 12 9Z"
+              fill="#273143"
+            />
+          </svg>
         </div>
-
-        <div routerLink="/console/acquisition" class="mt-4 text-center w-full underline cursor-pointer
-                    font-medium hover:font-semibold text-xs text-slate-500">
-            See all campaigns
+        <p class="text-sm font-normal text-[#777A9B]">Last 28 days</p>
+      </div>
+      <div class="flex flex-col md:max-w-[99%]">
+        <div class="relative w-full items-center justify-center">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="556"
+            height="115"
+            viewBox="0 0 556 115"
+            fill="none"
+            class="xl:min-w-full w-full"
+          >
+            <path
+              d="M4.40378 25.2609C1.56627 16.7316 0.147513 12.467 1.0013 9.07273C1.74867 6.10151 3.60421 3.52868 6.18759 1.8816C9.13879 0 13.6332 0 22.6221 0H533.378C542.367 0 546.861 0 549.812 1.8816C552.396 3.52868 554.251 6.10151 554.999 9.07273C555.852 12.467 554.434 16.7316 551.596 25.2609L385.39 524.861C383.818 529.585 383.032 531.948 381.573 533.694C380.284 535.237 378.628 536.431 376.758 537.167C374.64 538 372.15 538 367.171 538H188.829C183.85 538 181.36 538 179.242 537.167C177.372 536.431 175.716 535.237 174.427 533.694C172.968 531.948 172.182 529.585 170.61 524.861L4.40378 25.2609Z"
+              fill="#F2F1FB"
+            />
+          </svg>
+          <div
+            class="absolute top-[30%] w-full flex flex-col gap-2 text-center"
+          >
+            <p class="text-base font-normal leading-5 text-[#777A9B]">
+              Total users
+            </p>
+            <p class="text-2xl font-semibold">{{ stats.totalUsers }}</p>
+          </div>
         </div>
+        <div class="relative w-full items-center justify-center">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="556"
+            height="105"
+            viewBox="0 0 556 105"
+            fill="none"
+            class="xl:min-w-full w-full"
+          >
+            <path
+              d="M4.87821 -88.8969C3.45649 -93.1705 2.40125 -96.344 1.80496 -98.8735C1.20926 -101.401 1.08813 -103.223 1.48619 -104.805C2.20243 -107.653 3.98066 -110.118 6.45639 -111.697C7.83232 -112.574 9.59955 -113.034 12.1855 -113.267C14.7739 -113.5 18.1182 -113.5 22.6221 -113.5H533.378C537.882 -113.5 541.226 -113.5 543.815 -113.267C546.4 -113.034 548.168 -112.574 549.544 -111.697C552.019 -110.118 553.798 -107.653 554.514 -104.805C554.912 -103.223 554.791 -101.401 554.195 -98.8735C553.599 -96.344 552.544 -93.1705 551.122 -88.897L384.915 410.703C383.33 415.468 382.573 417.718 381.189 419.374C379.954 420.852 378.367 421.996 376.575 422.701C374.567 423.492 372.193 423.5 367.171 423.5H188.829C183.807 423.5 181.433 423.492 179.425 422.701C177.633 421.996 176.046 420.852 174.811 419.374C173.427 417.718 172.67 415.468 171.085 410.703L4.87821 -88.8969Z"
+              fill="white"
+              stroke="#F2F1FB"
+            />
+          </svg>
+          <div
+            class="absolute top-[30%] w-full flex flex-col gap-2 text-center"
+          >
+            <p class="text-base font-normal leading-5 text-[#777A9B]">
+              w/ wallets
+            </p>
+            <p class="text-2xl font-semibold">{{ stats.usersWithWallet }}</p>
+          </div>
+        </div>
+        <div class="relative w-full items-center justify-center">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="556"
+            height="106"
+            viewBox="0 0 556 106"
+            class="xl:min-w-full w-full"
+            fill="none"
+          >
+            <path
+              d="M4.40378 -193.739C1.56627 -202.268 0.147513 -206.533 1.0013 -209.927C1.74867 -212.898 3.60421 -215.471 6.18759 -217.118C9.13879 -219 13.6332 -219 22.6221 -219H533.378C542.367 -219 546.861 -219 549.812 -217.118C552.396 -215.471 554.251 -212.898 554.999 -209.927C555.852 -206.533 554.434 -202.268 551.596 -193.739L385.39 305.861C383.818 310.585 383.032 312.948 381.573 314.694C380.284 316.237 378.628 317.431 376.758 318.167C374.64 319 372.15 319 367.171 319H188.829C183.85 319 181.36 319 179.242 318.167C177.372 317.431 175.716 316.237 174.427 314.694C172.968 312.948 172.182 310.585 170.61 305.861L4.40378 -193.739Z"
+              fill="#F2F1FB"
+            />
+          </svg>
+          <div
+            class="absolute top-[30%] w-full flex flex-col gap-2 text-center"
+          >
+            <p class="text-base font-normal leading-5 text-[#777A9B]">
+              Connected wallets
+            </p>
+            <p class="text-2xl font-semibold">
+              {{ stats.usersWithConnectedWallet }}
+            </p>
+          </div>
+        </div>
+        <div class="relative w-full items-center justify-center">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="556"
+            height="105"
+            viewBox="0 0 556 105"
+            class="xl:min-w-full w-full"
+            fill="none"
+          >
+            <path
+              d="M4.87821 -299.897C3.45649 -304.171 2.40125 -307.344 1.80496 -309.874C1.20926 -312.401 1.08813 -314.223 1.48619 -315.805C2.20243 -318.653 3.98066 -321.118 6.45639 -322.697C7.83232 -323.574 9.59955 -324.034 12.1855 -324.267C14.7739 -324.5 18.1182 -324.5 22.6221 -324.5H533.378C537.882 -324.5 541.226 -324.5 543.815 -324.267C546.4 -324.034 548.168 -323.574 549.544 -322.697C552.019 -321.118 553.798 -318.653 554.514 -315.805C554.912 -314.223 554.791 -312.401 554.195 -309.874C553.599 -307.344 552.544 -304.171 551.122 -299.897L384.915 199.703C383.33 204.468 382.573 206.718 381.189 208.374C379.954 209.852 378.367 210.996 376.575 211.701C374.567 212.492 372.193 212.5 367.171 212.5H188.829C183.807 212.5 181.433 212.492 179.425 211.701C177.633 210.996 176.046 209.852 174.811 208.374C173.427 206.718 172.67 204.468 171.085 199.703L4.87821 -299.897Z"
+              fill="white"
+              stroke="#F2F1FB"
+            />
+          </svg>
+          <div
+            class="absolute top-[30%] w-full flex flex-col gap-2 text-center"
+          >
+            <p class="text-base font-normal leading-5 text-[#777A9B]">
+              Executed a Transaction
+            </p>
+            <p class="text-2xl font-semibold">
+              {{ stats.usersWithExecutedTx }}
+            </p>
+          </div>
+        </div>
+        <div class="relative w-full items-center justify-center">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="556"
+            height="108"
+            viewBox="0 0 556 108"
+            class="xl:min-w-full w-full"
+            fill="none"
+          >
+            <path
+              d="M4.40378 -404.739C1.56627 -413.268 0.147513 -417.533 1.0013 -420.927C1.74867 -423.898 3.60421 -426.471 6.18759 -428.118C9.13879 -430 13.6332 -430 22.6221 -430H533.378C542.367 -430 546.861 -430 549.812 -428.118C552.396 -426.471 554.251 -423.898 554.999 -420.927C555.852 -417.533 554.434 -413.268 551.596 -404.739L385.39 94.8608C383.818 99.5854 383.032 101.948 381.573 103.694C380.284 105.237 378.628 106.431 376.758 107.167C374.64 108 372.15 108 367.171 108H188.829C183.85 108 181.36 108 179.242 107.167C177.372 106.431 175.716 105.237 174.427 103.694C172.968 101.948 172.182 99.5854 170.61 94.8608L4.40378 -404.739Z"
+              fill="#F2F1FB"
+            />
+          </svg>
+          <div
+            class="absolute top-[30%] w-full flex flex-col gap-2 text-center"
+          >
+            <p class="text-base font-normal leading-5 text-[#777A9B]">
+              Executed multiple transactions
+            </p>
+            <p class="text-2xl font-semibold">
+              {{ stats.usersWithMultipleExecutedTx }}
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
+    <div class="flex flex-col justify-between">
+      <div
+        class="bg-white rounded-3xl flex flex-col gap-6 p-8 max-h-[470px] overflow-scroll"
+      >
+        <div class="flex flex-col gap-6">
+          <div class="flex flex-col">
+            <p class="text-2xl font-semibold leading-[34px]">
+              Wallet providers
+            </p>
+            <p class="text-sm font-normal text-[#777A9B]">Last 28 days</p>
+          </div>
+          <div class="h-full">
+            <table
+              *ngIf="walletProviders$ | async as providers"
+              class="w-full table-auto text-xs border-separate border-spacing-y-2"
+            >
+              <thead class="text-xs text-[#777A9B]">
+                <tr>
+                  <th></th>
+                  <th class="uppercase font-normal">Users</th>
+                  <th class="uppercase font-normal">Connects</th>
+                  <th class="uppercase font-normal">Wallets</th>
+                  <th class="uppercase font-normal">Total TXs</th>
+                  <th></th>
+                </tr>
+              </thead>
 
-    <ng-container *ngIf="filter === undefined">
-        <div *ngIf="sessions$ | async as sessions" class="col-span-3 bg-white rounded-lg p-6">
-            <div class="font-semibold text-indigo-700 flex flex-row items-center gap-x-2 uppercase mb-4 text-xs">
-                <div>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
-                        <path fill-rule="evenodd"
-                            d="M8.25 6.75a3.75 3.75 0 117.5 0 3.75 3.75 0 01-7.5 0zM15.75 9.75a3 3 0 116 0 3 3 0 01-6 0zM2.25 9.75a3 3 0 116 0 3 3 0 01-6 0zM6.31 15.117A6.745 6.745 0 0112 12a6.745 6.745 0 016.709 7.498.75.75 0 01-.372.568A12.696 12.696 0 0112 21.75c-2.305 0-4.47-.612-6.337-1.684a.75.75 0 01-.372-.568 6.787 6.787 0 011.019-4.38z"
-                            clip-rule="evenodd" />
-                        <path
-                            d="M5.082 14.254a8.287 8.287 0 00-1.308 5.135 9.687 9.687 0 01-1.764-.44l-.115-.04a.563.563 0 01-.373-.487l-.01-.121a3.75 3.75 0 013.57-4.047zM20.226 19.389a8.287 8.287 0 00-1.308-5.135 3.75 3.75 0 013.57 4.047l-.01.121a.563.563 0 01-.373.486l-.115.04c-.567.2-1.156.349-1.764.441z" />
-                    </svg>
-                </div>
-                <div>
-                    Latest user sessions
-                </div>
-            </div>
-            <div class="grid grid-cols-12 text-[10px] uppercase font-semibold text-indigo-700">
-                <div class="col-span-4">
-                    Time
-                </div>
-                <div class="col-span-4 text-center">
-                    Address
-                </div>
-                <div class="col-span-4 text-center">
-                    Metadata
-                </div>
-            </div>
-            <div *ngFor="let session of sessions" class="mt-2 flex flex-col text-xs">
-                <div class="grid grid-cols-12 py-2">
-                    <div class="col-span-4">
-                        {{session.firstEventDateTime.format('MM/DD HH:mm')}}
+              <tbody *ngIf="providers.length !== 0">
+                <tr *ngFor="let provider of providers">
+                  <td
+                    class="items-center flex flex-row gap-x-2 border-y border-l rounded-l-xl py-4 pl-4"
+                  >
+                    <img
+                      class="h-4 w-4 object-cover rounded-full"
+                      [src]="getWalletIcon(provider.name)"
+                      alt=""
+                      srcset=""
+                    />
+                  </td>
+                  <td class="text-center border-y py-4">
+                    {{ provider.uniqueUsersLanded }}
+                  </td>
+                  <td class="text-center border-y py-4">
+                    {{ provider.totalWalletConnections }}
+                  </td>
+                  <td class="text-center border-y py-4">
+                    {{ provider.uniqueWalletConnections }}
+                  </td>
+                  <td class="text-center border-y py-4">
+                    {{ provider.executedTransactions }}
+                  </td>
+                  <td class="border-y py-4 pr-4 border-r rounded-r-xl">
+                    <div class="flex flex-row gap-1 items-center justify-end">
+                      <p>
+                        <ng-container
+                          *ngIf="
+                            provider.totalWalletConnections > 0;
+                            else zeroPercentage
+                          "
+                        >
+                          {{
+                            (provider.uniqueWalletConnections /
+                              provider.totalWalletConnections) *
+                              100 | number : "1.0-0"
+                          }}%
+                        </ng-container>
+                        <ng-template #zeroPercentage>0%</ng-template>
+                      </p>
+                      <div class="w-[168px] h-2 rounded-full bg-[#E8E7F9]">
+                        <div
+                          class="h-2 bg-[#4300AF] rounded-full"
+                          [style.width.%]="
+                            provider.totalWalletConnections > 0
+                              ? (provider.uniqueWalletConnections /
+                                  provider.totalWalletConnections) *
+                                100
+                              : 0
+                          "
+                        ></div>
+                      </div>
                     </div>
-                    <div class="col-span-4 text-center">
-                        <div class="underline cursor-pointer"
-                            routerLink="/console/address/{{session.walletAddresses.at(0)}}">
-                            {{(session.walletAddresses.at(0) ?? "") | shorten:3:3}}</div>
-                        <div class=" px-2 bg-amber-50 rounded-lg text-amber-700 text-[10px] uppercase"
-                            *ngIf="session.walletAddresses.length === 0">
-                            No wallet
-                        </div>
-                    </div>
-                    <div class="gap-x-2 col-span-4 flex flex-row justify-center">
-                        <app-icon-item-holder type="country"
-                            [iconQuery]="session.devices.at(0)?.country"></app-icon-item-holder>
-                        <app-icon-item-holder type="provider"
-                            [iconQuery]="session.devices.at(0)?.walletProvider"></app-icon-item-holder>
-
-                    </div>
-                </div>
-                <hr class="border-slate-100">
-            </div>
-            <div routerLink="/console/sessions"
-                class="mt-4 text-center text-xs font-medium underline text-slate-500 cursor-pointer">
-                See all sessions
-            </div>
+                  </td>
+                </tr>
+              </tbody>
+              <tbody *ngIf="providers.length === 0">
+                <td class="mt-4 text-xs font-medium uppercase text-slate-500">
+                  No data collected yet
+                </td>
+              </tbody>
+            </table>
+          </div>
         </div>
-    </ng-container>
+      </div>
 
-    <ng-container *ngIf="filter === undefined">
-        <div *ngIf="txHistory$ | async as txs" class="col-span-3 bg-white rounded-lg p-6">
-            <div class="font-semibold text-indigo-700 uppercase mb-4 text-xs flex flex-row items-center gap-x-2">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
-                    <path fill-rule="evenodd"
-                        d="M11.622 1.602a.75.75 0 01.756 0l2.25 1.313a.75.75 0 01-.756 1.295L12 3.118 10.128 4.21a.75.75 0 11-.756-1.295l2.25-1.313zM5.898 5.81a.75.75 0 01-.27 1.025l-1.14.665 1.14.665a.75.75 0 11-.756 1.295L3.75 8.806v.944a.75.75 0 01-1.5 0V7.5a.75.75 0 01.372-.648l2.25-1.312a.75.75 0 011.026.27zm12.204 0a.75.75 0 011.026-.27l2.25 1.312a.75.75 0 01.372.648v2.25a.75.75 0 01-1.5 0v-.944l-1.122.654a.75.75 0 11-.756-1.295l1.14-.665-1.14-.665a.75.75 0 01-.27-1.025zm-9 5.25a.75.75 0 011.026-.27L12 11.882l1.872-1.092a.75.75 0 11.756 1.295l-1.878 1.096V15a.75.75 0 01-1.5 0v-1.82l-1.878-1.095a.75.75 0 01-.27-1.025zM3 13.5a.75.75 0 01.75.75v1.82l1.878 1.095a.75.75 0 11-.756 1.295l-2.25-1.312a.75.75 0 01-.372-.648v-2.25A.75.75 0 013 13.5zm18 0a.75.75 0 01.75.75v2.25a.75.75 0 01-.372.648l-2.25 1.312a.75.75 0 11-.756-1.295l1.878-1.096V14.25a.75.75 0 01.75-.75zm-9 5.25a.75.75 0 01.75.75v.944l1.122-.654a.75.75 0 11.756 1.295l-2.25 1.313a.75.75 0 01-.756 0l-2.25-1.313a.75.75 0 11.756-1.295l1.122.654V19.5a.75.75 0 01.75-.75z"
-                        clip-rule="evenodd" />
-                </svg>
-                <div>
-                    Latest transactions
-                </div>
-            </div>
-            <div class="grid grid-cols-12 text-[10px] uppercase font-semibold text-indigo-700">
-                <div class="col-span-4">
-                    Time
-                </div>
-
-                <div class="col-span-4 text-center">
-                    Address
-                </div>
-                <div class="col-span-4 text-center">
-                    Metadata
-                </div>
-            </div>
-            <div *ngFor="let tx of txs" class="mt-2 flex flex-col text-xs">
-                <div class="grid grid-cols-12 py-2">
-                    <div class="col-span-4">
-                        {{tx.createdAt.format('MM/DD hh:mm')}}
-                    </div>
-
-                    <div class="col-span-4 gap-x-2 flex flex-row justify-center">
-                        <app-icon-item-holder type="network"
-                            [iconQuery]="tx.txRequestNetwork.chainId.toString()"></app-icon-item-holder>
-
-                        {{tx.txRequestWallet.walletAddress | shorten:3:3}}
-                    </div>
-                    <div class=" gap-x-2 col-span-4 flex flex-row justify-center">
-                        <app-icon-item-holder type="country" [iconQuery]="tx.device.country"></app-icon-item-holder>
-                        <app-icon-item-holder type="provider"
-                            [iconQuery]="tx.device.walletProvider"></app-icon-item-holder>
-
-                    </div>
-                </div>
-                <hr class="border-slate-100">
-            </div>
-            <div routerLink="/console/txhistory"
-                class="mt-4 text-center text-xs font-medium underline text-slate-500 cursor-pointer">See all
-                transactions</div>
+      <div
+        class="rounded-3xl flex flex-col h-full justify-between bg-[#2F0C68] max-h-[200px] relative"
+      >
+        <p class="text-2xl font-semibold text-white leading-8 pt-8 pl-8">
+          Got a question?
+        </p>
+        <div class="flex flex-row gap-4 text-white items-center pl-8 pb-8">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+          >
+            <path
+              d="M1.5 8.6691V17.25C1.5 18.9069 2.84315 20.25 4.5 20.25H19.5C21.1569 20.25 22.5 18.9069 22.5 17.25V8.6691L13.5723 14.1631C12.6081 14.7564 11.3919 14.7564 10.4277 14.1631L1.5 8.6691Z"
+              fill="white"
+            />
+            <path
+              d="M22.5 6.90783V6.75C22.5 5.09315 21.1569 3.75 19.5 3.75H4.5C2.84315 3.75 1.5 5.09315 1.5 6.75V6.90783L11.2139 12.8856C11.696 13.1823 12.304 13.1823 12.7861 12.8856L22.5 6.90783Z"
+              fill="white"
+            />
+          </svg>
+          <a href="mailto:support@polyflow.com" class="cursor-pointer"
+            >support&#64;polyflow.com</a
+          >
         </div>
+        <div class="absolute right-0 bottom-0">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="302"
+            height="200"
+            viewBox="0 0 302 196"
+            fill="none"
+            class="opacity-10"
+          >
+            <path
+              d="M337.68 -63.9528L342.593 -49.1687C347.081 -35.6631 343.791 -20.7838 334.028 -10.4291L247.251 81.6018M19.5111 41.7789L24.424 56.563C28.9121 70.0686 40.4533 80.0194 54.4724 82.4708L179.073 104.258M336.905 97.2786L247.251 81.6018M247.251 81.6018L227.581 78.1624C214.771 75.9224 201.693 80.2686 192.771 89.7303L179.073 104.258M179.073 104.258L116.634 170.477M394.612 107.369C401.35 127.644 390.376 149.543 370.1 156.281L125.355 237.613C105.08 244.35 83.1813 233.376 76.4436 213.101L18.6648 39.2321C14.1767 25.7265 17.4664 10.8472 27.2299 0.492572L127.706 -106.066C136.627 -115.528 149.705 -119.874 162.516 -117.634L306.785 -92.4073C320.804 -89.956 332.346 -80.0052 336.834 -66.4995L394.612 107.369Z"
+              stroke="white"
+              stroke-width="32"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-3 gap-6">
+    <div
+      *ngIf="filter === undefined"
+      class="bg-white pb-6 p-8 flex flex-col gap-6 rounded-3xl"
+    >
+      <div class="flex flex-col">
+        <p class="text-2xl font-semibold">Top marketing campaigns</p>
+        <p class="text-sm font-normal leading-5 text-[#777A9B]">All time</p>
+      </div>
+      <div
+        class="flex flex-col gap-y-2 text-xs"
+        *ngIf="campaigns$ | async as campaigns"
+      >
+        <div class="grid grid-cols-9 text-xs font-normal leading-5 uppercase">
+          <div class="col-span-5"></div>
+          <div class="col-span-2 text-center">Landed</div>
+          <div class="col-span-2 text-center">Signed TXs</div>
+        </div>
+        <div
+          class="flex flex-col border rounded-xl p-4"
+          *ngFor="let campaign of campaigns"
+        >
+          <div class="grid grid-cols-9 text-sm font-medium">
+            <div class="col-span-5">
+              {{ campaign.name }}
+            </div>
+            <div class="col-span-2 text-center">
+              {{ campaign.totalUsers }}
+            </div>
+            <div class="col-span-2 text-center">
+              {{ campaign.usersWithConnectedWallet }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex lfex-row gap-2 items-center justify-center">
+        <p
+          routerLink="/console/acquisition"
+          class="text-[#E74090] text-sm font-medium cursor-pointer"
+        >
+          See all campaigns
+        </p>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="25"
+          height="24"
+          viewBox="0 0 25 24"
+          fill="none"
+        >
+          <path
+            d="M13.0833 15L16.0833 12M16.0833 12L13.0833 9M16.0833 12L8.58333 12M21.3333 12C21.3333 16.9706 17.3039 21 12.3333 21C7.36277 21 3.33333 16.9706 3.33333 12C3.33333 7.02944 7.36277 3 12.3333 3C17.3039 3 21.3333 7.02944 21.3333 12Z"
+            stroke="#E74090"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </div>
+    </div>
+    <ng-container>
+      <div
+        *ngIf="filter === undefined"
+        class="bg-white p-8 flex flex-col rounded-3xl gap-6 pb-6"
+      >
+        <div class="flex flex-col">
+          <p class="text-2xl font-semibold">Latest user sessions</p>
+          <p class="text-sm font-normal leading-5 text-[#777A9B]">All time</p>
+        </div>
+
+        <div
+          *ngIf="sessions$ | async as sessions"
+          class="flex flex-col gap-y-2"
+        >
+          <div class="grid grid-cols-12 text-xs font-normal uppercase">
+            <div class="col-span-4 text-center">Time</div>
+            <div class="col-span-4 text-center">Address</div>
+            <div class="col-span-4 text-center">Metadata</div>
+          </div>
+          <div
+            *ngFor="let session of sessions"
+            class="flex flex-col text-xs border rounded-xl p-4"
+          >
+            <div class="grid grid-cols-12 items-center">
+              <div class="col-span-4 flex flex-row items-center gap-1">
+                <p
+                  class="p-[6px] rounded-md bg-[#F2F1FB] w-min text-xs font-medium leading-3"
+                >
+                  {{ session.firstEventDateTime.format("MM/DD/YYYY") }}
+                </p>
+                <p
+                  class="p-[6px] rounded-md bg-[#F2F1FB] w-min text-xs font-medium leading-3"
+                >
+                  {{ session.firstEventDateTime.format("HH:mm") }}
+                </p>
+              </div>
+              <div class="col-span-4 text-center w-fit mx-auto">
+                <div
+                  class="underline cursor-pointer"
+                  routerLink="/console/address/{{
+                    session.walletAddresses.at(0)
+                  }}"
+                >
+                  {{ session.walletAddresses.at(0) ?? "" | shorten : 3 : 3 }}
+                </div>
+                <div
+                  class="px-2 bg-amber-50 rounded-lg text-amber-700 text-[10px] uppercase"
+                  *ngIf="session.walletAddresses.length === 0"
+                >
+                  No wallet
+                </div>
+              </div>
+              <div class="gap-x-2 col-span-4 flex flex-row justify-center">
+                <app-icon-item-holder
+                  type="country"
+                  [iconQuery]="session.devices.at(0)?.country"
+                ></app-icon-item-holder>
+                <app-icon-item-holder
+                  type="provider"
+                  [iconQuery]="session.devices.at(0)?.walletProvider"
+                ></app-icon-item-holder>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flex lfex-row gap-2 items-center justify-center">
+          <p
+            routerLink="/console/sessions"
+            class="text-[#E74090] text-sm font-medium cursor-pointer"
+          >
+            See all sessions
+          </p>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="25"
+            height="24"
+            viewBox="0 0 25 24"
+            fill="none"
+          >
+            <path
+              d="M13.0833 15L16.0833 12M16.0833 12L13.0833 9M16.0833 12L8.58333 12M21.3333 12C21.3333 16.9706 17.3039 21 12.3333 21C7.36277 21 3.33333 16.9706 3.33333 12C3.33333 7.02944 7.36277 3 12.3333 3C17.3039 3 21.3333 7.02944 21.3333 12Z"
+              stroke="#E74090"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </div>
+      </div>
     </ng-container>
+    <ng-container *ngIf="filter === undefined">
+      <div class="bg-white rounded-3xl p-6 flex flex-col gap-6">
+        <div class="flex flex-col">
+          <p class="text-2xl font-semibold">Latest transactions</p>
+          <p class="text-sm font-normal leading-5 text-[#777A9B]">All time</p>
+        </div>
 
-</div>
+        <div *ngIf="txHistory$ | async as txs" class="gap-y-2 flex flex-col">
+          <div class="grid grid-cols-12 text-xs font-normal uppercase">
+            <div class="col-span-4 text-center">Time</div>
 
-<hr class="mt-4 border-slate-200">
-
-<div>
+            <div class="col-span-4 text-center">Address</div>
+            <div class="col-span-4 text-center">Metadata</div>
+          </div>
+          <div
+            class="flex flex-col text-xs border rounded-xl p-4"
+            *ngFor="let tx of txs"
+          >
+            <div class="grid grid-cols-12 items-center">
+              <div class="col-span-4 flex flex-row items-center gap-1">
+                <p
+                  class="p-[6px] rounded-md bg-[#F2F1FB] w-min text-xs font-medium leading-3"
+                >
+                  {{ tx.createdAt.format("MM/DD/YYYY") }}
+                </p>
+                <p
+                  class="p-[6px] rounded-md bg-[#F2F1FB] w-min text-xs font-medium leading-3"
+                >
+                  {{ tx.createdAt.format("hh:mm") }}
+                </p>
+              </div>
+              <div class="col-span-4 gap-x-2 flex flex-row justify-center">
+                <app-icon-item-holder
+                  type="network"
+                  [iconQuery]="tx.txRequestNetwork.chainId.toString()"
+                ></app-icon-item-holder>
+                {{ tx.txRequestWallet.walletAddress | shorten : 3 : 3 }}
+              </div>
+              <div class="gap-x-2 col-span-4 flex flex-row justify-center">
+                <app-icon-item-holder
+                  type="country"
+                  [iconQuery]="tx.device.country"
+                ></app-icon-item-holder>
+                <app-icon-item-holder
+                  type="provider"
+                  [iconQuery]="tx.device.walletProvider"
+                ></app-icon-item-holder>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flex lfex-row gap-2 items-center justify-center">
+          <p
+            routerLink="/console/txhistory"
+            class="text-[#E74090] text-sm font-medium cursor-pointer"
+          >
+            See all transactions
+          </p>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="25"
+            height="24"
+            viewBox="0 0 25 24"
+            fill="none"
+          >
+            <path
+              d="M13.0833 15L16.0833 12M16.0833 12L13.0833 9M16.0833 12L8.58333 12M21.3333 12C21.3333 16.9706 17.3039 21 12.3333 21C7.36277 21 3.33333 16.9706 3.33333 12C3.33333 7.02944 7.36277 3 12.3333 3C17.3039 3 21.3333 7.02944 21.3333 12Z"
+              stroke="#E74090"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+  <div>
     <app-metrics [filter]="filter"></app-metrics>
+  </div>
 </div>
 
 <ng-template #metrics>
-    <app-metrics></app-metrics>
+  <app-metrics></app-metrics>
 </ng-template>
 
 <ng-template #history>
-    <app-txhistory></app-txhistory>
+  <app-txhistory></app-txhistory>
 </ng-template>
