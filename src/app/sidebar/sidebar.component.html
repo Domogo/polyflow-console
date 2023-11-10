@@ -1,94 +1,170 @@
-
-<div class="flex flex-col w-full max-w-7xl">
-    <div class="w-full py-2 rounded-lg mb-2 ">
-        <div class="flex w-full flex-row gap-x-4 justify-between py-2 rounded-lg text-indigo-600 font-semibold uppercase
-        [&>*]:px-4 [&>*]:py-3 [&>*]:rounded-md text-[11px] [&>*]:gap-x-3 [&>*]:cursor-pointer [&>*]:transition-all">
-           
-            <div routerLink="analytics"
-                routerLinkActive="active" 
-                class="flex flex-row items-center transition-slow hover:bg-indigo-100 ">
-                
-                <svg xmlns="http://www.w3.org/2000/svg" 
-                    fill="none" 
-                    viewBox="0 0 24 24" 
-                    stroke-width="2" 
-                    stroke="currentColor" 
-                    class="w-5 h-5">
-                    <path stroke-linecap="round" 
-                        stroke-linejoin="round" 
-                        d="M7.5 14.25v2.25m3-4.5v4.5m3-6.75v6.75m3-9v9M6 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25z" />
-                </svg>          
-                Dashboard
-            </div>
-            <div routerLink="acquisition"
-                routerLinkActive="active" 
-                class="flex flex-row items-center transition-slow hover:bg-indigo-100 ">
-                
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.34 15.84c-.688-.06-1.386-.09-2.09-.09H7.5a4.5 4.5 0 110-9h.75c.704 0 1.402-.03 2.09-.09m0 9.18c.253.962.584 1.892.985 2.783.247.55.06 1.21-.463 1.511l-.657.38c-.551.318-1.26.117-1.527-.461a20.845 20.845 0 01-1.44-4.282m3.102.069a18.03 18.03 0 01-.59-4.59c0-1.586.205-3.124.59-4.59m0 9.18a23.848 23.848 0 018.835 2.535M10.34 6.66a23.847 23.847 0 008.835-2.535m0 0A23.74 23.74 0 0018.795 3m.38 1.125a23.91 23.91 0 011.014 5.395m-1.014 8.855c-.118.38-.245.754-.38 1.125m.38-1.125a23.91 23.91 0 001.014-5.395m0-3.46c.495.413.811 1.035.811 1.73 0 .695-.316 1.317-.811 1.73m0-3.46a24.347 24.347 0 010 3.46" />
-                  </svg>
-                          
-                Attributions
-            </div>
-            <div routerLink="txhistory"
-                routerLinkActive="active" 
-                class="flex flex-row items-center transition-slow hover:bg-indigo-100 ">
-                
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  
-                          
-                Transactions
-            </div>
-            <div routerLink="sessions"
-                routerLinkActive="active" 
-                class="flex flex-row items-center transition-slow hover:bg-indigo-100 ">
-                
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5V18M15 7.5V18M3 16.811V8.69c0-.864.933-1.406 1.683-.977l7.108 4.061a1.125 1.125 0 010 1.954l-7.108 4.061A1.125 1.125 0 013 16.811z" />
-                  </svg>
-                  
-                  
-                  
-                Sessions
-            </div>
-            <div routerLink="users"
-                routerLinkActive="active" 
-                class="flex flex-row items-center transition-slow hover:bg-indigo-100 ">
-                
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
-                    <path d="M4.5 6.375a4.125 4.125 0 118.25 0 4.125 4.125 0 01-8.25 0zM14.25 8.625a3.375 3.375 0 116.75 0 3.375 3.375 0 01-6.75 0zM1.5 19.125a7.125 7.125 0 0114.25 0v.003l-.001.119a.75.75 0 01-.363.63 13.067 13.067 0 01-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 01-.364-.63l-.001-.122zM17.25 19.128l-.001.144a2.25 2.25 0 01-.233.96 10.088 10.088 0 005.06-1.01.75.75 0 00.42-.643 4.875 4.875 0 00-6.957-4.611 8.586 8.586 0 011.71 5.157v.003z" />
-                  </svg>
-                  
-                  
-                  
-                  
-                Users
-            </div>
-            <div routerLink="config"
-                routerLinkActive="active" 
-                class="flex flex-row items-center transition-slow hover:bg-indigo-100 ">
-                
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M14.25 9.75L16.5 12l-2.25 2.25m-4.5 0L7.5 12l2.25-2.25M6 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25z" />
-                  </svg>
-                  
-                  
-                  
-                SDK
-            </div>
-            <div routerLink="project-settings"
-                routerLinkActive="active" 
-                class="flex flex-row items-center transition-slow hover:bg-indigo-100 ">         
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.343 3.94c.09-.542.56-.94 1.11-.94h1.093c.55 0 1.02.398 1.11.94l.149.894c.07.424.384.764.78.93.398.164.855.142 1.205-.108l.737-.527a1.125 1.125 0 011.45.12l.773.774c.39.389.44 1.002.12 1.45l-.527.737c-.25.35-.272.806-.107 1.204.165.397.505.71.93.78l.893.15c.543.09.94.56.94 1.109v1.094c0 .55-.397 1.02-.94 1.11l-.893.149c-.425.07-.765.383-.93.78-.165.398-.143.854.107 1.204l.527.738c.32.447.269 1.06-.12 1.45l-.774.773a1.125 1.125 0 01-1.449.12l-.738-.527c-.35-.25-.806-.272-1.203-.107-.397.165-.71.505-.781.929l-.149.894c-.09.542-.56.94-1.11.94h-1.094c-.55 0-1.019-.398-1.11-.94l-.148-.894c-.071-.424-.384-.764-.781-.93-.398-.164-.854-.142-1.204.108l-.738.527c-.447.32-1.06.269-1.45-.12l-.773-.774a1.125 1.125 0 01-.12-1.45l.527-.737c.25-.35.273-.806.108-1.204-.165-.397-.505-.71-.93-.78l-.894-.15c-.542-.09-.94-.56-.94-1.109v-1.094c0-.55.398-1.02.94-1.11l.894-.149c.424-.07.765-.383.93-.78.165-.398.143-.854-.107-1.204l-.527-.738a1.125 1.125 0 01.12-1.45l.773-.773a1.125 1.125 0 011.45-.12l.737.527c.35.25.807.272 1.204.107.397-.165.71-.505.78-.929l.15-.894z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                Settings
-            </div>
-            
-        </div>
+<div
+  class="flex flex-col w-full hover:w-[243px] transition-all ease-in-out duration-300 bg-white p-4 rounded-3xl justify-between group"
+  [ngClass]="{
+    'h-[90vh] transition-all duration-500 ease-in-out': isSidebarFixed,
+    'h-[75vh]': !isSidebarFixed
+  }"
+>
+  <div
+    class="flex flex-col gap-4 py-2 rounded-lg text-[#777A9B] [&>*]:px-4 [&>*]:py-4 [&>*]:rounded-2xl text-base leading-4 font-medium [&>*]:gap-x-3 [&>*]:cursor-pointer [&>*]:transition-all"
+  >
+    <div
+      routerLink="analytics"
+      routerLinkActive="active"
+      class="flex flex-row items-center transition-slow hover:bg-indigo-100 border rounded-2xl bg-[#F2F1FB] border-[#E8E7F9]"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+      >
+        <path
+          d="M3.75 6C3.75 4.75736 4.75736 3.75 6 3.75H8.25C9.49264 3.75 10.5 4.75736 10.5 6V8.25C10.5 9.49264 9.49264 10.5 8.25 10.5H6C4.75736 10.5 3.75 9.49264 3.75 8.25V6Z"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M3.75 15.75C3.75 14.5074 4.75736 13.5 6 13.5H8.25C9.49264 13.5 10.5 14.5074 10.5 15.75V18C10.5 19.2426 9.49264 20.25 8.25 20.25H6C4.75736 20.25 3.75 19.2426 3.75 18V15.75Z"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M13.5 6C13.5 4.75736 14.5074 3.75 15.75 3.75H18C19.2426 3.75 20.25 4.75736 20.25 6V8.25C20.25 9.49264 19.2426 10.5 18 10.5H15.75C14.5074 10.5 13.5 9.49264 13.5 8.25V6Z"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M13.5 15.75C13.5 14.5074 14.5074 13.5 15.75 13.5H18C19.2426 13.5 20.25 14.5074 20.25 15.75V18C20.25 19.2426 19.2426 20.25 18 20.25H15.75C14.5074 20.25 13.5 19.2426 13.5 18V15.75Z"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+      <p
+        class="group-hover:block hidden text-base leading-4 font-medium text-[##777A9B]"
+      >
+        Dashboard
+      </p>
     </div>
-</div>
+    <div
+      routerLink="acquisition"
+      routerLinkActive="active"
+      class="flex flex-row items-center transition-slow hover:bg-indigo-100 border rounded-2xl bg-[#F2F1FB] border-[#E8E7F9]"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 30 30"
+        fill="none"
+      >
+        <path
+          d="M11.1522 5.99517C12.7331 4.94813 14.6288 4.33838 16.667 4.33838C22.1898 4.33838 26.667 8.81553 26.667 14.3384C26.667 18.2309 25.9261 21.9503 24.5769 25.363M8.32379 8.8236C7.27675 10.4045 6.66699 12.3002 6.66699 14.3384C6.66699 16.2953 6.10532 18.1209 5.13379 19.6625M7.78551 24.4077C10.1978 21.7458 11.667 18.2137 11.667 14.3384C11.667 11.577 13.9056 9.33838 16.667 9.33838C19.4284 9.33838 21.667 11.577 21.667 14.3384C21.667 15.0409 21.6384 15.7367 21.5816 16.4246M16.6674 14.3384C16.6674 19.3019 14.8593 23.843 11.8659 27.3392M20.711 21.2108C19.9806 23.7708 18.8524 26.1631 17.3975 28.3165"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
 
+      <p class="group-hover:block hidden">Attributions</p>
+    </div>
+    <div
+      routerLink="txhistory"
+      routerLinkActive="active"
+      class="flex flex-row items-center transition-slow hover:bg-indigo-100 border rounded-2xl bg-[#F2F1FB] border-[#E8E7F9]"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 30 30"
+        fill="none"
+      >
+        <path
+          d="M3.66699 25.0083C10.9566 25.0083 18.0185 25.9833 24.7293 27.8099C25.6987 28.0738 26.667 27.3531 26.667 26.3485V25.0083M5.66699 6.0083V7.0083C5.66699 7.56059 5.21928 8.0083 4.66699 8.0083H3.66699M3.66699 8.0083V7.5083C3.66699 6.67987 4.33857 6.0083 5.16699 6.0083H27.667M3.66699 8.0083V20.0083M27.667 6.0083V7.0083C27.667 7.56059 28.1147 8.0083 28.667 8.0083H29.667M27.667 6.0083H28.167C28.9954 6.0083 29.667 6.67987 29.667 7.5083V20.5083C29.667 21.3367 28.9954 22.0083 28.167 22.0083H27.667M29.667 20.0083H28.667C28.1147 20.0083 27.667 20.456 27.667 21.0083V22.0083M27.667 22.0083H5.66699M5.66699 22.0083H5.16699C4.33856 22.0083 3.66699 21.3367 3.66699 20.5083V20.0083M5.66699 22.0083V21.0083C5.66699 20.456 5.21928 20.0083 4.66699 20.0083H3.66699M20.667 14.0083C20.667 16.2174 18.8761 18.0083 16.667 18.0083C14.4579 18.0083 12.667 16.2174 12.667 14.0083C12.667 11.7992 14.4579 10.0083 16.667 10.0083C18.8761 10.0083 20.667 11.7992 20.667 14.0083ZM24.667 14.0083H24.677V14.0183H24.667V14.0083ZM8.66699 14.0083H8.67699V14.0183H8.66699V14.0083Z"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+      <p class="group-hover:block hidden">Transactions</p>
+    </div>
+    <div
+      routerLink="sessions"
+      routerLinkActive="active"
+      class="flex flex-row items-center transition-slow hover:bg-indigo-100 border rounded-2xl bg-[#F2F1FB] border-[#E8E7F9]"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 30 30"
+        fill="none"
+      >
+        <path
+          d="M12.667 23.6783V25.0215C12.667 26.0824 12.2456 27.0998 11.4954 27.8499L10.667 28.6783H22.667L21.8386 27.8499C21.0884 27.0998 20.667 26.0824 20.667 25.0215V23.6783M28.667 7.67834V20.6783C28.667 22.3352 27.3238 23.6783 25.667 23.6783H7.66699C6.01014 23.6783 4.66699 22.3352 4.66699 20.6783V7.67834M28.667 7.67834C28.667 6.02149 27.3238 4.67834 25.667 4.67834H7.66699C6.01014 4.67834 4.66699 6.02149 4.66699 7.67834M28.667 7.67834V16.6783C28.667 18.3352 27.3238 19.6783 25.667 19.6783H7.66699C6.01014 19.6783 4.66699 18.3352 4.66699 16.6783V7.67834"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+      <p class="group-hover:block hidden">Sessions</p>
+    </div>
+    <div
+      routerLink="users"
+      routerLinkActive="active"
+      class="flex flex-row items-center transition-slow hover:bg-indigo-100 border rounded-2xl bg-[#F2F1FB] border-[#E8E7F9]"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 30 30"
+        fill="none"
+      >
+        <path
+          d="M24.6669 25.3072C24.9969 25.3345 25.3307 25.3484 25.6678 25.3484C27.0655 25.3484 28.4075 25.1094 29.655 24.6701C29.6635 24.564 29.6678 24.4567 29.6678 24.3484C29.6678 22.1393 27.8769 20.3484 25.6678 20.3484C24.8309 20.3484 24.0541 20.6054 23.4119 21.0447M24.6669 25.3072C24.667 25.321 24.667 25.3347 24.667 25.3484C24.667 25.6484 24.6505 25.9445 24.6183 26.2359C22.276 27.5799 19.5612 28.3484 16.667 28.3484C13.7728 28.3484 11.058 27.5799 8.71567 26.2359C8.6835 25.9445 8.66699 25.6484 8.66699 25.3484C8.66699 25.3347 8.66703 25.321 8.6671 25.3074M24.6669 25.3072C24.659 23.7385 24.1996 22.2766 23.4119 21.0447M23.4119 21.0447C21.9907 18.822 19.5009 17.3484 16.667 17.3484C13.8334 17.3484 11.3439 18.8216 9.92258 21.0439M9.92258 21.0439C9.28063 20.605 8.50427 20.3484 7.66797 20.3484C5.45883 20.3484 3.66797 22.1393 3.66797 24.3484C3.66797 24.4567 3.67227 24.564 3.68072 24.6701C4.92823 25.1094 6.27019 25.3484 7.66797 25.3484C8.00442 25.3484 8.33765 25.3345 8.6671 25.3074M9.92258 21.0439C9.1346 22.2759 8.67497 23.7382 8.6671 25.3074M20.667 9.34839C20.667 11.5575 18.8761 13.3484 16.667 13.3484C14.4579 13.3484 12.667 11.5575 12.667 9.34839C12.667 7.13925 14.4579 5.34839 16.667 5.34839C18.8761 5.34839 20.667 7.13925 20.667 9.34839ZM28.667 13.3484C28.667 15.0052 27.3238 16.3484 25.667 16.3484C24.0101 16.3484 22.667 15.0052 22.667 13.3484C22.667 11.6915 24.0101 10.3484 25.667 10.3484C27.3238 10.3484 28.667 11.6915 28.667 13.3484ZM10.667 13.3484C10.667 15.0052 9.32385 16.3484 7.66699 16.3484C6.01014 16.3484 4.66699 15.0052 4.66699 13.3484C4.66699 11.6915 6.01014 10.3484 7.66699 10.3484C9.32385 10.3484 10.667 11.6915 10.667 13.3484Z"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+
+      <p class="group-hover:block hidden">Users</p>
+    </div>
+  </div>
+  <div>
+    <div
+      class="flex flex-row items-center transition-slow hover:bg-indigo-100 border rounded-2xl bg-[#F2F1FB] p-4 border-black gap-x-3 hover:cursor-pointer"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+      >
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M9.52839 1.71786C9.74339 1.93286 9.80731 2.2564 9.69021 2.53701C9.2458 3.60204 9 4.77143 9 6.00013C9 10.9707 13.0294 15.0001 18 15.0001C19.2287 15.0001 20.3981 14.7543 21.4631 14.3099C21.7437 14.1928 22.0673 14.2567 22.2823 14.4717C22.4973 14.6867 22.5612 15.0103 22.4441 15.2909C20.8618 19.0828 17.1183 21.7501 12.75 21.7501C6.95101 21.7501 2.25 17.0491 2.25 11.2501C2.25 6.88184 4.91735 3.13829 8.70924 1.55603C8.98985 1.43894 9.31338 1.50286 9.52839 1.71786Z"
+          fill="currentColor"
+        />
+      </svg>
+      <p class="group-hover:block hidden">Light</p>
+    </div>
+  </div>
+</div>
