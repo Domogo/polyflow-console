@@ -2,7 +2,7 @@
   class="flex flex-col justify-between bg-[#4337c91a] min-h-screen text-slate-700"
 >
   <div>
-    <div class="w-full flex-row justify-center">
+    <!-- <div class="w-full flex-row justify-center">
       <a
         href="https://t.me/+3t-ahjvcRfsxZTVk"
         class="w-full py-2 hover:animate-pulse bg-indigo-700 cursor-pointer hover:bg-indigo-900 transition-all flex flex-row justify-center text-white"
@@ -14,7 +14,7 @@
           features & get one-on-one feedback!
         </div>
       </a>
-    </div>
+    </div> -->
     <app-navbar></app-navbar>
     <div
       *ngIf="currentProject$ | async; else noProject"
@@ -50,7 +50,7 @@
             }"
             class="flex flex-col w-min items-start z-50"
           >
-            <app-sidebar></app-sidebar>
+            <app-sidebar *ngIf="isSidebarVisible"></app-sidebar>
           </div>
           <div class="w-full ml-[112px]">
             <router-outlet></router-outlet>

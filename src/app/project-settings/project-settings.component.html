@@ -1,18 +1,137 @@
-<div class="w-full flex flex-col items-center text-xs">
-    <div class="max-w-7xl w-full grid grid-cols-8">
-        <div class="w-full col-span-3 bg-white rounded-lg p-6">
-            <div class="uppercase font-semibold text-indigo-700 flex flex-row items-center gap-x-2">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z" />
-                </svg>
-                Manage billing & see invoices
-            </div>
-            <button (click)="goToBillingPortalClicked($event)"
-             class="mt-4 py-3 bg-indigo-700 w-full cursor-pointer hover:bg-indigo-900 transition-all
-             text-center text-white uppercase font-semibold rounded-lg">
-                <div>Go to billing portal</div>
-                
-            </button>
+<div class="w-full min-h-screen flex flex-col items-center gap-6">
+  <div class="w-[752px]">
+    <h1 class="text-slate-800 text-3xl font-semibold leading-[34px]">
+      Settings
+    </h1>
+  </div>
+
+  <!-- API key -->
+  <div *ngIf="project$ | async as project" class="w-[752px]">
+    <div
+      class="flex flex-col bg-white h-fit p-8 gap-8 rounded-3xl backdrop-blur-2xl justify-between w-full"
+    >
+      <p class="text-slate-800 text-2xl font-semibold leading-[34px]">
+        API Key
+      </p>
+      <div>
+        <div
+          class="px-6 py-4 text-slate-500 leading-tight flex items-center justify-between border border-violet-100 rounded-xl"
+        >
+          <div>{{ project.apiKey ?? "" }}</div>
+          <app-copy [copyValue]="project.apiKey ?? ''"></app-copy>
         </div>
+      </div>
+      <div class="w-full grid grid-cols-2 gap-x-2 text-xs">
+        <button
+          (click)="createAPIKey($event)"
+          class="bg-slate-800 text-white text-lg leading-normal px-6 py-4 rounded-[10px] flex items-center justify-center gap-3"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-6 h-6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"
+            />
+          </svg>
+          <span *ngIf="project.apiKey; else create"> Replace </span>
+          <ng-template #create> Create </ng-template>
+        </button>
+        <button
+          *ngIf="project.apiKey"
+          (click)="deleteAPIKey($event)"
+          class="flex items-center justify-center gap-3 bg-white text-slate-800 border border-slate-800 rounded-[10px] px-6 py-4 text-lg leading-normal"
+        >
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g id="heroicons-mini/x-mark">
+              <path
+                id="Union"
+                d="M7.5364 6.2636C7.18492 5.91213 6.61508 5.91213 6.2636 6.2636C5.91213 6.61508 5.91213 7.18492 6.2636 7.5364L10.7272 12L6.2636 16.4636C5.91213 16.8151 5.91213 17.3849 6.2636 17.7364C6.61508 18.0879 7.18492 18.0879 7.5364 17.7364L12 13.2728L16.4636 17.7364C16.8151 18.0879 17.3849 18.0879 17.7364 17.7364C18.0879 17.3849 18.0879 16.8151 17.7364 16.4636L13.2728 12L17.7364 7.5364C18.0879 7.18492 18.0879 6.61508 17.7364 6.2636C17.3849 5.91213 16.8151 5.91213 16.4636 6.2636L12 10.7272L7.5364 6.2636Z"
+                fill="#273143"
+              />
+            </g>
+          </svg>
+
+          Revoke
+        </button>
+      </div>
+      <div *ngIf="project.apiKey" class="flex flex-col gap-3">
+        <div class="text-slate-800 leading-tight">
+          To start tracking your app data - copy this tracking code and paste it
+          into the HTML header of your app.
+        </div>
+        <div
+          class="px-6 py-4 text-slate-500 leading-tight flex items-center justify-between border border-violet-100 rounded-xl bg-slate-100"
+        >
+          {{ generatePasteScript(project.apiKey) }}
+
+          <app-copy
+            [copyValue]="generatePasteScript(project.apiKey)"
+          ></app-copy>
+        </div>
+      </div>
     </div>
+  </div>
+  <!-- Getting started-->
+  <div
+    class="flex flex-col bg-white h-fit p-8 rounded-3xl backdrop-blur-2xl justify-between w-[752px]"
+  >
+    <p class="text-slate-800 text-2xl font-semibold leading-[34px]">
+      Getting started
+    </p>
+
+    <p class="mt-6 text-slate-500 leading-tight">
+      Once you have pasted your tracking code in the header of your app,
+      Polyflow will begin gathering information & displaying data.
+    </p>
+    <p class="my-2 text-slate-500 leading-tight">
+      Try visiting your app a couple of times and then check the "Session" tab
+      in the Polyflow app. You should see your sessions displayed there.
+    </p>
+    <p class="text-slate-500 leading-tight">
+      If you have trouble setting up Polyflow, contact our support and we will
+      help you promptly.
+    </p>
+  </div>
+
+  <!-- Billing & Invoices -->
+  <div
+    class="flex bg-white h-fit p-8 rounded-3xl backdrop-blur-2xl justify-between items-center w-[752px]"
+  >
+    <p class="text-slate-800 text-2xl font-semibold leading-[34px]">
+      Biling & Invoices
+    </p>
+    <button
+      (click)="goToBillingPortalClicked($event)"
+      class="flex items-center gap-3 w-64 p-4 rounded-lg bg-slate-800 text-white text-lg leading-normal justify-center"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+        class="w-6 h-6"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z"
+        />
+      </svg>
+      <div>Go to billing portal</div>
+    </button>
+  </div>
 </div>
