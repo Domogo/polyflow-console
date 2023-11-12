@@ -47,6 +47,7 @@ import { PaymentSuccessComponent } from './payment/payment-success/payment-succe
 import { TimespanChartFiltersComponent } from './shared/components/timespan-chart/timespan-chart-filters/timespan-chart-filters.component';
 import { AddressDetailsComponent } from './shared/components/address-details/address-details.component';
 import { CampaignDetailsComponent } from './acquisition/details/campaign-details/campaign-details.component';
+import { UserModalComponent } from './user-modal/user-modal.component';
 
 @NgModule({
   declarations: [
@@ -90,7 +91,8 @@ import { CampaignDetailsComponent } from './acquisition/details/campaign-details
     PaymentSuccessComponent,
     TimespanChartFiltersComponent,
     AddressDetailsComponent,
-    CampaignDetailsComponent
+    CampaignDetailsComponent,
+    UserModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -98,9 +100,9 @@ import { CampaignDetailsComponent } from './acquisition/details/campaign-details
     BrowserAnimationsModule,
     HttpClientModule,
     ReactiveFormsModule,
-    GridJsAngularModule
+    GridJsAngularModule,
   ],
   providers: [AuthGuardService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

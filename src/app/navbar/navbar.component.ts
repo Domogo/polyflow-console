@@ -6,31 +6,30 @@ import { WidgetTogglerService } from '../widget-toggler-service';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent implements OnInit {
+  isProjectSwitcherHidden$ = this.widgetTogglerService.isProjectModalHidden$;
+  currentProject$ = this.projectService.currentProject$;
+  user$ = this.authService.user$;
 
-  isProjectSwitcherHidden$ = this.widgetTogglerService.isProjectModalHidden$
-  currentProject$ = this.projectService.currentProject$
-  user$ = this.authService.user$
-
-  constructor(private widgetTogglerService: WidgetTogglerService,
+  constructor(
+    private widgetTogglerService: WidgetTogglerService,
     private authService: AuthService,
-    private projectService: ProjectService) { }
+    private projectService: ProjectService
+  ) {}
 
-  ngOnInit(): void {
-  }
-
-  logOut() {
-    this.authService.logOut()
-  }
+  ngOnInit(): void {}
 
   projectSwitchClicked() {
-    this.widgetTogglerService.toggleProjectModal()
+    this.widgetTogglerService.toggleProjectModal();
   }
 
   toggleModal() {
-    this.widgetTogglerService.toggleUpsellModal()
+    this.widgetTogglerService.toggleUpsellModal();
   }
 
+  userSwitchClicked() {
+    this.widgetTogglerService.toggleUserModal();
+  }
 }
