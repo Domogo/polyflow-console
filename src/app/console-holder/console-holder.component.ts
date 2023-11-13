@@ -2,7 +2,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { map, tap } from 'rxjs';
 import { ProjectService } from '../shared/project.service';
 import { WidgetTogglerService } from '../widget-toggler-service';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
   selector: 'app-console-holder',
@@ -26,18 +26,23 @@ export class ConsoleHolderComponent implements OnInit {
     private widgetTogglerService: WidgetTogglerService,
     private projectService: ProjectService,
     private router: Router
-  ) {}
+  ) {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.isSidebarVisible$ = event.url !== '/console/project-settings';
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.isSidebarFixed = false;
   }
 
-  isSidebarVisible = this.router.url !== '/console/project-settings';
-
   toggleModal() {
     this.widgetTogglerService.toggleUpsellModal();
   }
 
+  isSidebarVisible$ = this.router.url !== '/console/project-settings';
   isSidebarFixed = true;
 
   @HostListener('window:scroll', ['$event'])
