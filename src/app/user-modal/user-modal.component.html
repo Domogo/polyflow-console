@@ -1,11 +1,11 @@
 <div
   [@fade]
   *ngIf="(isHidden$ | async) === false"
-  class="absolute text-slate-700 w-60 translate-y-4 bg-white z-30 rounded-2xl overflow-hidden shadow-md"
+  class="absolute text-slate-700 w-60 translate-y-4 bg-white dark:bg-[#0D0D0D] dark:text-[#D9E2F2] z-30 rounded-2xl overflow-hidden shadow-md"
 >
   <div
     routerLink="/console/project-settings"
-    class="flex flex-row items-center gap-4 p-4 w-full hover:bg-slate-100 cursor-pointer"
+    class="flex flex-row items-center gap-4 p-4 w-full hover:bg-slate-100 dark:hover:bg-zinc-800 cursor-pointer"
   >
     <svg
       width="20"
@@ -13,10 +13,10 @@
       viewBox="0 0 20 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      class="stroke-[#273143] dark:stroke-[#D9E2F2]"
     >
       <path
         d="M3.75098 9.99934C3.75098 13.4511 6.5492 16.2493 10.001 16.2493C13.4528 16.2493 16.251 13.4511 16.251 9.99934M3.75098 9.99934C3.75098 6.54756 6.5492 3.74934 10.001 3.74934C13.4528 3.74934 16.251 6.54756 16.251 9.99934M3.75098 9.99934L2.50098 9.99934M16.251 9.99934L17.501 9.99934M16.251 9.99934L10.001 9.99934M2.95311 12.5645L4.12773 12.137M15.8739 7.86171L17.0485 7.43419M4.25554 14.8208L5.21309 14.0173M14.7886 5.98243L15.7462 5.17895M6.2509 16.4952L6.8759 15.4126M13.1259 4.58733L13.7509 3.50479M8.69854 17.386L8.9156 16.155M11.0862 3.8449L11.3033 2.61389M11.3033 17.386L11.0862 16.155M8.9156 3.84494L8.69854 2.61393M13.7509 16.495L13.1259 15.4125M6.25093 3.50466L10.001 9.99934M15.7463 14.8202L14.7888 14.0168M5.21322 5.98192L4.25566 5.17843M17.0487 12.5646L15.8741 12.1371M4.12793 7.86184L2.95332 7.43432M10.001 9.99934L6.87598 15.412"
-        stroke="#273143"
         stroke-width="1.25"
         stroke-linecap="round"
         stroke-linejoin="round"
@@ -28,7 +28,7 @@
   <div
     (click)="logOut()"
     routerLink="/"
-    class="flex flex-row items-center gap-4 p-4 w-full hover:bg-slate-100 cursor-pointer"
+    class="flex flex-row items-center gap-4 p-4 w-full hover:bg-slate-100 cursor-pointer dark:hover:bg-zinc-800"
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"

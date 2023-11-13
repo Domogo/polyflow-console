@@ -147,98 +147,96 @@
     </div>
   </div>
 
-  <ng-component *ngIf="!spinner">
-    <div
-      class="flex flex-row gap-2 bg-white dark:bg-[#0D0D0D] w-fit mx-auto p-2 rounded-lg"
-      *ngIf="{ value: currentPage$ | async } as page"
+  <div
+    class="flex flex-row gap-2 bg-white dark:bg-[#0D0D0D] w-fit mx-auto p-2 rounded-lg"
+    *ngIf="{ value: currentPage$ | async } as page"
+  >
+    <button
+      class="py-2 px-[13px] border dark:border-[#9994D94D] rounded-md border-[#E8E7F9]"
+      *ngIf="page.value !== 0"
+      (click)="setPage(page.value! - 1)"
     >
-      <button
-        class="py-2 px-[13px] border dark:border-[#9994D94D] rounded-md border-[#E8E7F9]"
-        *ngIf="page.value !== 0"
-        (click)="setPage(page.value! - 1)"
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 20 20"
+        fill="currentColor"
+        class="dark:fill-[#777A9B] fill-[0F172A]"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          class="dark:fill-[#777A9B] fill-[0F172A]"
-        >
-          <path
-            fill-rule="evenodd"
-            clip-rule="evenodd"
-            d="M12.7906 5.23017C13.0777 5.52875 13.0684 6.00353 12.7698 6.29063L8.83208 10L12.7698 13.7094C13.0684 13.9965 13.0777 14.4713 12.7906 14.7698C12.5035 15.0684 12.0287 15.0777 11.7302 14.7906L7.23017 10.5406C7.08311 10.3992 7 10.204 7 10C7 9.79599 7.08311 9.60078 7.23017 9.45938L11.7302 5.20938C12.0287 4.92228 12.5035 4.93159 12.7906 5.23017Z"
-          />
-        </svg>
-      </button>
-      <button
-        class="py-2 px-[13px] border dark:border-[#9994D94D] rounded-md font-medium text-sm border-[#E8E7F9]"
-        (click)="setPage(page.value! - 1)"
-        [class.hidden]="page.value !== null && page.value < 1"
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M12.7906 5.23017C13.0777 5.52875 13.0684 6.00353 12.7698 6.29063L8.83208 10L12.7698 13.7094C13.0684 13.9965 13.0777 14.4713 12.7906 14.7698C12.5035 15.0684 12.0287 15.0777 11.7302 14.7906L7.23017 10.5406C7.08311 10.3992 7 10.204 7 10C7 9.79599 7.08311 9.60078 7.23017 9.45938L11.7302 5.20938C12.0287 4.92228 12.5035 4.93159 12.7906 5.23017Z"
+        />
+      </svg>
+    </button>
+    <button
+      class="py-2 px-[13px] border dark:border-[#9994D94D] rounded-md font-medium text-sm border-[#E8E7F9]"
+      (click)="setPage(page.value! - 1)"
+      [class.hidden]="page.value !== null && page.value < 1"
+    >
+      {{ page.value !== null ? page.value - 1 : "" }}
+    </button>
+    <button
+      class="py-2 px-[13px] border dark:border-[#9994D94D] rounded-md font-medium text-sm border-[#E8E7F9] bg-[#273143] text-white"
+    >
+      {{ page.value }}
+    </button>
+    <button
+      class="py-2 px-[13px] border dark:border-[#9994D94D] rounded-md font-medium text-sm border-[#E8E7F9]"
+      (click)="setPage(page.value! + 1)"
+    >
+      {{ page.value !== null ? page.value + 1 : "" }}
+    </button>
+    <button
+      class="py-2 px-[13px] border dark:border-[#9994D94D] rounded-md border-[#E8E7F9]"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 20 20"
+        fill="none"
+        stroke='"currentColor'
+        class="dark:stroke-[#777A9B] stroke-[0F172A]"
       >
-        {{ page.value !== null ? page.value - 1 : "" }}
-      </button>
-      <button
-        class="py-2 px-[13px] border dark:border-[#9994D94D] rounded-md font-medium text-sm border-[#E8E7F9] bg-[#273143] text-white"
+        <path
+          d="M3 10C3 9.17157 3.67157 8.5 4.5 8.5C5.32843 8.5 6 9.17157 6 10C6 10.8284 5.32843 11.5 4.5 11.5C3.67157 11.5 3 10.8284 3 10Z"
+        />
+        <path
+          d="M8.5 10C8.5 9.17157 9.17157 8.5 10 8.5C10.8284 8.5 11.5 9.17157 11.5 10C11.5 10.8284 10.8284 11.5 10 11.5C9.17157 11.5 8.5 10.8284 8.5 10Z"
+        />
+        <path
+          d="M15.5 8.5C14.6716 8.5 14 9.17157 14 10C14 10.8284 14.6716 11.5 15.5 11.5C16.3284 11.5 17 10.8284 17 10C17 9.17157 16.3284 8.5 15.5 8.5Z"
+        />
+      </svg>
+    </button>
+    <button
+      class="py-2 px-[13px] border dark:border-[#9994D94D] rounded-md font-medium text-sm border-[#E8E7F9]"
+    >
+      99
+    </button>
+    <button
+      class="py-2 px-[13px] border dark:border-[#9994D94D] rounded-md border-[#E8E7F9]"
+      (click)="setPage(page.value! + 1)"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 20 20"
+        fill="currentColor"
+        class="dark:fill-[#777A9B] fill-[0F172A]"
       >
-        {{ page.value }}
-      </button>
-      <button
-        class="py-2 px-[13px] border dark:border-[#9994D94D] rounded-md font-medium text-sm border-[#E8E7F9]"
-        (click)="setPage(page.value! + 1)"
-      >
-        {{ page.value !== null ? page.value + 1 : "" }}
-      </button>
-      <button
-        class="py-2 px-[13px] border dark:border-[#9994D94D] rounded-md border-[#E8E7F9]"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
-          viewBox="0 0 20 20"
-          fill="none"
-          stroke='"currentColor'
-          class="dark:stroke-[#777A9B] stroke-[0F172A]"
-        >
-          <path
-            d="M3 10C3 9.17157 3.67157 8.5 4.5 8.5C5.32843 8.5 6 9.17157 6 10C6 10.8284 5.32843 11.5 4.5 11.5C3.67157 11.5 3 10.8284 3 10Z"
-          />
-          <path
-            d="M8.5 10C8.5 9.17157 9.17157 8.5 10 8.5C10.8284 8.5 11.5 9.17157 11.5 10C11.5 10.8284 10.8284 11.5 10 11.5C9.17157 11.5 8.5 10.8284 8.5 10Z"
-          />
-          <path
-            d="M15.5 8.5C14.6716 8.5 14 9.17157 14 10C14 10.8284 14.6716 11.5 15.5 11.5C16.3284 11.5 17 10.8284 17 10C17 9.17157 16.3284 8.5 15.5 8.5Z"
-          />
-        </svg>
-      </button>
-      <button
-        class="py-2 px-[13px] border dark:border-[#9994D94D] rounded-md font-medium text-sm border-[#E8E7F9]"
-      >
-        99
-      </button>
-      <button
-        class="py-2 px-[13px] border dark:border-[#9994D94D] rounded-md border-[#E8E7F9]"
-        (click)="setPage(page.value! + 1)"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          class="dark:fill-[#777A9B] fill-[0F172A]"
-        >
-          <path
-            fill-rule="evenodd"
-            clip-rule="evenodd"
-            d="M7.20938 14.7698C6.92228 14.4713 6.93159 13.9965 7.23017 13.7094L11.1679 10L7.23017 6.29062C6.93159 6.00353 6.92228 5.52875 7.20938 5.23017C7.49647 4.93159 7.97125 4.92228 8.26983 5.20937L12.7698 9.45937C12.9169 9.60078 13 9.79599 13 10C13 10.204 12.9169 10.3992 12.7698 10.5406L8.26983 14.7906C7.97125 15.0777 7.49647 15.0684 7.20938 14.7698Z"
-          />
-        </svg>
-      </button>
-    </div>
-  </ng-component>
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M7.20938 14.7698C6.92228 14.4713 6.93159 13.9965 7.23017 13.7094L11.1679 10L7.23017 6.29062C6.93159 6.00353 6.92228 5.52875 7.20938 5.23017C7.49647 4.93159 7.97125 4.92228 8.26983 5.20937L12.7698 9.45937C12.9169 9.60078 13 9.79599 13 10C13 10.204 12.9169 10.3992 12.7698 10.5406L8.26983 14.7906C7.97125 15.0777 7.49647 15.0684 7.20938 14.7698Z"
+        />
+      </svg>
+    </button>
+  </div>
 </div>
 
 <ng-template #spinner>

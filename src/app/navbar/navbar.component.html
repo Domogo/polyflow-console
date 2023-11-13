@@ -17,7 +17,7 @@
       <div>
         <button
           (click)="projectSwitchClicked()"
-          class="bg-white text-slate-800 font-medium leading-none flex items-center justify-between p-4 rounded-2xl w-60 relative z-30"
+          class="bg-white dark:bg-[#0D0D0D] dark:text-[#D9E2F2] text-slate-800 font-medium leading-none flex items-center justify-between p-4 rounded-2xl w-60 relative z-30"
         >
           <div *ngIf="currentProject$ | async as project; else noProject">
             {{ project.name }}
@@ -64,7 +64,7 @@
       <div class="relative">
         <button
           (click)="userSwitchClicked()"
-          class="bg-white text-slate-800 font-medium leading-none flex items-center justify-between p-4 rounded-2xl w-60 relative z-30"
+          class="bg-white dark:bg-[#0D0D0D] dark:text-[#D9E2F2] text-slate-800 font-medium leading-none flex items-center justify-between p-4 rounded-2xl w-60 relative z-30"
         >
           {{ (user$ | async)?.email }}
 
@@ -74,10 +74,10 @@
             viewBox="0 0 12 12"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
+            class="dark:stroke-[#D9E2F2] stroke-[#273143]"
           >
             <path
               d="M11.1563 3.85083L6.24292 8.76371C6.17852 8.82819 6.09113 8.86443 6 8.86443C5.90887 8.86443 5.82148 8.82819 5.75708 8.76371L0.84375 3.85083"
-              stroke="#273143"
               stroke-width="1.5"
               stroke-linecap="round"
               stroke-linejoin="round"
