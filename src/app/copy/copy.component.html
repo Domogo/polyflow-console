@@ -1,8 +1,36 @@
-<button (click)="copyClicked()" class="border rounded-full w-6 h-6 flex flex-row items-center justify-center hover:bg-slate-800 hover:text-white cursor-pointer">
-    <svg *ngIf="!checkActive" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="w-3 h-3">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" />
-    </svg>
-    <svg *ngIf="checkActive" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="w-3 h-3">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-      </svg>      
+<button
+  (click)="copyClicked()"
+  class="rounded-full w-6 h-6 flex flex-row items-center justify-center"
+>
+  <svg
+    *ngIf="!checkActive"
+    width="20"
+    height="20"
+    viewBox="0 0 20 20"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M6.875 6.25V5.09018C6.875 4.14437 7.57916 3.34179 8.52174 3.26356C8.83281 3.23774 9.14489 3.21548 9.45794 3.19683M13.125 15H15C16.0355 15 16.875 14.1605 16.875 13.125V5.09018C16.875 4.14436 16.1708 3.34179 15.2283 3.26356C14.9172 3.23774 14.6051 3.21548 14.2921 3.19683M13.125 15.625V14.0625C13.125 12.5092 11.8658 11.25 10.3125 11.25H9.0625C8.54473 11.25 8.125 10.8303 8.125 10.3125V9.0625C8.125 7.5092 6.8658 6.25 5.3125 6.25H4.375M14.2921 3.19683C14.056 2.43131 13.343 1.875 12.5 1.875H11.25C10.407 1.875 9.69396 2.43131 9.45794 3.19683M14.2921 3.19683C14.346 3.37168 14.375 3.55745 14.375 3.75V4.375H9.375V3.75C9.375 3.55745 9.40402 3.37168 9.45794 3.19683M5.625 6.25H4.0625C3.54473 6.25 3.125 6.66973 3.125 7.1875V17.1875C3.125 17.7053 3.54473 18.125 4.0625 18.125H12.1875C12.7053 18.125 13.125 17.7053 13.125 17.1875V13.75C13.125 9.60786 9.76714 6.25 5.625 6.25Z"
+      stroke="#777A9B"
+      stroke-width="1.25"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+
+  <svg
+    *ngIf="checkActive"
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    class="w-5 h-5"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      d="M4.5 12.75l6 6 9-13.5"
+    />
+  </svg>
 </button>
