@@ -2,10 +2,12 @@
   *ngIf="visibility$ | async as visibility"
   class="w-full flex flex-row gap-x-2 z-0 text-xs font-semibold"
 >
-  <div class="relative flex flex-col rounded-[10px] cursor-pointer">
+  <div
+    class="relative flex flex-col rounded-[10px] cursor-pointer dark:bg-[#0D0D0D]"
+  >
     <div
       (click)="setVisibility('timeframe')"
-      class="px-4 py-3 rounded-lg border transition-all flex flex-row items-center gap-x-2 text-sm font-normal text-[#777A9B]"
+      class="px-4 py-3 rounded-lg border transition-all flex flex-row items-center gap-x-2 text-sm font-normal text-[#777A9B] dark:border-[#9994D94D]"
     >
       <div>Last {{ selectedTimeframe }}</div>
       <div>
@@ -26,11 +28,11 @@
       </div>
     </div>
     <div
-      class="absolute mt-12 rounded-lg bg-white border w-full border-indigo-100"
+      class="absolute mt-12 rounded-lg bg-white border w-full border-indigo-100 dark:bg-[#0D0D0D] dark:border-[#9994D94D]"
       *ngIf="visibility === 'timeframe'"
     >
       <div
-        class="hover:bg-indigo-50 w-full text-indigo-600 py-3 text-center border-indigo-100"
+        class="hover:bg-indigo-50 w-full text-indigo-600 dark:text-[#777A9B] py-3 text-center border-indigo-100 dark:hover:bg-zinc-800"
         *ngFor="let item of timeframeFilterItems"
         (click)="timeFrameFilterClicked(item)"
       >

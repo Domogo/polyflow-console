@@ -1,9 +1,26 @@
-<div (mouseenter)="mouseEnter()" (mouseleave)="mouseLeave()" class="flex flex-row gap-x-2 text-{{size}} items-center">
-    <img class="h-4 w-4 rounded-sm object-cover" [src]="_getIcon()" alt="" srcset="">
-    <div class="font-medium text-{{color}}" *ngIf="showQuery">
-        <div *ngIf="type !== 'network'">{{iconQuery}}</div>
-        <div *ngIf="type === 'network'">{{_getNetworkQuery()?.name}}</div>
+<div
+  (mouseenter)="mouseEnter()"
+  (mouseleave)="mouseLeave()"
+  class="flex flex-row gap-x-2 text-{{ size }} items-center"
+>
+  <img
+    class="h-4 w-4 rounded-sm object-cover"
+    [src]="_getIcon()"
+    alt=""
+    srcset=""
+  />
+  <div class="font-medium text-{{ color }}" *ngIf="showQuery">
+    <div *ngIf="type !== 'network'" class="dark:text-[#D9E2F2]">
+      {{ iconQuery }}
     </div>
-    <div [class.hidden]="tooltipHidden" class="absolute mt-14 text-xs px-3 py-1 bg-[rgba(0,0,0,0.5)] text-white rounded-lg">{{iconQuery}}</div>
+    <div *ngIf="type === 'network'">
+      {{ _getNetworkQuery()?.name }}
+    </div>
+  </div>
+  <div
+    [class.hidden]="tooltipHidden"
+    class="absolute mt-14 text-xs px-3 py-1 bg-[rgba(0,0,0,0.5)] text-white rounded-lg dark:text-[#D9E2F2]"
+  >
+    {{ iconQuery }}
+  </div>
 </div>
-

@@ -1,122 +1,248 @@
-<div  class="w-full bg-white text-xs rounded-lg shadow-sm p-8">
+<div class="w-full flex flex-col gap-6">
+  <p class="text-[32px] font-semibold leading-[32px] mt-7 dark:text-[#D9E2F2]">
+    Users
+  </p>
+  <app-filters></app-filters>
 
-    <app-filters></app-filters>
-
-    <div *ngIf="users$ | async as users; else spinner" class="w-full mt-8">
-        <div class="w-full px-4 flex mb-4 flex-row gap-x-2 uppercase text-xs font-semibold">
-            <div class="w-1/12">
-                Time of <br>
-                first event
-            </div>
-            <div class="w-1/12">
-                User <br> ID
-            </div>
-            
-            <div class="w-1/12 -ml-8 text-center">
-                User <br> Activity
-            </div>
-            <div class="w-1/12 pl-2 text-center">
-                Wallet Connected
-            </div>
-            <div class="w-1/12 text-center">
-                Signed <br> TX
-            </div>
-            <div class="w-1/12 pl-4">
-                Browser
-            </div>
-            <div class="w-1/12 pl-4">
-                Wallets
-            </div>
-            <div class="w-1/12 pl-4 text-center">
-                Countries
-            </div>
-            <div class="w-2/12 pl-8">
-                Addresses
-            </div>
-        </div>
-    
-        <div  *ngFor="let user of users" routerLink="{{user.userId}}"
-            class="w-full px-4 hover:bg-slate-50 cursor-pointer text-slate-600 flex flex-row items-center gap-x-2 py-2 border-t border-slate-50">
-            <div class="w-1/12 flex flex-col">
-                <div>{{user.firstEventDateTimeParsed.toLocaleTimeString()}}</div>
-                <div class="text-sm text-indigo-700 font-semibold">{{user.firstEventDateTimeParsed.toLocaleDateString()}}</div>
-            </div>
-            <div class="w-1/12">
-                {{user.userId | shorten}}
-            </div>
-            
-            <div class="w-1/12 text-center -ml-8">
-                {{user.totalEventCount}}
-            </div>
-            <div class="w-1/12 flex flex-row justify-center">
-                <svg *ngIf="user.hasConnectedWallet" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 text-indigo-600">
-                    <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clip-rule="evenodd" />
-                </svg>
-                <svg *ngIf="!user.hasConnectedWallet" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 text-slate-500">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-                        <path fill-rule="evenodd" d="M6.72 5.66l11.62 11.62A8.25 8.25 0 006.72 5.66zm10.56 12.68L5.66 6.72a8.25 8.25 0 0011.62 11.62zM5.105 5.106c3.807-3.808 9.98-3.808 13.788 0 3.808 3.807 3.808 9.98 0 13.788-3.807 3.808-9.98 3.808-13.788 0-3.808-3.807-3.808-9.98 0-13.788z" clip-rule="evenodd" />
-                      </svg>
-                      
-                </svg>
-                  
-            </div>
-            <div class="w-1/12 text-center flex flex-row justify-center">
-                <svg *ngIf="user.hasExecutedTransaction" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 text-indigo-600">
-                    <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clip-rule="evenodd" />
-                </svg>
-                <svg *ngIf="!user.hasExecutedTransaction" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 text-slate-500">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-                        <path fill-rule="evenodd" d="M6.72 5.66l11.62 11.62A8.25 8.25 0 006.72 5.66zm10.56 12.68L5.66 6.72a8.25 8.25 0 0011.62 11.62zM5.105 5.106c3.807-3.808 9.98-3.808 13.788 0 3.808 3.807 3.808 9.98 0 13.788-3.807 3.808-9.98 3.808-13.788 0-3.808-3.807-3.808-9.98 0-13.788z" clip-rule="evenodd" />
-                      </svg>                          
-                </svg>
-            </div>
-            <div class="w-1/12 pl-4 flex flex-row gap-x-1">
-                <span class="" *ngFor="let device of user.browsersUnique">
-                    <app-icon-item-holder type="browser" [iconQuery]="device"></app-icon-item-holder>
-                </span>
-            </div>
-            <div class="w-1/12 pl-4 flex flex-row gap-x-1">
-                <span class="" *ngFor="let device of user.providrsUnique">
-                    <app-icon-item-holder type="provider" [iconQuery]="device"></app-icon-item-holder>
-                </span>
-            </div>
-            <div class="w-1/12 flex flex-row justify-center flex-wrap gap-x-1 pl-4">
-                <span class="" *ngFor="let country of user.countriesUnique">
-                    <app-icon-item-holder type="country" [iconQuery]="country"></app-icon-item-holder>
-                </span>
-            </div>
-            <div class="w-3/12 overflow-x-scroll flex flex-row gap-x-2 pl-8 text-slate-700">
-                <span class="py-1 px-3 bg-indigo-50 rounded-md text-[10px] font-medium" *ngFor="let address of user.walletAddresses">
-                    {{address | shorten:4:4}}
-                </span>
-            </div>
-        </div>
-        <div class="w-full mt-8 py-3 text-xs uppercase font-medium
-         bg-amber-50 text-center text-amber-700 rounded-lg" *ngIf="users.length === 0">
-            No users tracked yet
-        </div>
+  <div
+    *ngIf="users$ | async as users; else spinner"
+    class="w-full flex flex-col gap-1 bg-white dark:bg-[#0D0D0D] dark:text-[#777A9B] text-xs rounded-3xl p-8"
+  >
+    <div class="grid grid-cols-9 uppercase text-xs font-semibold">
+      <div class="pl-[22px]">SESSION START</div>
+      <div class="text-center">User ID</div>
+      <div class="text-center">User Activity</div>
+      <div class="text-center">Wallet Connected</div>
+      <div class="text-center">Signed TX</div>
+      <div class="text-center">Browser</div>
+      <div class="text-center">Wallets</div>
+      <div class="col-span-2 ml-5">Countries</div>
     </div>
-    <div *ngIf="{ value: currentPage$ | async } as page" class="w-full text-xs flex flex-col items-center gap-y-4 mt-4">
-        
-        <div class="flex flex-row gap-x-4">
-            <div *ngIf="page.value !== 0" (click)="setPage(page.value! - 1)" class="border px-4 py-2 rounded-lg uppercase font-semibold hover:bg-indigo-50 cursor-pointer transition-all">
-                Previous
-            </div>
-            <div (click)="setPage(page.value! + 1)" class="border px-4 py-2 rounded-lg uppercase font-semibold hover:bg-indigo-50 cursor-pointer transition-all">
-                Next
-            </div>
-        </div>
-        <div class="uppercase text-slate-500 font-medium">
-            Current page: {{page.value}}
-        </div>
-    </div>
-    
 
+    <div
+      *ngFor="let user of users"
+      routerLink="{{ user.userId }}"
+      class="grid grid-cols-9 items-center border rounded-xl p-4 gap-5 mb-2 cursor-pointer dark:text-[#D9E2F2] dark:border-[#9994D94D]"
+    >
+      <div class="flex flex-row text-xs font-medium leading-3 gap-1">
+        <p class="p-[6px] bg-[#F2F1FB] rounded-md dark:bg-[#9994D94D]">
+          {{ user.firstEventDateTimeParsed | date : "dd/MM/yy" }}
+        </p>
+        <p class="p-[6px] bg-[#F2F1FB] rounded-md dark:bg-[#9994D94D]">
+          {{ user.firstEventDateTimeParsed | date : "HH:mm" }}
+        </p>
+      </div>
+      <div class="text-center text-sm font-semibold leading-5">
+        {{ user.userId | shorten }}
+      </div>
+
+      <div class="text-center text-sm font-semibold leading-5">
+        {{ user.totalEventCount }}
+      </div>
+      <div class="flex flex-row justify-center">
+        <svg
+          *ngIf="user.hasConnectedWallet"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          class="w-5 h-5 text-indigo-600"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z"
+            clip-rule="evenodd"
+          />
+        </svg>
+        <svg
+          *ngIf="!user.hasConnectedWallet"
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 20 20"
+          fill="none"
+        >
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M10 18C14.4183 18 18 14.4183 18 10C18 5.58172 14.4183 2 10 2C5.58172 2 2 5.58172 2 10C2 14.4183 5.58172 18 10 18ZM8.28033 7.21967C7.98744 6.92678 7.51256 6.92678 7.21967 7.21967C6.92678 7.51256 6.92678 7.98744 7.21967 8.28033L8.93934 10L7.21967 11.7197C6.92678 12.0126 6.92678 12.4874 7.21967 12.7803C7.51256 13.0732 7.98744 13.0732 8.28033 12.7803L10 11.0607L11.7197 12.7803C12.0126 13.0732 12.4874 13.0732 12.7803 12.7803C13.0732 12.4874 13.0732 12.0126 12.7803 11.7197L11.0607 10L12.7803 8.28033C13.0732 7.98744 13.0732 7.51256 12.7803 7.21967C12.4874 6.92678 12.0126 6.92678 11.7197 7.21967L10 8.93934L8.28033 7.21967Z"
+            fill="#E74090"
+          />
+        </svg>
+      </div>
+      <div class="text-center flex flex-row justify-center">
+        <svg
+          *ngIf="user.hasExecutedTransaction"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          class="w-5 h-5 text-indigo-600"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z"
+            clip-rule="evenodd"
+          />
+        </svg>
+        <svg
+          *ngIf="!user.hasExecutedTransaction"
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 20 20"
+          fill="none"
+        >
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M10 18C14.4183 18 18 14.4183 18 10C18 5.58172 14.4183 2 10 2C5.58172 2 2 5.58172 2 10C2 14.4183 5.58172 18 10 18ZM8.28033 7.21967C7.98744 6.92678 7.51256 6.92678 7.21967 7.21967C6.92678 7.51256 6.92678 7.98744 7.21967 8.28033L8.93934 10L7.21967 11.7197C6.92678 12.0126 6.92678 12.4874 7.21967 12.7803C7.51256 13.0732 7.98744 13.0732 8.28033 12.7803L10 11.0607L11.7197 12.7803C12.0126 13.0732 12.4874 13.0732 12.7803 12.7803C13.0732 12.4874 13.0732 12.0126 12.7803 11.7197L11.0607 10L12.7803 8.28033C13.0732 7.98744 13.0732 7.51256 12.7803 7.21967C12.4874 6.92678 12.0126 6.92678 11.7197 7.21967L10 8.93934L8.28033 7.21967Z"
+            fill="#E74090"
+          />
+        </svg>
+      </div>
+      <div class="flex justify-center">
+        <span class="" *ngFor="let device of user.browsersUnique">
+          <app-icon-item-holder
+            type="browser"
+            [iconQuery]="device"
+          ></app-icon-item-holder>
+        </span>
+      </div>
+      <div class="flex justify-center">
+        <span class="" *ngFor="let device of user.providrsUnique">
+          <app-icon-item-holder
+            type="provider"
+            [iconQuery]="device"
+          ></app-icon-item-holder>
+        </span>
+      </div>
+      <div class="flex ml-10 col-span-2">
+        <span class="" *ngFor="let country of user.countriesUnique">
+          <app-icon-item-holder
+            type="country"
+            [iconQuery]="country"
+          ></app-icon-item-holder>
+        </span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 20 20"
+          fill="none"
+          class="ml-auto"
+        >
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M7.20938 14.7698C6.92228 14.4713 6.93159 13.9965 7.23017 13.7094L11.1679 10L7.23017 6.29062C6.93159 6.00353 6.92228 5.52875 7.20938 5.23017C7.49647 4.93159 7.97125 4.92228 8.26983 5.20937L12.7698 9.45937C12.9169 9.60078 13 9.79599 13 10C13 10.204 12.9169 10.3992 12.7698 10.5406L8.26983 14.7906C7.97125 15.0777 7.49647 15.0684 7.20938 14.7698Z"
+            fill="#273143"
+          />
+        </svg>
+      </div>
+    </div>
+    <div
+      class="w-full mt-8 py-3 text-xs uppercase font-medium bg-amber-50 text-center text-amber-700 rounded-lg"
+      *ngIf="users.length === 0"
+    >
+      No users tracked yet
+    </div>
+  </div>
+
+  <ng-component *ngIf="!spinner">
+    <div
+      class="flex flex-row gap-2 bg-white dark:bg-[#0D0D0D] w-fit mx-auto p-2 rounded-lg"
+      *ngIf="{ value: currentPage$ | async } as page"
+    >
+      <button
+        class="py-2 px-[13px] border dark:border-[#9994D94D] rounded-md border-[#E8E7F9]"
+        *ngIf="page.value !== 0"
+        (click)="setPage(page.value! - 1)"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          class="dark:fill-[#777A9B] fill-[0F172A]"
+        >
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M12.7906 5.23017C13.0777 5.52875 13.0684 6.00353 12.7698 6.29063L8.83208 10L12.7698 13.7094C13.0684 13.9965 13.0777 14.4713 12.7906 14.7698C12.5035 15.0684 12.0287 15.0777 11.7302 14.7906L7.23017 10.5406C7.08311 10.3992 7 10.204 7 10C7 9.79599 7.08311 9.60078 7.23017 9.45938L11.7302 5.20938C12.0287 4.92228 12.5035 4.93159 12.7906 5.23017Z"
+          />
+        </svg>
+      </button>
+      <button
+        class="py-2 px-[13px] border dark:border-[#9994D94D] rounded-md font-medium text-sm border-[#E8E7F9]"
+        (click)="setPage(page.value! - 1)"
+        [class.hidden]="page.value !== null && page.value < 1"
+      >
+        {{ page.value !== null ? page.value - 1 : "" }}
+      </button>
+      <button
+        class="py-2 px-[13px] border dark:border-[#9994D94D] rounded-md font-medium text-sm border-[#E8E7F9] bg-[#273143] text-white"
+      >
+        {{ page.value }}
+      </button>
+      <button
+        class="py-2 px-[13px] border dark:border-[#9994D94D] rounded-md font-medium text-sm border-[#E8E7F9]"
+        (click)="setPage(page.value! + 1)"
+      >
+        {{ page.value !== null ? page.value + 1 : "" }}
+      </button>
+      <button
+        class="py-2 px-[13px] border dark:border-[#9994D94D] rounded-md border-[#E8E7F9]"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 20 20"
+          fill="none"
+          stroke='"currentColor'
+          class="dark:stroke-[#777A9B] stroke-[0F172A]"
+        >
+          <path
+            d="M3 10C3 9.17157 3.67157 8.5 4.5 8.5C5.32843 8.5 6 9.17157 6 10C6 10.8284 5.32843 11.5 4.5 11.5C3.67157 11.5 3 10.8284 3 10Z"
+          />
+          <path
+            d="M8.5 10C8.5 9.17157 9.17157 8.5 10 8.5C10.8284 8.5 11.5 9.17157 11.5 10C11.5 10.8284 10.8284 11.5 10 11.5C9.17157 11.5 8.5 10.8284 8.5 10Z"
+          />
+          <path
+            d="M15.5 8.5C14.6716 8.5 14 9.17157 14 10C14 10.8284 14.6716 11.5 15.5 11.5C16.3284 11.5 17 10.8284 17 10C17 9.17157 16.3284 8.5 15.5 8.5Z"
+          />
+        </svg>
+      </button>
+      <button
+        class="py-2 px-[13px] border dark:border-[#9994D94D] rounded-md font-medium text-sm border-[#E8E7F9]"
+      >
+        99
+      </button>
+      <button
+        class="py-2 px-[13px] border dark:border-[#9994D94D] rounded-md border-[#E8E7F9]"
+        (click)="setPage(page.value! + 1)"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          class="dark:fill-[#777A9B] fill-[0F172A]"
+        >
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M7.20938 14.7698C6.92228 14.4713 6.93159 13.9965 7.23017 13.7094L11.1679 10L7.23017 6.29062C6.93159 6.00353 6.92228 5.52875 7.20938 5.23017C7.49647 4.93159 7.97125 4.92228 8.26983 5.20937L12.7698 9.45937C12.9169 9.60078 13 9.79599 13 10C13 10.204 12.9169 10.3992 12.7698 10.5406L8.26983 14.7906C7.97125 15.0777 7.49647 15.0684 7.20938 14.7698Z"
+          />
+        </svg>
+      </button>
+    </div>
+  </ng-component>
 </div>
 
 <ng-template #spinner>
-    <div class="w-full flex flex-row justify-center py-8">
-        <app-spinner></app-spinner>
-
-    </div>
+  <div class="w-full flex flex-row justify-center py-8">
+    <app-spinner></app-spinner>
+  </div>
 </ng-template>

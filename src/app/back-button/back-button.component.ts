@@ -4,19 +4,21 @@ import { Component, Input, OnInit } from '@angular/core';
 @Component({
   selector: 'app-back-button',
   templateUrl: './back-button.component.html',
-  styleUrls: ['./back-button.component.css']
+  styleUrls: ['./back-button.component.css'],
 })
 export class BackButtonComponent implements OnInit {
+  @Input() screenName = '';
+  @Input() secondScreenName = '';
+  @Input() thirdScreenName = '';
+  @Input() color = 'black';
+  @Input() secondColor = 'black';
+  @Input() darkColor = 'black';
 
-  @Input() screenName = ''
+  constructor(private location: Location) {}
 
-  constructor(private location: Location) { }
-
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   backClicked() {
-    this.location.back()
+    this.location.back();
   }
-
 }
