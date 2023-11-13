@@ -53,6 +53,7 @@ export class AnalyticsComponent implements AfterViewInit {
 
   changeSelectedTimespan(timespan: SelectedTimespan) {
     this.activeTimespanSub.next(timespan);
+    this.showHistoryDropdown = false;
   }
 
   private generateFromToGranularity(timespan: SelectedTimespan) {
@@ -336,6 +337,7 @@ export class AnalyticsComponent implements AfterViewInit {
             data: [60, 29, 15],
             backgroundColor: ['#EA579E', '#B125DF', '#7208C4'],
             borderRadius: 20,
+            borderColor: 'transparent',
           },
         ],
       },

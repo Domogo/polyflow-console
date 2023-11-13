@@ -1,108 +1,215 @@
-<div class="py-6 px-8 bg-white rounded-lg shadow-sm">
-    
-    <app-filters></app-filters>
+<div class="flex flex-col gap-6">
+  <p class="text-[32px] font-semibold leading-[32px] mt-7 dark:text-[#D9E2F2]">
+    Transactions
+  </p>
+  <app-filters></app-filters>
 
+  <div class="p-8 bg-white rounded-3xl dark:bg-[#0D0D0D]">
     <div class="px-4" *ngIf="txHistory$ | async as txHistory; else loading">
-        <div class="w-full flex flex-row uppercase text-xs font-semibold pb-2 mt-8">
-            <div class="w-1/12">
-                Date & <br> Time
-            </div>
-            <div class="w-[4%]">
-                Hash
-            </div>
-            <div class="w-3/12 flex flex-row">
-                <div class="w-10/12 pl-12">From</div>
-                <div class="w-1/2">To</div>
-            </div>
-            <div class="w-1/12 pl-2">
-                Gas <br> Price
-            </div>
-            <div class="w-[3%]">
-                Value
-            </div>
-            <div class="w-2/12 pl-10">
-                Network
-            </div>
-            <div class="w-1/12 pl-4">
-                Block
-            </div>
-            <div class="w-2/12 pl-8">
-                Metadata
-            </div>
+      <div class="grid grid-cols-9 mx-4">
+        <div class="">Date</div>
+        <div class="text-center">Hash</div>
+        <div class="text-center">From</div>
+        <div class="text-center">To</div>
+        <div class="text-center">Gas Price</div>
+        <div class="text-center">Value</div>
+        <div class="text-center">Block</div>
+        <div class="text-center">Network</div>
+        <div class="text-center">Metadata</div>
+      </div>
+      <div
+        class="grid grid-cols-9 items-center border dark:border-[#9994D94D] rounded-xl p-4 mb-2 dark:text-[#D9E2F2]"
+        *ngFor="let item of txHistory; let i = index"
+      >
+        <div
+          class="flex flex-row items-center font-medium text-xs leading-3 gap-1"
+        >
+          <p class="p-[6px] rounded-md bg-[#F2F1FB] dark:bg-[#9994D94D]">
+            {{ item.createdAt | date : "MM/dd/yy" }}
+          </p>
+          <p class="p-[6px] rounded-md bg-[#F2F1FB] dark:bg-[#9994D94D]">
+            {{ item.createdAt | date : "HH:mm" }}
+          </p>
+        </div>
+        <a class="flex flex-row font-medium text-sm justify-center gap-2">
+          <p>{{ item.tx.hash ?? "" | shorten : 3 : 3 }}</p>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            class="fill-[273143] dark:fill-[#D9E2F2]"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M4.25 5.5C3.83579 5.5 3.5 5.83579 3.5 6.25V14.75C3.5 15.1642 3.83579 15.5 4.25 15.5H12.75C13.1642 15.5 13.5 15.1642 13.5 14.75V10.75C13.5 10.3358 13.8358 10 14.25 10C14.6642 10 15 10.3358 15 10.75V14.75C15 15.9926 13.9926 17 12.75 17H4.25C3.00736 17 2 15.9926 2 14.75V6.25C2 5.00736 3.00736 4 4.25 4H9.25C9.66421 4 10 4.33579 10 4.75C10 5.16421 9.66421 5.5 9.25 5.5H4.25Z"
+            />
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M6.19385 12.7532C6.47175 13.0603 6.94603 13.0841 7.25319 12.8062L16.5 4.43999V7.25C16.5 7.66421 16.8358 8 17.25 8C17.6642 8 18 7.66421 18 7.25V2.75C18 2.33579 17.6642 2 17.25 2H12.75C12.3358 2 12 2.33579 12 2.75C12 3.16421 12.3358 3.5 12.75 3.5H15.3032L6.24682 11.6938C5.93966 11.9717 5.91595 12.446 6.19385 12.7532Z"
+            />
+          </svg>
+        </a>
+        <div
+          class="cursor-pointer text-center font-medium text-sm"
+          routerLink="/console/address/{{ item.tx.from }}"
+        >
+          {{ item.tx.from | shorten : 4 : 4 }}
+        </div>
+        <div
+          class="cursor-pointer text-center font-medium text-sm"
+          routerLink="/console/address/{{ item.tx.to }}"
+        >
+          {{ item.tx.to ?? "" | shorten : 4 : 4 }}
+        </div>
+        <div class="text-sm font-semibold text-center">
+          {{ item.tx.gasPrice.toFixed(1) }}
+        </div>
+        <div class="text-sm font-medium text-center">
+          {{ item.tx.value }}
+        </div>
+        <div class="text-center font-medium text-sm">
+          {{ item.txRequestNetwork.blockHeight }}
+        </div>
+        <div class="flex flex-row justify-center font-medium text-sm gap-2">
+          <!-- get Network -->
+          <app-icon-item-holder
+            [iconQuery]="item.txRequestNetwork.chainId.toString()"
+            ?
+            type="network"
+            [showQuery]="true"
+          ></app-icon-item-holder>
+          Polygon
+        </div>
+        <div class="flex flex-row items-center justify-center gap-2">
+          <div class="">
+            <app-icon-item-holder
+              [iconQuery]="item.device.country"
+              [showQuery]="false"
+              type="country"
+            ></app-icon-item-holder>
+          </div>
+          <div class="">
+            <app-icon-item-holder
+              [iconQuery]="item.device.browser"
+              [showQuery]="false"
+              type="browser"
+            ></app-icon-item-holder>
+          </div>
+          <div class="">
+            <app-icon-item-holder
+              [iconQuery]="item.device.walletProvider"
+              [showQuery]="false"
+              type="provider"
+            ></app-icon-item-holder>
+          </div>
+        </div>
+      </div>
+      <div
+        class="w-full mt-8 py-3 text-xs uppercase font-medium bg-amber-50 text-center text-amber-700 rounded-lg"
+        *ngIf="txHistory.length === 0"
+      >
+        No trasactions tracked yet
+      </div>
+    </div>
+  </div>
+  <div
+    class="flex flex-row gap-2 bg-white dark:bg-[#0D0D0D] w-fit mx-auto p-2 rounded-lg"
+    *ngIf="{ value: currentPage$ | async } as page"
+  >
+    <button
+      class="py-2 px-[13px] border dark:border-[#9994D94D] rounded-md border-[#E8E7F9]"
+      *ngIf="page.value !== 0"
+      (click)="setPage(page.value! - 1)"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 20 20"
+        fill="currentColor"
+        class="dark:fill-[#777A9B] fill-[0F172A]"
+      >
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M12.7906 5.23017C13.0777 5.52875 13.0684 6.00353 12.7698 6.29063L8.83208 10L12.7698 13.7094C13.0684 13.9965 13.0777 14.4713 12.7906 14.7698C12.5035 15.0684 12.0287 15.0777 11.7302 14.7906L7.23017 10.5406C7.08311 10.3992 7 10.204 7 10C7 9.79599 7.08311 9.60078 7.23017 9.45938L11.7302 5.20938C12.0287 4.92228 12.5035 4.93159 12.7906 5.23017Z"
+        />
+      </svg>
+    </button>
 
-        </div>
-        <div class="text-xs flex flex-row items-center py-3 transition-all
-         border-t border-slate-50 " *ngFor="let item of txHistory; let i = index" >
-            <div class="w-1/12 flex flex-col text-slate-500 font-medium">
-                <div>{{item.createdAt.toLocaleTimeString()}}</div>
-                <div class="text-sm font-medium text-indigo-700">{{item.createdAt.toLocaleDateString()}}</div>
-            </div>
-            <a
-                class="w-[4%] text-indigo-700 font-medium">
-                {{item.tx.hash ?? "" | shorten:3:3}}
-            </a>
-            
-            <div class="w-3/12 flex flex-row">
-                <div class="pl-12 w-5/12 flex flex-row gap-x-3 font-medium text-indigo-700">
-                    <div class="underline cursor-pointer" routerLink="/console/address/{{item.tx.from}}">{{item.tx.from | shorten:4:4 }}</div>
-                                    
-                </div>
-                <div class="w-3/12 pl-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 text-indigo-500 ml-4">
-                        <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm4.28 10.28a.75.75 0 000-1.06l-3-3a.75.75 0 10-1.06 1.06l1.72 1.72H8.25a.75.75 0 000 1.5h5.69l-1.72 1.72a.75.75 0 101.06 1.06l3-3z" clip-rule="evenodd" />
-                    </svg> 
-                </div>
-                 
-                <div routerLink="/console/address/{{item.tx.to}}" class="w-4/12 font-medium underline cursor-pointer text-indigo-700">
-                    {{item.tx.to ?? "" | shorten:4:4 }}
-                </div>
-            </div>
-            <div class="w-1/12 pl-2">
-                <span class="text-sm font-semibold">{{item.tx.gasPrice.toFixed(1)}}</span>  <br> Gwei
-            </div>
-            <div class="w-[3%]">
-                <div class="text-xs font-semibold">{{item.tx.value}}</div>
-            </div>
-            <div class="w-2/12 pl-10">
-                <app-icon-item-holder type="network" [showQuery]="true" [iconQuery]="item.txRequestNetwork.chainId.toString()"></app-icon-item-holder>
-            </div>
-            <div class="w-1/12 pl-4">
-                {{item.txRequestNetwork.blockHeight}}
-            </div>
-            <div class="w-2/12 flex flex-row gap-x-3 items-center pl-8">
-                <div class="">
-                    <app-icon-item-holder [showQuery]="false" type="country" [iconQuery]="item.device.country"></app-icon-item-holder>
-                </div>
-                <div class="">
-                    <app-icon-item-holder [showQuery]="false" type="browser" [iconQuery]="item.device.browser"></app-icon-item-holder>
-                </div>
-                <div class="">
-                    <app-icon-item-holder [showQuery]="false" type="provider" [iconQuery]="item.device.walletProvider"></app-icon-item-holder>
-                </div>
-            </div>
-        </div>
-        <div class="w-full mt-8 py-3 text-xs uppercase font-medium
-         bg-amber-50 text-center text-amber-700 rounded-lg" *ngIf="txHistory.length === 0">
-            No trasactions tracked yet
-        </div>
-    </div>
-    <div *ngIf="{ value: currentPage$ | async } as page" class="w-full text-xs flex flex-col items-center gap-y-4 mt-4">
-        
-        <div class="flex flex-row gap-x-4">
-            <div *ngIf="page.value !== 0" (click)="setPage(page.value! - 1)" class="border px-4 py-2 rounded-lg uppercase font-semibold hover:bg-indigo-50 cursor-pointer transition-all">
-                Previous
-            </div>
-            <div (click)="setPage(page.value! + 1)" class="border px-4 py-2 rounded-lg uppercase font-semibold hover:bg-indigo-50 cursor-pointer transition-all">
-                Next
-            </div>
-        </div>
-        <div class="uppercase text-slate-500 font-medium">
-            Current page: {{page.value}}
-        </div>
-    </div>
-</div>
-<ng-template #loading>
+    <button
+      class="py-2 px-[13px] border dark:border-[#9994D94D] rounded-md font-medium text-sm border-[#E8E7F9]"
+      (click)="setPage(page.value! - 1)"
+      [class.hidden]="page.value !== null && page.value < 1"
+    >
+      {{ page.value !== null ? page.value - 1 : "" }}
+    </button>
+    <button
+      class="py-2 px-[13px] border dark:border-[#9994D94D] rounded-md font-medium text-sm border-[#E8E7F9] bg-[#273143] text-white"
+    >
+      {{ page.value }}
+    </button>
+    <button
+      class="py-2 px-[13px] border dark:border-[#9994D94D] rounded-md font-medium text-sm border-[#E8E7F9]"
+      (click)="setPage(page.value! + 1)"
+    >
+      {{ page.value !== null ? page.value + 1 : "" }}
+    </button>
+    <button
+      class="py-2 px-[13px] border dark:border-[#9994D94D] rounded-md border-[#E8E7F9]"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 20 20"
+        fill="none"
+        stroke='"currentColor'
+        class="dark:stroke-[#777A9B] stroke-[0F172A]"
+      >
+        <path
+          d="M3 10C3 9.17157 3.67157 8.5 4.5 8.5C5.32843 8.5 6 9.17157 6 10C6 10.8284 5.32843 11.5 4.5 11.5C3.67157 11.5 3 10.8284 3 10Z"
+        />
+        <path
+          d="M8.5 10C8.5 9.17157 9.17157 8.5 10 8.5C10.8284 8.5 11.5 9.17157 11.5 10C11.5 10.8284 10.8284 11.5 10 11.5C9.17157 11.5 8.5 10.8284 8.5 10Z"
+        />
+        <path
+          d="M15.5 8.5C14.6716 8.5 14 9.17157 14 10C14 10.8284 14.6716 11.5 15.5 11.5C16.3284 11.5 17 10.8284 17 10C17 9.17157 16.3284 8.5 15.5 8.5Z"
+        />
+      </svg>
+    </button>
+    <button
+      class="py-2 px-[13px] border dark:border-[#9994D94D] rounded-md font-medium text-sm border-[#E8E7F9]"
+    >
+      99
+    </button>
+    <button
+      class="py-2 px-[13px] border dark:border-[#9994D94D] rounded-md border-[#E8E7F9]"
+      (click)="setPage(page.value! + 1)"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 20 20"
+        fill="currentColor"
+        class="dark:fill-[#777A9B] fill-[0F172A]"
+      >
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M7.20938 14.7698C6.92228 14.4713 6.93159 13.9965 7.23017 13.7094L11.1679 10L7.23017 6.29062C6.93159 6.00353 6.92228 5.52875 7.20938 5.23017C7.49647 4.93159 7.97125 4.92228 8.26983 5.20937L12.7698 9.45937C12.9169 9.60078 13 9.79599 13 10C13 10.204 12.9169 10.3992 12.7698 10.5406L8.26983 14.7906C7.97125 15.0777 7.49647 15.0684 7.20938 14.7698Z"
+        />
+      </svg>
+    </button>
+  </div>
+  <ng-template #loading>
     <div class="w-full flex flex-row justify-center py-8">
-        <app-spinner></app-spinner>
+      <app-spinner></app-spinner>
     </div>
-</ng-template>
+  </ng-template>
+</div>

@@ -1,232 +1,531 @@
-<div class="w-full bg-white p-8 rounded-lg shadow-sm text-xs">
+<div
+  class="w-full bg-white dark:bg-[#0D0D0D] dark:text-[#D9E2F2] p-8 rounded-3xl shadow-sm text-xs"
+>
+  <div *ngIf="events$ | async as events" class="flex flex-col gap-6">
+    <div class="flex flex-row w-full justify-between">
+      <p class="text-2xl font-semibold leading-[34px]">Event history</p>
+      <form [formGroup]="eventTypeFilterForm" class="flex flex-row gap-x-2">
+        <button
+          class="py-[6px] px-3 flex flex-row gap-1 border-[1.5px] border-[#777A9B] rounded-md text-sm font-normal items-center text-[#777A9B]"
+          (click)="toggleCheckbox('walletConnected')"
+          [class.bg-gray-700]="
+            eventTypeFilterForm.controls['walletConnected'].value === true
+          "
+          [class.text-slate-50]="
+            eventTypeFilterForm.controls['walletConnected'].value === true
+          "
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            *ngIf="
+              eventTypeFilterForm.controls['walletConnected'].value === true
+            "
+          >
+            <path
+              d="M6 8.5L7.5 10L10 6.5M14 8C14 11.3137 11.3137 14 8 14C4.68629 14 2 11.3137 2 8C2 4.68629 4.68629 2 8 2C11.3137 2 14 4.68629 14 8Z"
+              stroke="white"
+              stroke-width="1.2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            *ngIf="
+              eventTypeFilterForm.controls['walletConnected'].value === false
+            "
+          >
+            <path
+              d="M14 8C14 11.3137 11.3137 14 8 14C4.68629 14 2 11.3137 2 8C2 4.68629 4.68629 2 8 2C11.3137 2 14 4.68629 14 8Z"
+              stroke="#777A9B"
+              stroke-width="1.2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          Wallet Connected
+        </button>
+        <button
+          class="py-[6px] px-3 flex flex-row gap-1 border-[1.5px] border-[#777A9B] rounded-md text-sm font-normal items-center text-[#777A9B]"
+          (click)="toggleCheckbox('userLanded')"
+          [class.bg-gray-700]="
+            eventTypeFilterForm.controls['userLanded'].value === true
+          "
+          [class.text-slate-50]="
+            eventTypeFilterForm.controls['userLanded'].value === true
+          "
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            *ngIf="eventTypeFilterForm.controls['userLanded'].value === true"
+          >
+            <path
+              d="M6 8.5L7.5 10L10 6.5M14 8C14 11.3137 11.3137 14 8 14C4.68629 14 2 11.3137 2 8C2 4.68629 4.68629 2 8 2C11.3137 2 14 4.68629 14 8Z"
+              stroke="white"
+              stroke-width="1.2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            *ngIf="eventTypeFilterForm.controls['userLanded'].value === false"
+          >
+            <path
+              d="M14 8C14 11.3137 11.3137 14 8 14C4.68629 14 2 11.3137 2 8C2 4.68629 4.68629 2 8 2C11.3137 2 14 4.68629 14 8Z"
+              stroke="#777A9B"
+              stroke-width="1.2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          User Landed
+        </button>
+        <button
+          class="py-[6px] px-3 flex flex-row gap-1 border-[1.5px] border-[#777A9B] rounded-md text-sm font-normal items-center text-[#777A9B]"
+          (click)="toggleCheckbox('genericError')"
+          [class.bg-gray-700]="
+            eventTypeFilterForm.controls['genericError'].value === true
+          "
+          [class.text-slate-50]="
+            eventTypeFilterForm.controls['genericError'].value === true
+          "
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            *ngIf="eventTypeFilterForm.controls['genericError'].value === true"
+          >
+            <path
+              d="M6 8.5L7.5 10L10 6.5M14 8C14 11.3137 11.3137 14 8 14C4.68629 14 2 11.3137 2 8C2 4.68629 4.68629 2 8 2C11.3137 2 14 4.68629 14 8Z"
+              stroke="white"
+              stroke-width="1.2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            *ngIf="eventTypeFilterForm.controls['genericError'].value === false"
+          >
+            <path
+              d="M14 8C14 11.3137 11.3137 14 8 14C4.68629 14 2 11.3137 2 8C2 4.68629 4.68629 2 8 2C11.3137 2 14 4.68629 14 8Z"
+              stroke="#777A9B"
+              stroke-width="1.2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          Generic Error
+        </button>
+        <button
+          class="py-[6px] px-3 flex flex-row gap-1 border-[1.5px] border-[#777A9B] rounded-md text-sm font-normal items-center text-[#777A9B]"
+          (click)="toggleCheckbox('txRequested')"
+          [class.bg-gray-700]="
+            eventTypeFilterForm.controls['txRequested'].value === true
+          "
+          [class.text-slate-50]="
+            eventTypeFilterForm.controls['txRequested'].value === true
+          "
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            *ngIf="eventTypeFilterForm.controls['txRequested'].value === true"
+          >
+            <path
+              d="M6 8.5L7.5 10L10 6.5M14 8C14 11.3137 11.3137 14 8 14C4.68629 14 2 11.3137 2 8C2 4.68629 4.68629 2 8 2C11.3137 2 14 4.68629 14 8Z"
+              stroke="white"
+              stroke-width="1.2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            *ngIf="eventTypeFilterForm.controls['txRequested'].value === false"
+          >
+            <path
+              d="M14 8C14 11.3137 11.3137 14 8 14C4.68629 14 2 11.3137 2 8C2 4.68629 4.68629 2 8 2C11.3137 2 14 4.68629 14 8Z"
+              stroke="#777A9B"
+              stroke-width="1.2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
 
-    <div *ngIf="events$ | async as events">
-
-
-        <div class="flex flex-row text-indigo-700 gap-x-2 items-center uppercase font-semibold text-xs mb-6">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                stroke="currentColor" class="w-4 h-4">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
-            </svg>
-            <div>Event history</div>
-        </div>
-
-        <div class="uppercase font-semibold flex flex-col">
-            <form [formGroup]="eventTypeFilterForm" class="flex flex-row gap-x-8 mt-2">
-                <div class="flex flex-row items-center gap-x-2 uppercase">
-                    <input formControlName="walletConnected" type="checkbox">
-                    <div>
-                        Wallet Connected
-                    </div>
-                </div>
-                <div class="flex flex-row items-center gap-x-2 uppercase">
-                    <input formControlName="userLanded" type="checkbox">
-                    <div>
-                        User Landed
-                    </div>
-                </div>
-                <div class="flex flex-row items-center gap-x-2 uppercase">
-                    <input formControlName="genericError" type="checkbox">
-                    <div>
-                        Generic Error
-                    </div>
-                </div>
-                <div class="flex flex-row items-center gap-x-2 uppercase">
-                    <input formControlName="txRequested" type="checkbox">
-                    <div>
-                        TX Requested
-                    </div>
-                </div>
-            </form>
-        </div>
-        <hr class="my-3 border-slate-100">
-
-        
-        <div class="flex px-4 mb-2 text-xs flex-row uppercase font-semibold pb-2">
-            <div class="w-1/12">
-                Time
-            </div>
-            <div class="w-2/12 pl-4">
-                Type
-            </div>
-            <div class="w-2/12 pl-4">
-                Wallet
-            </div>
-            <div class="w-2/12">
-                Network
-            </div>
-            <div class="w-2/12">
-                Details
-            </div>
-            <div class="w-2/12">
-                
-            </div>
-        </div>
-        <div class="flex flex-row w-full border-t hover:bg-slate-50 cursor-pointer border-slate-100"
-            *ngFor="let event of events">
-
-            <div class="w-full py-4 text-emerald-700 rounded-lg" *ngIf="event.tracker.eventTracker === 'USER_LANDED'" routerLink="/console/event-details/{{event.id}}">
-                <div class="px-4 w-full flex flex-row items-center"
-                    *ngIf="castToUserLandedEvent(event) as userLandedEvent">
-                    <div class="w-1/12 text-slate-700 flex flex-col">
-                        <div class="font-semibold">{{event.createdAtParsed.toLocaleDateString()}}</div>
-                        <div class="text-xs">{{event.createdAtParsed.toLocaleTimeString()}}</div>
-                    </div>
-                    <div class="w-2/12  pl-4 uppercase text-[11px] font-semibold flex flex-row gap-x-2 items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="currentColor" class="w-4 h-4">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0V12a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 12V5.25" />
-                        </svg>
-
-                        User Landed
-                    </div>
-
-                    <div class="w-2/12 pl-4 py-1 px-3 flex flex-row" *ngIf="userLandedEvent.userLandedWallet as wallet">
-                        <div class="px-3 py-2 bg-emerald-50 font-medium rounded-md">
-                            {{wallet.walletAddress | shorten:6:6}}
-                        </div>
-
-                    </div>
-                    <div class="w-2/12 uppercase text-slate-700 font-medium flex text-[10px] flex-row gap-x-2"
-                        *ngIf="userLandedEvent.userLandedNetwork as network">
-                        <app-icon-item-holder type="network" [iconQuery]="network.chainId.toString()"></app-icon-item-holder>
-                        {{getNetwork(network.chainId)?.name}}
-                    </div>
-                    <div class="w-2/12 text-slate-700 font-medium" *ngIf="userLandedEvent.userLandedWallet as wallet">
-                        <div class="uppercase text-[10px] font-semibold text-indigo-700">Gas balance</div> 
-                        {{wallet.gasBalance}}
-                    </div>
-                    <div class="w-2/12 font-medium text-slate-700" *ngIf="userLandedEvent.userLandedWallet as wallet">
-                        <div class="uppercase text-[10px] font-semibold text-indigo-700">Nonce</div> 
-                        {{wallet.nonce}}
-                    </div>
-                </div>
-            </div>
-            <div class="w-full" *ngIf="event.tracker.eventTracker === 'WALLET_CONNECT'" routerLink="/console/event-details/{{event.id}}">
-                <div class="px-4 w-full text-indigo-700
-                 rounded-lg py-4 flex flex-row items-center"
-                    *ngIf="castToWalletConnectedEvent(event) as walletConnectedEvent">
-                    <div class="w-1/12 text-slate-700 flex flex-col">
-                        <div class="font-semibold">{{event.createdAtParsed.toLocaleDateString()}}</div>
-                        <div class="text-xs">{{event.createdAtParsed.toLocaleTimeString()}}</div>
-                    </div>
-                    <div class="w-2/12 text-[11px]  pl-4 font-semibold uppercase flex flex-row gap-x-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="currentColor" class="w-4 h-4">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M21 12a2.25 2.25 0 00-2.25-2.25H15a3 3 0 11-6 0H5.25A2.25 2.25 0 003 12m18 0v6a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 18v-6m18 0V9M3 12V9m18 0a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 9m18 0V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v3" />
-                        </svg>
-
-                        Wallet Connected
-                    </div>
-
-                    <div class="w-2/12 text-xs pl-4 flex flex-row">
-                        <div class="px-3 py-2 bg-indigo-50 rounded-md font-medium">
-                            {{walletConnectedEvent.walletConnectedWallet.walletAddress | shorten:6:6}}
-                        </div>
-                    </div>
-                    <div class="w-2/12 uppercase text-slate-700 font-medium flex flex-row text-[10px] gap-x-2"
-                        *ngIf="walletConnectedEvent.walletConnectedNetwork as network">
-                        <app-icon-item-holder type="network" [iconQuery]="network.chainId.toString()"></app-icon-item-holder>
-                        {{getNetwork(network.chainId)?.name}}
-                    </div>
-                    <div class="w-2/12 text-slate-700 font-medium"
-                        *ngIf="walletConnectedEvent.walletConnectedWallet as wallet">
-                        <div class="uppercase text-[10px] font-semibold text-indigo-700">Gas balance</div> 
-                        {{wallet.gasBalance}}
-                    </div>
-                    <div class="w-2/12 font-medium text-slate-700"
-                        *ngIf="walletConnectedEvent.walletConnectedWallet as wallet">
-                        <div class="uppercase text-[10px] font-semibold text-indigo-700">Nonce</div> 
-                        {{wallet.nonce}}
-                    </div>
-                </div>
-            </div>
-            <div class="w-full" *ngIf="event.tracker.eventTracker === 'TX_REQUEST'" routerLink="/console/event-details/{{event.id}}">
-                <div class="px-4 w-full text-violet-700
-                 rounded-lg py-4 flex flex-row items-center" 
-                    *ngIf="castToTxRequestEvent(event) as txRequestEvent">
-                    <div class="w-1/12 text-slate-700 flex flex-col">
-                        <div class="font-semibold">{{event.createdAtParsed.toLocaleDateString()}}</div>
-                        <div class="text-xs">{{event.createdAtParsed.toLocaleTimeString()}}</div>
-                    </div>
-                    <div class="w-2/12 text-[11px]  pl-4 font-semibold uppercase flex flex-row gap-x-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.631 8.41m5.96 5.96a14.926 14.926 0 01-5.841 2.58m-.119-8.54a6 6 0 00-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 00-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 01-2.448-2.448 14.9 14.9 0 01.06-.312m-2.24 2.39a4.493 4.493 0 00-1.757 4.306 4.493 4.493 0 004.306-1.758M16.5 9a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
-                          </svg>
-                          
-
-                        Tx Requested
-                    </div>
-
-                    <div class="w-2/12 text-xs pl-4 flex flex-row">
-                        <div class="px-3 py-2 bg-violet-50 rounded-md font-medium">
-                            {{txRequestEvent.txRequestWallet.walletAddress | shorten:6:6}}
-                        </div>
-                    </div>
-                    <div class="w-2/12 uppercase text-slate-700 font-medium flex text-[10px] flex-row gap-x-2"
-                        *ngIf="txRequestEvent.txRequestNetwork as network; else unknownNetwork">
-                        <app-icon-item-holder [iconQuery]="network.chainId.toString()" type="network"></app-icon-item-holder>
-                        {{getNetwork(network.chainId)?.name}}
-                    </div>
-                    <ng-template #unknownNetwork>
-                        <div class="w-2/12 uppercase text-slate-700 font-medium flex flex-row gap-x-2">
-                        Network not provided
-                        </div>
-                    </ng-template>
-                    <div class="w-2/12 text-slate-700 font-medium"
-                        *ngIf="txRequestEvent.txRequestWallet as wallet">
-                        <div class="uppercase text-[10px] font-semibold text-indigo-700">Gas balance</div> 
-                        {{wallet.gasBalance}}
-                    </div>
-                    <div class="w-2/12 font-medium text-slate-700"
-                        *ngIf="txRequestEvent.txRequestWallet as wallet">
-                        <div class="uppercase text-[10px] font-semibold text-indigo-700">Nonce</div> 
-                        {{wallet.nonce}}
-                    </div>
-                </div>
-            </div>
-            <div class="w-full p-4 flex flex-row rounded-lg text-red-500" routerLink="/console/event-details/{{event.id}}"
-                *ngIf="event.tracker.eventTracker === 'GENERIC_ERROR'">
-                <div class="flex flex-row items-center w-full" 
-                    *ngIf="castToErrorEvent(event) as errorEvent">
-                    <div class="w-1/12 text-slate-700 flex flex-col">
-                        <div class="font-semibold">{{event.createdAtParsed.toLocaleDateString()}}</div>
-                        <div class="text-xs">{{event.createdAtParsed.toLocaleTimeString()}}</div>
-                    </div>
-                    <div class="w-2/12 text-[11px] flex flex-row  pl-4 items-center gap-x-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="currentColor" class="w-4 h-4">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
-                        </svg>
-                        <div class="font-semibold uppercase">Generic Error</div>
-                    </div>
-
-                    <div *ngIf="errorEvent.errorEventWallet?.walletAddress as address"
-                        class="w-2/12 text-xs pl-4 flex flex-row items-center">
-                        <div class="px-3 py-2 bg-red-50 rounded-md font-medium">
-                            {{address | shorten:6:6}}
-                        </div>
-                    </div>
-                    <div class="w-2/12 uppercase text-slate-700 font-medium flex text-[10px] flex-row gap-x-2"
-                        *ngIf="errorEvent.errorEventNetwork as network">
-                        <app-icon-item-holder type="network" [iconQuery]="network.chainId.toString()"></app-icon-item-holder>
-                        {{getNetwork(network.chainId)?.name}}
-                    </div>
-
-                    <div class="w-5/12 flex font-mono font-medium flex-row items-center overflow-hidden px-5 py-3 bg-red-50 rounded-lg">
-                        {{errorEvent.errors.at(0)?.slice(0, 55)}}...
-                    </div>
-
-                </div>
-            </div>
-        </div>
-        <div class="w-full text-center mt-8 bg-amber-50 py-4 text-amber-700 font-medium uppercase text-xs rounded-lg" *ngIf="events.length === 0">
-            No events logged for this query
-        </div>
-
+          <div>TX Requested</div>
+        </button>
+      </form>
     </div>
+
+    <div>
+      <div
+        class="flex px-4 mb-2 text-xs flex-row uppercase font-semibold dark:text-[#777A9B]"
+      >
+        <div class="w-1/12">Time</div>
+        <div class="w-2/12 text-center">Type</div>
+        <div class="w-2/12 text-center">Wallet</div>
+        <div class="w-2/12 text-center">Network</div>
+        <div class="w-5/12 pl-2">Details</div>
+      </div>
+      <div
+        class="flex flex-row w-full border dark:border-[#9994D94D] rounded-xl cursor-pointer p-4 items-center mb-2"
+        *ngFor="let event of events"
+      >
+        <div
+          class="w-full flex flex-row items-center"
+          *ngIf="event.tracker.eventTracker === 'USER_LANDED'"
+          routerLink="/console/event-details/{{ event.id }}"
+        >
+          <div
+            class="w-full flex flex-row items-center text-center"
+            *ngIf="castToUserLandedEvent(event) as userLandedEvent"
+          >
+            <div
+              class="w-1/12 flex flex-row gap-1 text-xs font-medium leading-3"
+            >
+              <p class="bg-[#F2F1FB] dark:bg-[#9994D94D] rounded-md p-[6px]">
+                {{ event.createdAtParsed | date : "MM/dd/yy" }}
+              </p>
+              <p class="bg-[#F2F1FB]dark:bg-[#9994D94D] rounded-md p-[6px]">
+                {{ event.createdAtParsed | date : " HH:mm" }}
+              </p>
+            </div>
+            <div class="w-2/12 text-sm font-medium text-center">
+              User Landed
+            </div>
+            <div class="w-2/12 flex flex-row justify-center">
+              <p
+                class="font-medium text-sm"
+                *ngIf="userLandedEvent.userLandedWallet as wallet"
+              >
+                {{ wallet.walletAddress | shorten : 6 : 6 }}
+              </p>
+            </div>
+            <div
+              class="w-2/12 font-medium flex flex-row gap-x-2 text-sm justify-center capitalize"
+            >
+              <ng-component
+                *ngIf="userLandedEvent.userLandedNetwork as network"
+              >
+                <app-icon-item-holder
+                  type="network"
+                  [iconQuery]="network.chainId.toString()"
+                ></app-icon-item-holder>
+                {{ getNetwork(network.chainId)?.name }}
+              </ng-component>
+            </div>
+            <div class="flex flex-row w-5/12 items-center pl-5">
+              <div
+                class="flex flex-col w-3/5 text-start gap-[2px]"
+                *ngIf="userLandedEvent.userLandedWallet as wallet"
+              >
+                <p class="text-xs font-medium leading-3 text-[#777A9B]">
+                  Gas balance
+                </p>
+                <p class="text-sm font-medium leading-5">
+                  {{ wallet.gasBalance }}
+                </p>
+              </div>
+              <div
+                class="flex flex-col gap-[2px] w-full text-start"
+                *ngIf="userLandedEvent.userLandedWallet as wallet"
+              >
+                <p class="text-xs font-medium leading-3 text-[#777A9B]">
+                  Nonce
+                </p>
+                <p class="text-sm font-medium leading-5">
+                  {{ wallet.nonce }}
+                </p>
+              </div>
+            </div>
+          </div>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="none"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M7.20938 14.7698C6.92228 14.4713 6.93159 13.9965 7.23017 13.7094L11.1679 10L7.23017 6.29062C6.93159 6.00353 6.92228 5.52875 7.20938 5.23017C7.49647 4.93159 7.97125 4.92228 8.26983 5.20937L12.7698 9.45937C12.9169 9.60078 13 9.79599 13 10C13 10.204 12.9169 10.3992 12.7698 10.5406L8.26983 14.7906C7.97125 15.0777 7.49647 15.0684 7.20938 14.7698Z"
+              fill="#273143"
+            />
+          </svg>
+        </div>
+        <div
+          class="w-full flex flex-row items-center"
+          *ngIf="event.tracker.eventTracker === 'WALLET_CONNECT'"
+          routerLink="/console/event-details/{{ event.id }}"
+        >
+          <div
+            class="w-full flex flex-row items-center text-center"
+            *ngIf="castToWalletConnectedEvent(event) as walletConnectedEvent"
+          >
+            <div
+              class="w-1/12 flex flex-row gap-1 text-xs font-medium leading-3"
+            >
+              <p class="bg-[#F2F1FB] rounded-md p-[6px]">
+                {{ event.createdAtParsed | date : "MM/dd/yy" }}
+              </p>
+              <p class="bg-[#F2F1FB] rounded-md p-[6px]">
+                {{ event.createdAtParsed | date : " HH:mm" }}
+              </p>
+            </div>
+            <div class="w-2/12 text-sm font-medium text-center">
+              Wallet Connected
+            </div>
+            <div class="w-2/12 flex flex-row justify-center">
+              <p class="font-medium text-sm">
+                {{
+                  walletConnectedEvent.walletConnectedWallet.walletAddress
+                    | shorten : 6 : 6
+                }}
+              </p>
+            </div>
+            <div
+              class="w-2/12 font-medium flex flex-row gap-x-2 text-sm justify-center capitalize"
+            >
+              <ng-component
+                *ngIf="walletConnectedEvent.walletConnectedNetwork as network"
+              >
+                <app-icon-item-holder
+                  type="network"
+                  [iconQuery]="network.chainId.toString()"
+                ></app-icon-item-holder>
+                {{ getNetwork(network.chainId)?.name }}
+              </ng-component>
+            </div>
+            <div class="flex flex-row w-5/12 items-center pl-5">
+              <div
+                class="flex flex-col w-3/5 text-start gap-[2px]"
+                *ngIf="walletConnectedEvent.walletConnectedWallet as wallet"
+              >
+                <p class="text-xs font-medium leading-3 text-[#777A9B]">
+                  Gas balance
+                </p>
+                <p class="text-sm font-medium leading-5">
+                  {{ wallet.gasBalance }}
+                </p>
+              </div>
+              <div
+                lass="flex flex-col gap-[2px] w-full text-start"
+                *ngIf="walletConnectedEvent.walletConnectedWallet as wallet"
+              >
+                <p class="text-xs font-medium leading-3 text-[#777A9B]">
+                  Nonce
+                </p>
+                <p class="text-sm font-medium leading-5">
+                  {{ wallet.nonce }}
+                </p>
+              </div>
+            </div>
+          </div>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="none"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M7.20938 14.7698C6.92228 14.4713 6.93159 13.9965 7.23017 13.7094L11.1679 10L7.23017 6.29062C6.93159 6.00353 6.92228 5.52875 7.20938 5.23017C7.49647 4.93159 7.97125 4.92228 8.26983 5.20937L12.7698 9.45937C12.9169 9.60078 13 9.79599 13 10C13 10.204 12.9169 10.3992 12.7698 10.5406L8.26983 14.7906C7.97125 15.0777 7.49647 15.0684 7.20938 14.7698Z"
+              fill="#273143"
+            />
+          </svg>
+        </div>
+
+        <div
+          class="w-full flex flex-row items-center"
+          *ngIf="event.tracker.eventTracker === 'TX_REQUEST'"
+          routerLink="/console/event-details/{{ event.id }}"
+        >
+          <div
+            class="w-full flex flex-row items-center text-center"
+            *ngIf="castToTxRequestEvent(event) as txRequestEvent"
+          >
+            <div
+              class="w-1/12 flex flex-row gap-1 text-xs font-medium leading-3"
+            >
+              <p class="bg-[#F2F1FB] rounded-md p-[6px]">
+                {{ event.createdAtParsed | date : "MM/dd/yy" }}
+              </p>
+              <p class="bg-[#F2F1FB] rounded-md p-[6px]">
+                {{ event.createdAtParsed | date : " HH:mm" }}
+              </p>
+            </div>
+            <div class="w-2/12 text-sm font-medium text-center">
+              > Tx Requested
+            </div>
+            <div class="w-2/12 flex flex-row justify-center">
+              <p class="font-medium text-sm">
+                {{
+                  txRequestEvent.txRequestWallet.walletAddress | shorten : 6 : 6
+                }}
+              </p>
+            </div>
+            <div
+              class="w-2/12 font-medium flex flex-row gap-x-2 text-sm justify-center capitalize"
+              *ngIf="
+                txRequestEvent.txRequestNetwork as network;
+                else unknownNetwork
+              "
+            >
+              <app-icon-item-holder
+                [iconQuery]="network.chainId.toString()"
+                type="network"
+              ></app-icon-item-holder>
+              {{ getNetwork(network.chainId)?.name }}
+            </div>
+            <ng-template #unknownNetwork>
+              <div class="w-2/12 uppercase font-medium flex flex-row gap-x-2">
+                Network not provided
+              </div>
+            </ng-template>
+            <div class="flex flex-row w-5/12 items-center pl-5">
+              <div
+                class="flex flex-col w-3/5 text-start gap-[2px]"
+                *ngIf="txRequestEvent.txRequestWallet as wallet"
+              >
+                <p class="text-xs font-medium leading-3 text-[#777A9B]">
+                  Gas balance
+                </p>
+                <p class="text-sm font-medium leading-5">
+                  {{ wallet.gasBalance }}
+                </p>
+              </div>
+              <div
+                class="flex flex-col gap-[2px] w-full text-start"
+                *ngIf="txRequestEvent.txRequestWallet as wallet"
+              >
+                <p class="text-xs font-medium leading-3 text-[#777A9B]">
+                  Nonce
+                </p>
+                <p class="text-sm font-medium leading-5">
+                  {{ wallet.nonce }}
+                </p>
+              </div>
+            </div>
+          </div>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="none"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M7.20938 14.7698C6.92228 14.4713 6.93159 13.9965 7.23017 13.7094L11.1679 10L7.23017 6.29062C6.93159 6.00353 6.92228 5.52875 7.20938 5.23017C7.49647 4.93159 7.97125 4.92228 8.26983 5.20937L12.7698 9.45937C12.9169 9.60078 13 9.79599 13 10C13 10.204 12.9169 10.3992 12.7698 10.5406L8.26983 14.7906C7.97125 15.0777 7.49647 15.0684 7.20938 14.7698Z"
+              fill="#273143"
+            />
+          </svg>
+        </div>
+        <div
+          class="w-full flex flex-row items-center"
+          routerLink="/console/event-details/{{ event.id }}"
+          *ngIf="event.tracker.eventTracker === 'GENERIC_ERROR'"
+        >
+          <div
+            class="w-full flex flex-row items-center text-center"
+            *ngIf="castToErrorEvent(event) as errorEvent"
+          >
+            <div
+              class="w-1/12 flex flex-row gap-1 text-xs font-medium leading-3"
+            >
+              <p class="bg-[#F2F1FB] rounded-md p-[6px]">
+                {{ event.createdAtParsed | date : "MM/dd/yy" }}
+              </p>
+              <p class="bg-[#F2F1FB] rounded-md p-[6px]">
+                {{ event.createdAtParsed | date : " HH:mm" }}
+              </p>
+            </div>
+            <div class="w-2/12 text-sm font-medium text-center">
+              Generic Error
+            </div>
+            <div class="w-2/12 flex flex-row justify-center">
+              <p
+                class="font-medium text-sm"
+                *ngIf="errorEvent.errorEventWallet?.walletAddress as address"
+              >
+                {{ address | shorten : 6 : 6 }}
+              </p>
+            </div>
+            <div
+              class="w-2/12 font-medium flex flex-row gap-x-2 text-sm justify-center capitalize"
+            >
+              <ng-component *ngIf="errorEvent.errorEventNetwork as network">
+                <app-icon-item-holder
+                  type="network"
+                  [iconQuery]="network.chainId.toString()"
+                ></app-icon-item-holder>
+                {{ getNetwork(network.chainId)?.name }}
+              </ng-component>
+            </div>
+            <div
+              class="flex flex-row w-5/12 items-center pl-5 text-sm font-medium leading-5 text-[#E74090]"
+            >
+              {{ errorEvent.errors.at(0)?.slice(0, 55) }}...
+            </div>
+          </div>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="none"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M7.20938 14.7698C6.92228 14.4713 6.93159 13.9965 7.23017 13.7094L11.1679 10L7.23017 6.29062C6.93159 6.00353 6.92228 5.52875 7.20938 5.23017C7.49647 4.93159 7.97125 4.92228 8.26983 5.20937L12.7698 9.45937C12.9169 9.60078 13 9.79599 13 10C13 10.204 12.9169 10.3992 12.7698 10.5406L8.26983 14.7906C7.97125 15.0777 7.49647 15.0684 7.20938 14.7698Z"
+              fill="#273143"
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div
+      class="w-full text-center mt-8 bg-amber-50 py-4 text-amber-700 font-medium uppercase text-xs rounded-lg"
+      *ngIf="events.length === 0"
+    >
+      No events logged for this query
+    </div>
+  </div>
 </div>
