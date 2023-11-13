@@ -1,4 +1,6 @@
 import { Component, HostBinding, HostListener, OnInit } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-sidebar',
@@ -6,23 +8,14 @@ import { Component, HostBinding, HostListener, OnInit } from '@angular/core';
   styleUrls: ['./sidebar.component.css'],
 })
 export class SidebarComponent implements OnInit {
-  constructor() {}
+  constructor(private router: Router) {}
 
-  ngOnInit() {
-    if (localStorage.getItem('theme')) {
-      if (localStorage.getItem('theme') === 'dark') {
-        document.documentElement.classList.add('dark');
-        this.darkMode = true;
-      } else {
-        document.documentElement.classList.remove('dark');
-        this.darkMode = false;
-      }
-    } else {
-      localStorage.setItem('theme', 'light');
-    }
+  ngOnInit(): void {
+    this.themeCheck();
+    this.isSettingsPageCheck();
   }
-  darkMode = false;
-  isSidebarFixed = true;
+
+  isSidebarFixed = false;
 
   @HostListener('window:scroll', ['$event'])
   onScroll(event: Event) {
@@ -42,5 +35,35 @@ export class SidebarComponent implements OnInit {
     this.darkMode
       ? document.documentElement.classList.add('dark')
       : document.documentElement.classList.remove('dark');
+  }
+
+  darkMode = false;
+  themeCheck() {
+    if (localStorage.getItem('theme')) {
+      if (localStorage.getItem('theme') === 'dark') {
+        document.documentElement.classList.add('dark');
+        this.darkMode = true;
+      } else {
+        document.documentElement.classList.remove('dark');
+        this.darkMode = false;
+      }
+    } else {
+      localStorage.setItem('theme', 'light');
+    }
+  }
+
+  isSettingsPage = false;
+
+  isSettingsPageCheck() {
+    this.router.events
+      .pipe(
+        filter(
+          (event: any): event is NavigationEnd => event instanceof NavigationEnd
+        )
+      )
+      .subscribe((event: NavigationEnd) => {
+        event.url === '/settings';
+        this.isSettingsPage = true;
+      });
   }
 }

@@ -1,6 +1,8 @@
 <div class="w-full min-h-screen flex flex-col items-center gap-6">
   <div class="w-[752px]">
-    <h1 class="text-slate-800 text-3xl font-semibold leading-[34px]">
+    <h1
+      class="text-slate-800 text-3xl font-semibold leading-[34px] dark:text-[#D9E2F2]"
+    >
       Settings
     </h1>
   </div>
@@ -8,14 +10,16 @@
   <!-- API key -->
   <div *ngIf="project$ | async as project" class="w-[752px]">
     <div
-      class="flex flex-col bg-white h-fit p-8 gap-8 rounded-3xl backdrop-blur-2xl justify-between w-full"
+      class="flex flex-col bg-white dark:bg-[#0D0D0D] h-fit p-8 gap-8 rounded-3xl backdrop-blur-2xl justify-between w-full"
     >
-      <p class="text-slate-800 text-2xl font-semibold leading-[34px]">
+      <p
+        class="text-slate-800 text-2xl font-semibold leading-[34px] dark:text-[#D9E2F2]"
+      >
         API Key
       </p>
       <div>
         <div
-          class="px-6 py-4 text-slate-500 leading-tight flex items-center justify-between border border-violet-100 rounded-xl"
+          class="px-6 py-4 text-slate-500 leading-tight flex items-center justify-between border border-violet-100 rounded-xl dark:border-[#9994D94D]"
         >
           <div>{{ project.apiKey ?? "" }}</div>
           <app-copy [copyValue]="project.apiKey ?? ''"></app-copy>
@@ -46,20 +50,20 @@
         <button
           *ngIf="project.apiKey"
           (click)="deleteAPIKey($event)"
-          class="flex items-center justify-center gap-3 bg-white text-slate-800 border border-slate-800 rounded-[10px] px-6 py-4 text-lg leading-normal"
+          class="flex items-center justify-center gap-3 bg-white text-slate-800 border border-slate-800 rounded-[10px] px-6 py-4 text-lg leading-normal dark:bg-slate-600 dark:text-white"
         >
           <svg
             width="24"
             height="24"
             viewBox="0 0 24 24"
-            fill="none"
+            fill="currentColor"
             xmlns="http://www.w3.org/2000/svg"
+            class="fill-[#273143] dark:fill-white"
           >
             <g id="heroicons-mini/x-mark">
               <path
                 id="Union"
                 d="M7.5364 6.2636C7.18492 5.91213 6.61508 5.91213 6.2636 6.2636C5.91213 6.61508 5.91213 7.18492 6.2636 7.5364L10.7272 12L6.2636 16.4636C5.91213 16.8151 5.91213 17.3849 6.2636 17.7364C6.61508 18.0879 7.18492 18.0879 7.5364 17.7364L12 13.2728L16.4636 17.7364C16.8151 18.0879 17.3849 18.0879 17.7364 17.7364C18.0879 17.3849 18.0879 16.8151 17.7364 16.4636L13.2728 12L17.7364 7.5364C18.0879 7.18492 18.0879 6.61508 17.7364 6.2636C17.3849 5.91213 16.8151 5.91213 16.4636 6.2636L12 10.7272L7.5364 6.2636Z"
-                fill="#273143"
               />
             </g>
           </svg>
@@ -68,12 +72,12 @@
         </button>
       </div>
       <div *ngIf="project.apiKey" class="flex flex-col gap-3">
-        <div class="text-slate-800 leading-tight">
+        <div class="text-slate-800 leading-tight dark:text-[#D9E2F2]">
           To start tracking your app data - copy this tracking code and paste it
           into the HTML header of your app.
         </div>
         <div
-          class="px-6 py-4 text-slate-500 leading-tight flex items-center justify-between border border-violet-100 rounded-xl bg-slate-100"
+          class="px-6 py-4 text-slate-500 leading-tight flex items-center justify-between border border-violet-100 rounded-xl bg-slate-100 dark:bg-[#9994D94D] dark:border-[#9994D94D]"
         >
           {{ generatePasteScript(project.apiKey) }}
 
@@ -86,9 +90,11 @@
   </div>
   <!-- Getting started-->
   <div
-    class="flex flex-col bg-white h-fit p-8 rounded-3xl backdrop-blur-2xl justify-between w-[752px]"
+    class="flex flex-col bg-white h-fit p-8 rounded-3xl backdrop-blur-2xl justify-between w-[752px] dark:bg-[#0D0D0D]"
   >
-    <p class="text-slate-800 text-2xl font-semibold leading-[34px]">
+    <p
+      class="text-slate-800 text-2xl font-semibold leading-[34px] dark:text-[#D9E2F2]"
+    >
       Getting started
     </p>
 
@@ -108,9 +114,11 @@
 
   <!-- Billing & Invoices -->
   <div
-    class="flex bg-white h-fit p-8 rounded-3xl backdrop-blur-2xl justify-between items-center w-[752px]"
+    class="flex bg-white h-fit p-8 rounded-3xl backdrop-blur-2xl justify-between items-center w-[752px] dark:bg-[#0D0D0D]"
   >
-    <p class="text-slate-800 text-2xl font-semibold leading-[34px]">
+    <p
+      class="text-slate-800 text-2xl font-semibold leading-[34px] dark:text-[#D9E2F2]"
+    >
       Biling & Invoices
     </p>
     <button

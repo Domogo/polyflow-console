@@ -21,7 +21,21 @@ export class ProjectSettingsComponent implements OnInit {
     private modalService: ModalService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit() {
+    if (localStorage.getItem('theme')) {
+      if (localStorage.getItem('theme') === 'dark') {
+        document.documentElement.classList.add('dark');
+        this.darkMode = true;
+      } else {
+        document.documentElement.classList.remove('dark');
+        this.darkMode = false;
+      }
+    } else {
+      localStorage.setItem('theme', 'light');
+    }
+  }
+
+  darkMode = false;
 
   createAPIKey(event: Event) {
     this.configService
