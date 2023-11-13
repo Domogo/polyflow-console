@@ -1,6 +1,5 @@
 import { Component, HostBinding, HostListener, OnInit } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
-import { filter } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
@@ -8,11 +7,18 @@ import { filter } from 'rxjs/operators';
   styleUrls: ['./sidebar.component.css'],
 })
 export class SidebarComponent implements OnInit {
-  constructor(private router: Router) {}
-
   ngOnInit(): void {
-    this.themeCheck();
-    this.isSettingsPageCheck();
+    if (localStorage.getItem('theme')) {
+      if (localStorage.getItem('theme') === 'dark') {
+        document.documentElement.classList.add('dark');
+        this.darkMode = true;
+      } else {
+        document.documentElement.classList.remove('dark');
+        this.darkMode = false;
+      }
+    } else {
+      localStorage.setItem('theme', 'light');
+    }
   }
 
   isSidebarFixed = false;
@@ -38,32 +44,4 @@ export class SidebarComponent implements OnInit {
   }
 
   darkMode = false;
-  themeCheck() {
-    if (localStorage.getItem('theme')) {
-      if (localStorage.getItem('theme') === 'dark') {
-        document.documentElement.classList.add('dark');
-        this.darkMode = true;
-      } else {
-        document.documentElement.classList.remove('dark');
-        this.darkMode = false;
-      }
-    } else {
-      localStorage.setItem('theme', 'light');
-    }
-  }
-
-  isSettingsPage = false;
-
-  isSettingsPageCheck() {
-    this.router.events
-      .pipe(
-        filter(
-          (event: any): event is NavigationEnd => event instanceof NavigationEnd
-        )
-      )
-      .subscribe((event: NavigationEnd) => {
-        event.url === '/settings';
-        this.isSettingsPage = true;
-      });
-  }
 }
